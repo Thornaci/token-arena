@@ -1,0 +1,17 @@
+---
+import Base from '@/layouts/Base.astro';
+import { LOCALES } from '@/lib/locales';
+
+export function getStaticPaths() {
+  return LOCALES.map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params;
+---
+
+<Base locale={locale}>
+  <main class="mx-auto flex min-h-dvh max-w-3xl flex-col items-center justify-center gap-4 px-6 text-center">
+    <h1 class="font-mono text-4xl font-bold tracking-tight text-zinc-50">Token Arena</h1>
+    <p class="text-lg text-zinc-400">See what the model sees.</p>
+  </main>
+</Base>

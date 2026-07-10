@@ -1,0 +1,18 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+const target = getRelativeLocaleUrl('en');
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <link rel="canonical" href={new URL(target, Astro.site)} />
+    <title>Token Arena</title>
+  </head>
+  <body>
+    <a href={target}>Continue to Token Arena</a>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+/* Dark-mode-first: dark is the default and only theme for now.
+   Keep colors behind variables so a light theme can be added later. */
+:root {
+  color-scheme: dark;
+}

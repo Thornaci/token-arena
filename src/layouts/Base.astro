@@ -1,0 +1,30 @@
+---
+import '@/styles/global.css';
+import type { Locale } from '@/lib/locales';
+
+interface Props {
+  locale: Locale;
+  title?: string;
+  description?: string;
+}
+
+const {
+  locale,
+  title = 'Token Arena',
+  description = 'See what the model sees — learn how LLMs actually work.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={locale} dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-dvh bg-zinc-950 font-sans text-zinc-200 antialiased">
+    <slot />
+  </body>
+</html>
