@@ -1,0 +1,55 @@
+---
+import { LOCALES, type Locale } from '@/lib/locales';
+import * as m from '@/paraglide/messages';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const localePrefix = new RegExp(`^/(${LOCALES.join('|')})(?=/|$)`);
+const rest = Astro.url.pathname.slice(base.length).replace(localePrefix, '');
+
+const targets = LOCALES.map((l) => ({
+  locale: l,
+  href: `${base}/${l}${rest || '/'}`,
+  current: l === locale,
+}));
+---
+
+<nav aria-label={m.lang_switcher_label()} class="flex items-center gap-1 font-mono text-sm">
+  {
+    targets.map(({ locale: l, href, current }) =>
+      current ? (
+        <span aria-current="true" class="rounded px-2 py-1 bg-zinc-800 text-zinc-100">
+          {l.toUpperCase()}
+        </span>
+      ) : (
+        <a
+          href={href}
+          data-locale-link={l}
+          class="rounded px-2 py-1 text-zinc-500 transition-colors hover:bg-zinc-900 hover:text-zinc-200"
+        >
+          {l.toUpperCase()}
+        </a>
+      ),
+    )
+  }
+</nav>
+
+<script>
+  // Remember an explicit language choice so the root redirect honors it.
+  document.addEventListener('click', (event) => {
+    const link = (event.target as HTMLElement).closest('a[data-locale-link]');
+    const locale = link?.getAttribute('data-locale-link');
+    if (locale) {
+      try {
+        localStorage.setItem('ta:locale', locale);
+      } catch {
+        // storage unavailable (private mode etc.) — the URL still carries the locale
+      }
+    }
+  });
+</script>

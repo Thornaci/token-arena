@@ -1,0 +1,16 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "app_title": "Token Arena",
+  "app_tagline": "See what the model sees.",
+  "app_description": "A gamified, open-source web app that teaches developers how LLMs actually work.",
+  "lang_switcher_label": "Language",
+  "models_generic8k": "Generic (8K)",
+  "models_generic128k": "Generic (128K)",
+  "models_generic200k": "Generic (200K)",
+  "models_generic1m": "Generic (1M)",
+  "models_gptClass": "GPT-class (128K)",
+  "models_claudeClass": "Claude-class (200K)",
+  "models_geminiClass": "Gemini-class (1M)",
+  "tokens_estimate_badge": "estimate",
+  "tokens_estimate_note": "There is no accurate open-source tokenizer for this model family, so counts are approximations."
+}

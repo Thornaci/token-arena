@@ -1,6 +1,8 @@
 ---
 import Base from '@/layouts/Base.astro';
+import LocaleSwitcher from '@/components/ui/LocaleSwitcher.astro';
 import { LOCALES } from '@/lib/locales';
+import * as m from '@/paraglide/messages';
 
 export function getStaticPaths() {
   return LOCALES.map((locale) => ({ params: { locale } }));
@@ -9,9 +11,14 @@ export function getStaticPaths() {
 const { locale } = Astro.params;
 ---
 
-<Base locale={locale}>
-  <main class="mx-auto flex min-h-dvh max-w-3xl flex-col items-center justify-center gap-4 px-6 text-center">
-    <h1 class="font-mono text-4xl font-bold tracking-tight text-zinc-50">Token Arena</h1>
-    <p class="text-lg text-zinc-400">See what the model sees.</p>
+<Base locale={locale} title={m.app_title()} description={m.app_description()}>
+  <header class="flex items-center justify-end px-6 py-4">
+    <LocaleSwitcher locale={locale} />
+  </header>
+  <main
+    class="mx-auto flex min-h-[calc(100dvh-8rem)] max-w-3xl flex-col items-center justify-center gap-4 px-6 text-center"
+  >
+    <h1 class="font-mono text-4xl font-bold tracking-tight text-zinc-50">{m.app_title()}</h1>
+    <p class="text-lg text-zinc-400">{m.app_tagline()}</p>
   </main>
 </Base>

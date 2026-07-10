@@ -2,6 +2,9 @@
 dist/
 # generated types
 .astro/
+# generated i18n output (compiled from messages/ by Paraglide)
+src/paraglide/
+project.inlang/cache/
 
 # dependencies
 node_modules/

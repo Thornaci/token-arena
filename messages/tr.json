@@ -1,0 +1,16 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "app_title": "Token Arena",
+  "app_tagline": "Modelin gördüğünü gör.",
+  "app_description": "Geliştiricilere LLM'lerin gerçekte nasıl çalıştığını öğreten oyunlaştırılmış, açık kaynak bir web uygulaması.",
+  "lang_switcher_label": "Dil",
+  "models_generic8k": "Genel (8K)",
+  "models_generic128k": "Genel (128K)",
+  "models_generic200k": "Genel (200K)",
+  "models_generic1m": "Genel (1M)",
+  "models_gptClass": "GPT sınıfı (128K)",
+  "models_claudeClass": "Claude sınıfı (200K)",
+  "models_geminiClass": "Gemini sınıfı (1M)",
+  "tokens_estimate_badge": "tahmini",
+  "tokens_estimate_note": "Bu model ailesi için doğru bir açık kaynak tokenizer yok; sayımlar yaklaşık değerdir."
+}
