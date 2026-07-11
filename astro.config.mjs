@@ -20,6 +20,10 @@ export default defineConfig({
   },
   integrations: [react()],
   vite: {
+    // The L6.2 worker's dependency graph code-splits (transformers.js loads
+    // its backends dynamically), which Vite's default iife worker format
+    // cannot bundle — module workers are required.
+    worker: { format: 'es' },
     plugins: [
       tailwindcss(),
       paraglideVitePlugin({

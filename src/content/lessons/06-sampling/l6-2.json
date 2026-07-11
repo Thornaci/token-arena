@@ -1,0 +1,41 @@
+{
+  "id": "L6.2",
+  "module": "sampling",
+  "order": 2,
+  "titleKey": "l6_2_title",
+  "objectiveKey": "l6_2_objective",
+  "misconceptionKey": "l6_2_misconception",
+  "inspector": false,
+  "mechanic": "model-indecision",
+  "params": {
+    "modelRepo": "onnx-community/Qwen2.5-0.5B-Instruct",
+    "dtype": "q4f16",
+    "downloadSizeMB": 495,
+    "topK": 8,
+    "prerecordedPath": "prerecorded/l6-2.json",
+    "pairs": [
+      {
+        "id": "capital",
+        "labelKey": "l6_2_pair_capital",
+        "basePrompt": "The capital of France is",
+        "contradictionPrompt": "The capital of France is Berlin. The capital of France is"
+      },
+      {
+        "id": "orbit",
+        "labelKey": "l6_2_pair_orbit",
+        "basePrompt": "The Earth revolves around the",
+        "contradictionPrompt": "The Earth revolves around the Moon. The Earth revolves around the"
+      },
+      {
+        "id": "code",
+        "labelKey": "l6_2_pair_code",
+        "basePrompt": "def add(a, b):\n    return a",
+        "contradictionPrompt": "def add(a, b):\n    '''Subtract b from a.'''\n    return a"
+      }
+    ]
+  },
+  "pass": { "type": "completeAll", "count": 1 },
+  "hints": ["l6_2_hint1", "l6_2_hint2", "l6_2_hint3"],
+  "xp": 125,
+  "badge": null
+}

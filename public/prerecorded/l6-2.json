@@ -1,0 +1,235 @@
+{
+  "modelRepo": "onnx-community/Qwen2.5-0.5B-Instruct",
+  "dtype": "q4",
+  "recordedAt": "2026-07-11T12:51:05.754Z",
+  "pairs": {
+    "capital": {
+      "base": {
+        "prompt": "The capital of France is",
+        "candidates": [
+          {
+            "token": " Paris",
+            "probability": 0.758877418609967
+          },
+          {
+            "token": " a",
+            "probability": 0.033697387881214964
+          },
+          {
+            "token": " the",
+            "probability": 0.028786971819232687
+          },
+          {
+            "token": " located",
+            "probability": 0.02189199650898403
+          },
+          {
+            "token": " __",
+            "probability": 0.0146675140744523
+          },
+          {
+            "token": " ______",
+            "probability": 0.008731818233728943
+          },
+          {
+            "token": ":\n",
+            "probability": 0.007713294638662258
+          },
+          {
+            "token": " ____",
+            "probability": 0.007170798303684185
+          }
+        ]
+      },
+      "contradiction": {
+        "prompt": "The capital of France is Berlin. The capital of France is",
+        "candidates": [
+          {
+            "token": " Berlin",
+            "probability": 0.41770221331538543
+          },
+          {
+            "token": " Paris",
+            "probability": 0.10032743204994343
+          },
+          {
+            "token": " located",
+            "probability": 0.07954549595008667
+          },
+          {
+            "token": " a",
+            "probability": 0.026034832833682835
+          },
+          {
+            "token": " not",
+            "probability": 0.022471956632485177
+          },
+          {
+            "token": " __",
+            "probability": 0.0220078223431372
+          },
+          {
+            "token": " the",
+            "probability": 0.02111485908408644
+          },
+          {
+            "token": " in",
+            "probability": 0.02018342138153004
+          }
+        ]
+      }
+    },
+    "orbit": {
+      "base": {
+        "prompt": "The Earth revolves around the",
+        "candidates": [
+          {
+            "token": " Sun",
+            "probability": 0.9584393949806073
+          },
+          {
+            "token": " sun",
+            "probability": 0.03349154063114611
+          },
+          {
+            "token": " center",
+            "probability": 0.0025674115888877675
+          },
+          {
+            "token": " Moon",
+            "probability": 0.0012966959621837108
+          },
+          {
+            "token": " star",
+            "probability": 0.0005519209861792604
+          },
+          {
+            "token": " galaxy",
+            "probability": 0.00019717991836233064
+          },
+          {
+            "token": " Solar",
+            "probability": 0.0001915032165594739
+          },
+          {
+            "token": " origin",
+            "probability": 0.0001807403366011012
+          }
+        ]
+      },
+      "contradiction": {
+        "prompt": "The Earth revolves around the Moon. The Earth revolves around the",
+        "candidates": [
+          {
+            "token": " Moon",
+            "probability": 0.5573695295611311
+          },
+          {
+            "token": " Sun",
+            "probability": 0.37413739698688764
+          },
+          {
+            "token": " Earth",
+            "probability": 0.02752812053866804
+          },
+          {
+            "token": " moon",
+            "probability": 0.007073427592081577
+          },
+          {
+            "token": " center",
+            "probability": 0.004440085491285415
+          },
+          {
+            "token": " sun",
+            "probability": 0.004232365401747062
+          },
+          {
+            "token": " point",
+            "probability": 0.0016738347598976278
+          },
+          {
+            "token": " Solar",
+            "probability": 0.0013189324455586142
+          }
+        ]
+      }
+    },
+    "code": {
+      "base": {
+        "prompt": "def add(a, b):\n    return a",
+        "candidates": [
+          {
+            "token": " +",
+            "probability": 0.973819731575822
+          },
+          {
+            "token": "+b",
+            "probability": 0.023802869646497346
+          },
+          {
+            "token": " *",
+            "probability": 0.0008892747780316431
+          },
+          {
+            "token": " -",
+            "probability": 0.0002658161028872251
+          },
+          {
+            "token": ",",
+            "probability": 0.00022247585573005658
+          },
+          {
+            "token": " ",
+            "probability": 0.00019136596295766641
+          },
+          {
+            "token": " ^",
+            "probability": 0.00012306218890873515
+          },
+          {
+            "token": "+",
+            "probability": 0.00011936779532208633
+          }
+        ]
+      },
+      "contradiction": {
+        "prompt": "def add(a, b):\n    '''Subtract b from a.'''\n    return a",
+        "candidates": [
+          {
+            "token": " -",
+            "probability": 0.7201051900580482
+          },
+          {
+            "token": " +",
+            "probability": 0.19326697347718955
+          },
+          {
+            "token": "-b",
+            "probability": 0.06727469752449448
+          },
+          {
+            "token": "+b",
+            "probability": 0.016685673832002368
+          },
+          {
+            "token": "-",
+            "probability": 0.000613408814328652
+          },
+          {
+            "token": "+",
+            "probability": 0.0003240060526915299
+          },
+          {
+            "token": ",",
+            "probability": 0.0003143814365877417
+          },
+          {
+            "token": " ",
+            "probability": 0.0002906538296100413
+          }
+        ]
+      }
+    }
+  }
+}

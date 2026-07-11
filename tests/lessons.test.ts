@@ -8,6 +8,7 @@ import { fillInfo, type ContextState } from '@/engine/contextModel';
 import { getModelProfile } from '@/engine/modelProfiles';
 import { applyTemperature, sampleDistribution, topCandidate } from '@/engine/sampling';
 import { acknowledgeFreeze, advanceUntilPause, createSim, isDone } from '@/engine/simEngine';
+import { lookupPrerecorded, type PrerecordedFile } from '@/engine/indecision';
 
 const count = () => 0; // lesson blocks always carry authored fixedTokens
 
@@ -44,14 +45,14 @@ const lessons = loadLessons();
 const byId = new Map(lessons.map(({ lesson }) => [lesson.id, lesson]));
 
 describe('lesson data', () => {
-  it('ships all Module 0–9 lessons, all schema-valid', () => {
+  it('ships every authored lesson, all schema-valid', () => {
     expect([...byId.keys()].sort()).toEqual([
       'L1.1', 'L1.2',
       'L2.1', 'L2.2',
       'L3.1', 'L3.2',
       'L4.1', 'L4.2',
       'L5.1', 'L5.2', 'L5.3',
-      'L6.1',
+      'L6.1', 'L6.2',
       'L7.1', 'L7.2', 'L7.3',
       'L8.1',
       'L9.1',
@@ -403,5 +404,58 @@ describe('L9.1 compaction fires for a real reason and truly saves the session', 
     // t2 carried the line number; the summary deliberately does not.
     const removed = lesson.steps.filter((s) => s.type === 'removeBlock').map((s) => s.blockId);
     expect(removed).toContain('t2');
+  });
+});
+
+describe('L6.2 recorded fallback stays honest', () => {
+  const lesson = byId.get('L6.2')!;
+  if (lesson.mechanic !== 'model-indecision') throw new Error('wrong mechanic');
+  const file = JSON.parse(
+    readFileSync(
+      new URL(`../public/${lesson.params.prerecordedPath}`, import.meta.url).pathname,
+      'utf8',
+    ),
+  ) as PrerecordedFile;
+
+  it('was recorded from the exact model the lesson advertises', () => {
+    // Drift lock: change the lesson's modelRepo and this forces a re-record.
+    expect(file.modelRepo).toBe(lesson.params.modelRepo);
+    expect(['q4', 'q4f16']).toContain(file.dtype);
+  });
+
+  it('covers every authored pair with the exact authored prompts', () => {
+    for (const pair of lesson.params.pairs) {
+      const base = lookupPrerecorded(file, pair.id, 'base');
+      const contradiction = lookupPrerecorded(file, pair.id, 'contradiction');
+      expect(base.prompt).toBe(pair.basePrompt);
+      expect(contradiction.prompt).toBe(pair.contradictionPrompt);
+    }
+  });
+
+  it('candidates are a valid top-k: sorted, in (0,1], mass ≤ 1', () => {
+    for (const pair of Object.values(file.pairs)) {
+      for (const distribution of [pair.base, pair.contradiction]) {
+        const probs = distribution.candidates.map((c) => c.probability);
+        expect(probs.length).toBeGreaterThanOrEqual(3);
+        expect(probs.length).toBeLessThanOrEqual(lesson.params.topK);
+        for (const p of probs) {
+          expect(p).toBeGreaterThan(0);
+          expect(p).toBeLessThanOrEqual(1);
+        }
+        expect([...probs].sort((a, b) => b - a)).toEqual(probs);
+        expect(probs.reduce((sum, p) => sum + p, 0)).toBeLessThanOrEqual(1 + 1e-9);
+      }
+    }
+  });
+
+  it('every contradiction genuinely drops the top-1 confidence (the lesson)', () => {
+    for (const pair of lesson.params.pairs) {
+      const base = lookupPrerecorded(file, pair.id, 'base');
+      const contradiction = lookupPrerecorded(file, pair.id, 'contradiction');
+      expect(
+        contradiction.candidates[0]!.probability,
+        `pair "${pair.id}" does not flatten`,
+      ).toBeLessThan(base.candidates[0]!.probability);
+    }
   });
 });
