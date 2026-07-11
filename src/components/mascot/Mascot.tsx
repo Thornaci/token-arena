@@ -169,8 +169,18 @@ export default function Mascot({ state, size = 88, ariaLabel }: Props) {
             confident: { opacity: 0 },
           }}
         >
-          <m.path d="M31 40 L43 40" variants={{ confused: { d: 'M31 38 L43 42' }, focused: { d: 'M31 41 L43 40' } }} />
-          <m.path d="M53 40 L65 40" variants={{ confused: { d: 'M53 42 L65 38' }, focused: { d: 'M53 40 L65 41' } }} />
+          {/* rotate, never path-morph — Framer sets d="undefined" for states
+              that omit a d variant */}
+          <m.path
+            d="M31 40 L43 40"
+            style={{ transformOrigin: '37px 40px' }}
+            variants={{ confused: { rotate: 12 }, focused: { rotate: -4 } }}
+          />
+          <m.path
+            d="M53 40 L65 40"
+            style={{ transformOrigin: '59px 40px' }}
+            variants={{ confused: { rotate: -12 }, focused: { rotate: 4 } }}
+          />
         </m.g>
 
         {/* sweat drop — overwhelmed only */}

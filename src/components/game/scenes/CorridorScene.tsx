@@ -228,7 +228,7 @@ function PositionCorridor({ lesson, locale, onPass }: MechanicComponentProps) {
                     </DropZone>
                   );
                 })}
-                <div className="absolute inset-x-0 top-0 h-full" aria-hidden="true">
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-full" aria-hidden="true">
                   <AnimatePresence>
                     {beaming && placed !== null && (
                       <Beam
@@ -392,7 +392,7 @@ function LengthCorridor({ lesson, locale, onPass }: MechanicComponentProps) {
             <div className="absolute left-[4%] top-1/2 w-12 -translate-y-1/2">
               <NeedleCard label="◈" compact />
             </div>
-            <div className="absolute inset-0" aria-hidden="true">
+            <div className="pointer-events-none absolute inset-0" aria-hidden="true">
               <AnimatePresence>
                 {beaming && (
                   <Beam

@@ -16,7 +16,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "i18n:compile": "paraglide-js compile --project ./project.inlang --outdir ./src/paraglide",
-    "i18n:check": "node scripts/check-i18n.mjs"
+    "i18n:check": "node scripts/check-i18n.mjs",
+    "e2e": "playwright test",
+    "e2e:ui": "playwright test --ui"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.1",
@@ -38,6 +40,7 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
     "@inlang/paraglide-js": "^2.21.0",
+    "@playwright/test": "^1.61.1",
     "@tailwindcss/vite": "^4.3.2",
     "@types/node": "^26.1.1",
     "@types/react": "^19.2.17",
