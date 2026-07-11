@@ -656,5 +656,13 @@
   "settings_sfx": "Sound effects",
   "settings_sfx_hint": "A few tiny synthesized clicks and thuds tied to animations. Off by default.",
   "settings_classic": "Classic mode",
-  "settings_classic_hint": "Use the original non-game lesson interfaces everywhere. Same lessons, same pass rules."
+  "settings_classic_hint": "Use the original non-game lesson interfaces everywhere. Same lessons, same pass rules.",
+  "game_skip": "skip animation",
+  "game_reset": "reset",
+  "game_dnd_instructions": "To pick up a draggable item, press Space or Enter. Use the arrow keys to move it, Space or Enter to drop it, Escape to cancel.",
+  "game_dnd_pickup": "Picked up {item}.",
+  "game_dnd_over": "{item} is over {target}.",
+  "game_dnd_drop": "Dropped {item} on {target}.",
+  "game_dnd_drop_nowhere": "Dropped {item}. It returned to its place.",
+  "game_dnd_cancel": "Moving {item} was cancelled."
 }

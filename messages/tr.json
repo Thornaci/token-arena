@@ -656,5 +656,13 @@
   "settings_sfx": "Ses efektleri",
   "settings_sfx_hint": "Animasyonlara bağlı birkaç minik sentezlenmiş tık ve gümleme. Varsayılan olarak kapalı.",
   "settings_classic": "Klasik mod",
-  "settings_classic_hint": "Her yerde orijinal, oyunsuz ders arayüzlerini kullan. Aynı dersler, aynı geçme kuralları."
+  "settings_classic_hint": "Her yerde orijinal, oyunsuz ders arayüzlerini kullan. Aynı dersler, aynı geçme kuralları.",
+  "game_skip": "animasyonu atla",
+  "game_reset": "sıfırla",
+  "game_dnd_instructions": "Sürüklenebilir bir öğeyi almak için Boşluk veya Enter'a bas. Ok tuşlarıyla taşı, Boşluk veya Enter ile bırak, Escape ile iptal et.",
+  "game_dnd_pickup": "{item} alındı.",
+  "game_dnd_over": "{item}, {target} üzerinde.",
+  "game_dnd_drop": "{item}, {target} üzerine bırakıldı.",
+  "game_dnd_drop_nowhere": "{item} bırakıldı ve yerine geri döndü.",
+  "game_dnd_cancel": "{item} taşıması iptal edildi."
 }
