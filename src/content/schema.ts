@@ -432,6 +432,49 @@ const compactionSimParams = z
   })
   .strict();
 
+const modelIndecisionParams = z
+  .object({
+    /** Hugging Face repo the worker loads, e.g. "onnx-community/Qwen2.5-0.5B-Instruct". */
+    modelRepo: z.string().min(1),
+    dtype: z.enum(['q4', 'q4f16']).default('q4'),
+    /** Real size of the one-time model download, shown in the consent dialog. */
+    downloadSizeMB: z.number().int().positive(),
+    topK: z.number().int().min(3).max(20).default(8),
+    /** Fallback JSON under public/, e.g. "prerecorded/l6-2.json". */
+    prerecordedPath: z.string().min(1),
+    pairs: z
+      .array(
+        z
+          .object({
+            id: z.string().min(1),
+            labelKey: z.string(),
+            // Literal prompts, identical in every locale — the distributions
+            // (live or recorded) depend on the exact input string.
+            basePrompt: z.string().min(1),
+            contradictionPrompt: z.string().min(1),
+          })
+          .strict(),
+      )
+      .min(1),
+  })
+  .strict();
+
+const byokChatParams = z
+  .object({
+    introKey: z.string(),
+    systemPromptKey: z.string().optional(),
+    maxOutputTokens: z.number().int().positive().default(1024),
+    /** Prefilled model-name inputs per provider tab. */
+    defaultModels: z
+      .object({
+        openai: z.string().min(1),
+        anthropic: z.string().min(1),
+        custom: z.string().min(1),
+      })
+      .strict(),
+  })
+  .strict();
+
 // --- The lesson itself -------------------------------------------------------
 
 const lessonBaseSchema = z.object({
@@ -503,6 +546,8 @@ export const lessonSchema = z
     variant('rules-trim', rulesTrimParams),
     variant('tool-loop', toolLoopParams),
     variant('compaction-sim', compactionSimParams),
+    variant('model-indecision', modelIndecisionParams),
+    variant('byok-chat', byokChatParams),
   ])
   .superRefine((lesson, ctx) => {
     // Every referenced message key must exist in the base catalog, so a
@@ -757,6 +802,34 @@ export const lessonSchema = z
     }
     if (lesson.mechanic === 'compaction-sim' && lesson.steps.length === 0) {
       ctx.addIssue({ code: 'custom', message: 'compaction-sim walks lesson.steps — steps must not be empty' });
+    }
+
+    // Exploratory Tur 3 mechanics: completion = one full run, nothing to grade.
+    if (lesson.mechanic === 'model-indecision') {
+      if (lesson.pass.type !== 'completeAll' || lesson.pass.count !== 1) {
+        ctx.addIssue({
+          code: 'custom',
+          message: 'model-indecision must use a completeAll pass with count 1 (ran one comparison)',
+        });
+      }
+      const pairIds = lesson.params.pairs.map((p) => p.id);
+      if (new Set(pairIds).size !== pairIds.length) {
+        ctx.addIssue({ code: 'custom', message: 'model-indecision pair ids must be unique' });
+      }
+    }
+    if (lesson.mechanic === 'byok-chat') {
+      if (lesson.pass.type !== 'completeAll' || lesson.pass.count !== 1) {
+        ctx.addIssue({
+          code: 'custom',
+          message: 'byok-chat must use a completeAll pass with count 1 (one request sent)',
+        });
+      }
+      if (!lesson.inspector) {
+        ctx.addIssue({
+          code: 'custom',
+          message: 'byok-chat requires inspector: true — the capstone is sending with the inspector open',
+        });
+      }
     }
   });
 

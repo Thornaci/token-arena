@@ -428,3 +428,98 @@ describe('collectMessageKeys', () => {
     expect(keys.sort()).toEqual(['a', 'b', 'c', 'd', 'e', 'f', 'g']);
   });
 });
+
+describe('Tur 3 mechanic alignment rules', () => {
+  const indecisionLesson = {
+    id: 'L6.2',
+    module: 'sampling',
+    order: 2,
+    titleKey: 'app_title',
+    objectiveKey: 'app_tagline',
+    misconceptionKey: null,
+    inspector: false,
+    mechanic: 'model-indecision',
+    params: {
+      modelRepo: 'onnx-community/Qwen2.5-0.5B-Instruct',
+      dtype: 'q4',
+      downloadSizeMB: 320,
+      topK: 8,
+      prerecordedPath: 'prerecorded/l6-2.json',
+      pairs: [
+        {
+          id: 'capital',
+          labelKey: 'app_title',
+          basePrompt: 'The capital of France is',
+          contradictionPrompt: 'The capital of France is Berlin. No wait, the capital of France is',
+        },
+        {
+          id: 'math',
+          labelKey: 'app_title',
+          basePrompt: '2 + 2 =',
+          contradictionPrompt: '2 + 2 = 5. Actually, 2 + 2 =',
+        },
+      ],
+    },
+    pass: { type: 'completeAll', count: 1 },
+    hints: ['app_title', 'app_title', 'app_title'],
+    xp: 125,
+  };
+
+  it('accepts a valid model-indecision lesson', () => {
+    const result = lessonSchema.safeParse(indecisionLesson);
+    expect(result.success, messagesOf(result)).toBe(true);
+  });
+
+  it('rejects model-indecision without a completeAll count-1 pass', () => {
+    const wrongType = { ...indecisionLesson, pass: { type: 'choice', correctIndex: 0 } };
+    expect(messagesOf(lessonSchema.safeParse(wrongType))).toContain('completeAll pass with count 1');
+    const wrongCount = { ...indecisionLesson, pass: { type: 'completeAll', count: 2 } };
+    expect(messagesOf(lessonSchema.safeParse(wrongCount))).toContain('completeAll pass with count 1');
+  });
+
+  it('rejects duplicate pair ids', () => {
+    const duplicated = {
+      ...indecisionLesson,
+      params: {
+        ...indecisionLesson.params,
+        pairs: [indecisionLesson.params.pairs[0], indecisionLesson.params.pairs[0]],
+      },
+    };
+    expect(messagesOf(lessonSchema.safeParse(duplicated))).toContain('unique');
+  });
+
+  const byokLesson = {
+    id: 'L10.1',
+    module: 'sandbox',
+    order: 1,
+    titleKey: 'app_title',
+    objectiveKey: 'app_tagline',
+    misconceptionKey: null,
+    inspector: true,
+    mechanic: 'byok-chat',
+    params: {
+      introKey: 'app_tagline',
+      maxOutputTokens: 1024,
+      defaultModels: { openai: 'gpt-test', anthropic: 'claude-test', custom: 'local-test' },
+    },
+    pass: { type: 'completeAll', count: 1 },
+    hints: ['app_title', 'app_title', 'app_title'],
+    xp: 175,
+    badge: 'sandbox-pilot',
+  };
+
+  it('accepts a valid byok-chat lesson', () => {
+    const result = lessonSchema.safeParse(byokLesson);
+    expect(result.success, messagesOf(result)).toBe(true);
+  });
+
+  it('rejects byok-chat with the inspector hidden', () => {
+    const hidden = { ...byokLesson, inspector: false };
+    expect(messagesOf(lessonSchema.safeParse(hidden))).toContain('inspector: true');
+  });
+
+  it('rejects byok-chat without a completeAll count-1 pass', () => {
+    const wrong = { ...byokLesson, pass: { type: 'completeAll', count: 3 } };
+    expect(messagesOf(lessonSchema.safeParse(wrong))).toContain('completeAll pass with count 1');
+  });
+});
