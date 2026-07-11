@@ -12,14 +12,29 @@ export type PassCheck =
   /** Several prediction rounds; pass when at least `minCorrect` are right. */
   | { type: 'choiceRounds'; correctIndexes: readonly number[]; minCorrect: number }
   /** Finish all `count` sub-challenges of a level. */
-  | { type: 'completeAll'; count: number };
+  | { type: 'completeAll'; count: number }
+  /** Fit a token total under a budget while keeping every required piece. */
+  | { type: 'budgetFit'; budget: number }
+  /** One multiple-choice question where several answers are acceptable. */
+  | { type: 'choiceOneOf'; validIndexes: readonly number[] }
+  /** Arrange `size` shuffled items back into their canonical order 0..size-1. */
+  | { type: 'ordering'; size: number }
+  /**
+   * "No right answer" levels: any strategy is acceptable, but the player must
+   * predict its specific downside. The correct index depends on the chosen
+   * strategy, so the mechanic supplies it alongside the prediction.
+   */
+  | { type: 'tradeoff' };
 
 export type Evidence =
   | { type: 'tokenCount'; tokens: number }
   | { type: 'word'; word: string; tokens: number }
   | { type: 'choice'; selectedIndex: number }
   | { type: 'choices'; selectedIndexes: readonly number[] }
-  | { type: 'counter'; completed: number };
+  | { type: 'counter'; completed: number }
+  | { type: 'budgetFit'; totalTokens: number; requiredKept: boolean }
+  | { type: 'ordering'; order: readonly number[] }
+  | { type: 'tradeoff'; predictedIndex: number; correctIndex: number };
 
 export interface ScoreResult {
   pass: boolean;
@@ -64,6 +79,25 @@ export function evaluate(check: PassCheck, evidence: Evidence): ScoreResult {
     case 'completeAll': {
       if (evidence.type !== 'counter') return mismatch(check, evidence);
       return { pass: evidence.completed >= check.count, correctCount: evidence.completed };
+    }
+    case 'budgetFit': {
+      if (evidence.type !== 'budgetFit') return mismatch(check, evidence);
+      return { pass: evidence.totalTokens <= check.budget && evidence.requiredKept };
+    }
+    case 'choiceOneOf': {
+      if (evidence.type !== 'choice') return mismatch(check, evidence);
+      return { pass: check.validIndexes.includes(evidence.selectedIndex) };
+    }
+    case 'ordering': {
+      if (evidence.type !== 'ordering') return mismatch(check, evidence);
+      const pass =
+        evidence.order.length === check.size &&
+        evidence.order.every((item, position) => item === position);
+      return { pass };
+    }
+    case 'tradeoff': {
+      if (evidence.type !== 'tradeoff') return mismatch(check, evidence);
+      return { pass: evidence.predictedIndex === evidence.correctIndex };
     }
   }
 }

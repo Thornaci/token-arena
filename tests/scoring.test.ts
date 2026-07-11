@@ -57,6 +57,50 @@ describe('choiceRounds', () => {
   });
 });
 
+describe('budgetFit', () => {
+  const check = { type: 'budgetFit', budget: 8000 } as const;
+
+  it('passes only under budget with every required piece kept', () => {
+    expect(evaluate(check, { type: 'budgetFit', totalTokens: 8000, requiredKept: true }).pass).toBe(true);
+    expect(evaluate(check, { type: 'budgetFit', totalTokens: 8001, requiredKept: true }).pass).toBe(false);
+  });
+
+  it('fails when a required piece was dropped, even under budget', () => {
+    expect(evaluate(check, { type: 'budgetFit', totalTokens: 500, requiredKept: false }).pass).toBe(false);
+  });
+});
+
+describe('choiceOneOf', () => {
+  const check = { type: 'choiceOneOf', validIndexes: [0, 4] } as const;
+
+  it('accepts any valid index and rejects the rest', () => {
+    expect(evaluate(check, { type: 'choice', selectedIndex: 0 }).pass).toBe(true);
+    expect(evaluate(check, { type: 'choice', selectedIndex: 4 }).pass).toBe(true);
+    expect(evaluate(check, { type: 'choice', selectedIndex: 2 }).pass).toBe(false);
+  });
+});
+
+describe('ordering', () => {
+  const check = { type: 'ordering', size: 4 } as const;
+
+  it('passes only the exact canonical order', () => {
+    expect(evaluate(check, { type: 'ordering', order: [0, 1, 2, 3] }).pass).toBe(true);
+    expect(evaluate(check, { type: 'ordering', order: [0, 2, 1, 3] }).pass).toBe(false);
+  });
+
+  it('rejects wrong lengths', () => {
+    expect(evaluate(check, { type: 'ordering', order: [0, 1, 2] }).pass).toBe(false);
+    expect(evaluate(check, { type: 'ordering', order: [0, 1, 2, 3, 4] }).pass).toBe(false);
+  });
+});
+
+describe('tradeoff', () => {
+  it('passes when the predicted downside matches the chosen strategy', () => {
+    expect(evaluate({ type: 'tradeoff' }, { type: 'tradeoff', predictedIndex: 1, correctIndex: 1 }).pass).toBe(true);
+    expect(evaluate({ type: 'tradeoff' }, { type: 'tradeoff', predictedIndex: 0, correctIndex: 1 }).pass).toBe(false);
+  });
+});
+
 describe('evidence mismatch', () => {
   it('throws loudly when a mechanic sends the wrong evidence shape', () => {
     expect(() =>
