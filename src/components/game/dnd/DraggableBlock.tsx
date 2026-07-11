@@ -9,6 +9,11 @@ interface Props {
   data?: Record<string, unknown>;
   className?: string;
   style?: CSSProperties;
+  /**
+   * false = the element stays put while dragging (for handles whose effect —
+   * e.g. a zone resizing — is applied live from onDragMove instead).
+   */
+  applyTransform?: boolean;
   children: ReactNode;
 }
 
@@ -24,6 +29,7 @@ export default function DraggableBlock({
   data,
   className,
   style,
+  applyTransform = true,
   children,
 }: Props) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
@@ -39,9 +45,10 @@ export default function DraggableBlock({
       {...listeners}
       style={{
         ...style,
-        transform: transform
-          ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
-          : style?.transform,
+        transform:
+          applyTransform && transform
+            ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
+            : style?.transform,
         touchAction: 'none',
       }}
       className={[

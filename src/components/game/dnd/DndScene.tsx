@@ -8,6 +8,7 @@ import {
   useSensors,
   type DragCancelEvent,
   type DragEndEvent,
+  type DragMoveEvent,
   type DragOverEvent,
   type DragStartEvent,
   type KeyboardCoordinateGetter,
@@ -18,6 +19,7 @@ import type { Locale } from '@/lib/locales';
 interface Props {
   locale: Locale;
   onDragStart?: (event: DragStartEvent) => void;
+  onDragMove?: (event: DragMoveEvent) => void;
   onDragOver?: (event: DragOverEvent) => void;
   onDragEnd?: (event: DragEndEvent) => void;
   onDragCancel?: (event: DragCancelEvent) => void;
@@ -36,6 +38,7 @@ interface Props {
 export default function DndScene({
   locale,
   onDragStart,
+  onDragMove,
   onDragOver,
   onDragEnd,
   onDragCancel,
@@ -56,6 +59,7 @@ export default function DndScene({
         screenReaderInstructions: dndInstructions(locale),
       }}
       onDragStart={onDragStart}
+      onDragMove={onDragMove}
       onDragOver={onDragOver}
       onDragEnd={onDragEnd}
       onDragCancel={onDragCancel}

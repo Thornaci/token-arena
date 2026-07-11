@@ -684,5 +684,17 @@
   "mascot_contrib_fill": "bağlam %{pct} dolu",
   "mascot_contrib_needle": "kritik bilgi düşük hatırlamalı bir noktada (%{pct} hatırlama)",
   "mascot_contrib_entropy": "sonraki-token dağılımı düz",
-  "mascot_contrib_compacted": "geçmiş az önce sıkıştırılıp atıldı"
+  "mascot_contrib_compacted": "geçmiş az önce sıkıştırılıp atıldı",
+  "game_container_vessel_aria": "bağlam penceresi kabı",
+  "game_container_window_line": "pencere: {window} token",
+  "game_container_status": "{total} / {window} token (%{pct})",
+  "game_container_reserved_label": "yanıt için ayrılmış",
+  "game_container_reserve_handle": "ayrılmış-çıktı kolu",
+  "game_container_reserve_hint": "Taralı bölgedeki ⇕ kolunu sürükle (veya düğmeleri kullan): pencerenin ne kadarı yanıt için saklanacak.",
+  "game_container_tray_title": "kırpma tepsisi",
+  "game_container_tray_hint": "istekten çıkarmak için blokları buraya sürükle",
+  "game_container_tray_restore_hint": "geri almak için bloğu kabın içine sürükle",
+  "game_container_locked": "her zaman gider — kırpılamaz",
+  "game_container_expand_cta": "yeniden genişlet",
+  "game_container_rupture_title": "400 — prompt is too long"
 }

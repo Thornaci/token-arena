@@ -684,5 +684,17 @@
   "mascot_contrib_fill": "the context is {pct}% full",
   "mascot_contrib_needle": "critical info sits in a low-recall spot ({pct}% recall)",
   "mascot_contrib_entropy": "the next-token distribution is flat",
-  "mascot_contrib_compacted": "history was just compacted away"
+  "mascot_contrib_compacted": "history was just compacted away",
+  "game_container_vessel_aria": "context window vessel",
+  "game_container_window_line": "window: {window} tokens",
+  "game_container_status": "{total} / {window} tokens ({pct}%)",
+  "game_container_reserved_label": "reserved for the answer",
+  "game_container_reserve_handle": "reserved-output handle",
+  "game_container_reserve_hint": "Drag the ⇕ handle on the hatched zone (or use the buttons) to change how much of the window is saved for the reply.",
+  "game_container_tray_title": "trim tray",
+  "game_container_tray_hint": "drag blocks here to trim them out of the request",
+  "game_container_tray_restore_hint": "drag a block back into the vessel to restore it",
+  "game_container_locked": "always ships — cannot be trimmed",
+  "game_container_expand_cta": "expand again",
+  "game_container_rupture_title": "400 — prompt is too long"
 }

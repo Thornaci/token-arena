@@ -10,6 +10,7 @@ export { dndAnnouncements, dndInstructions } from './announcements';
 export type {
   DragCancelEvent,
   DragEndEvent,
+  DragMoveEvent,
   DragOverEvent,
   DragStartEvent,
 } from '@dnd-kit/core';

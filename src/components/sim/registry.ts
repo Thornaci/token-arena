@@ -47,7 +47,10 @@ export function getMechanic(name: MechanicName): LazyExoticComponent<MechanicCom
  * renders as a physical scene by default; the classic component above stays
  * registered forever as the fallback / Classic-mode / data-opt-out substrate.
  */
-const gameRegistry: Partial<Record<MechanicName, LazyExoticComponent<MechanicComponent>>> = {};
+const gameRegistry: Partial<Record<MechanicName, LazyExoticComponent<MechanicComponent>>> = {
+  'window-fit': lazy(() => import('@/components/game/scenes/ContainerScene')),
+  'output-reserve': lazy(() => import('@/components/game/scenes/ContainerScene')),
+};
 
 export type RendererVariant = 'game' | 'classic';
 
