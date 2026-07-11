@@ -696,5 +696,15 @@
   "game_container_tray_restore_hint": "geri almak için bloğu kabın içine sürükle",
   "game_container_locked": "her zaman gider — kırpılamaz",
   "game_container_expand_cta": "yeniden genişlet",
-  "game_container_rupture_title": "400 — prompt is too long"
+  "game_container_rupture_title": "400 — prompt is too long",
+  "game_corridor_aria": "bağlam koridoru",
+  "game_corridor_needle_label": "iğne — kritik bilgi",
+  "game_corridor_needle_home": "iğne tepsisi",
+  "game_corridor_hand_hint": "Parlayan iğne kartını koridordaki bir yuvaya sürükle, sonra geri getir.",
+  "game_corridor_retrieve_cta": "geri getir",
+  "game_corridor_beam_note": "arama ışını koridoru tarıyor…",
+  "game_corridor_fog_note": "ışık = hatırlama — uçlar aydınlık, orta sisli",
+  "game_corridor_grow_cta": "+ dolgu ekle",
+  "game_corridor_shrink_cta": "− dolgu çıkar",
+  "game_corridor_length_line": "bağlam: {tokens} token"
 }

@@ -696,5 +696,15 @@
   "game_container_tray_restore_hint": "drag a block back into the vessel to restore it",
   "game_container_locked": "always ships — cannot be trimmed",
   "game_container_expand_cta": "expand again",
-  "game_container_rupture_title": "400 — prompt is too long"
+  "game_container_rupture_title": "400 — prompt is too long",
+  "game_corridor_aria": "context corridor",
+  "game_corridor_needle_label": "the needle — the critical fact",
+  "game_corridor_needle_home": "needle tray",
+  "game_corridor_hand_hint": "Drag the glowing needle card into a corridor slot, then retrieve.",
+  "game_corridor_retrieve_cta": "retrieve",
+  "game_corridor_beam_note": "search beam sweeping the corridor…",
+  "game_corridor_fog_note": "light = recall — the ends are lit, the middle is fog",
+  "game_corridor_grow_cta": "+ add filler",
+  "game_corridor_shrink_cta": "− remove filler",
+  "game_corridor_length_line": "context: {tokens} tokens"
 }

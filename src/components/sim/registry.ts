@@ -50,6 +50,7 @@ export function getMechanic(name: MechanicName): LazyExoticComponent<MechanicCom
 const gameRegistry: Partial<Record<MechanicName, LazyExoticComponent<MechanicComponent>>> = {
   'window-fit': lazy(() => import('@/components/game/scenes/ContainerScene')),
   'output-reserve': lazy(() => import('@/components/game/scenes/ContainerScene')),
+  'needle-lab': lazy(() => import('@/components/game/scenes/CorridorScene')),
 };
 
 export type RendererVariant = 'game' | 'classic';

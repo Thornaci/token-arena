@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { useDroppable } from '@dnd-kit/core';
 
 interface Props {
@@ -8,11 +8,12 @@ interface Props {
   disabled?: boolean;
   data?: Record<string, unknown>;
   className?: string;
+  style?: CSSProperties;
   children?: ReactNode;
 }
 
 /** Shared drop target: ≥44px, exposes `data-over` as the styling hook. */
-export default function DropZone({ id, label, disabled, data, className, children }: Props) {
+export default function DropZone({ id, label, disabled, data, className, style, children }: Props) {
   const { setNodeRef, isOver } = useDroppable({ id, disabled, data: { ...data, label } });
 
   return (
@@ -20,6 +21,7 @@ export default function DropZone({ id, label, disabled, data, className, childre
       ref={setNodeRef}
       data-over={isOver && !disabled ? '' : undefined}
       className={['min-h-11 min-w-11', className ?? ''].join(' ')}
+      style={style}
     >
       {children}
     </div>
