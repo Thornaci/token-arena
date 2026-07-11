@@ -88,10 +88,20 @@
         "promptKey": "l7_2_r3_prompt",
         "optionKeys": ["l7_2_r3_opt0", "l7_2_r3_opt1", "l7_2_r3_opt2"],
         "explainKey": "l7_2_r3_explain"
+      },
+      {
+        "promptKey": "l7_2_r4_prompt",
+        "optionKeys": ["l7_2_r4_opt0", "l7_2_r4_opt1", "l7_2_r4_opt2"],
+        "explainKey": "l7_2_r4_explain"
+      },
+      {
+        "promptKey": "l7_2_r5_prompt",
+        "optionKeys": ["l7_2_r5_opt0", "l7_2_r5_opt1", "l7_2_r5_opt2"],
+        "explainKey": "l7_2_r5_explain"
       }
     ]
   },
-  "pass": { "type": "choiceRounds", "correctIndexes": [2, 1, 0], "minCorrect": 2 },
+  "pass": { "type": "choiceRounds", "correctIndexes": [2, 1, 0, 1, 2], "minCorrect": 3 },
   "hints": ["l7_2_hint1", "l7_2_hint2", "l7_2_hint3"],
   "xp": 150,
   "badge": null

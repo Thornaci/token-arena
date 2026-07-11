@@ -617,5 +617,15 @@
   "byok_no_key": "göndermek için API anahtarını gir",
   "byok_block_system": "sistem istemi",
   "byok_block_user": "kullanıcı mesajı",
-  "byok_block_assistant": "asistan yanıtı"
+  "byok_block_assistant": "asistan yanıtı",
+  "l7_2_r4_prompt": "Bir Cursor projesinde .cursor/rules/api.mdc dosyasının frontmatter'ında globs: src/api/** ve alwaysApply: false var. Sen src/ui/ altındaki bir dosyayı soruyorsun. Kural bağlama girer mi?",
+  "l7_2_r4_opt0": "Evet — .cursor/rules altındaki her şey her zaman olduğu gibi gönderilir.",
+  "l7_2_r4_opt1": "Hayır — glob'ları oyundaki dosyalarla eşleşmedi, dolayısıyla enjekte edilmez.",
+  "l7_2_r4_opt2": "Evet — model dosya sistemini kendisi okur ve istediğini yükler.",
+  "l7_2_r4_explain": "Modern .mdc kuralları koşullu bağlam enjeksiyonudur: alwaysApply: true her seferinde gönderilir, aksi halde glob'lar karar verir (description alanı da ajanın kuralı ihtiyaç halinde istemesini sağlar). Eşleşme yoksa gönderim yok → sıfır token.",
+  "l7_2_r5_prompt": "Bir monorepo'da kökte AGENTS.md, bir de packages/web/AGENTS.md var. Ajanın packages/web/src/App.tsx dosyasını düzenliyor. Çeliştikleri yerde hangi talimatlar kazanır?",
+  "l7_2_r5_opt0": "Kök dosya — daha genel olduğu için önceliklidir.",
+  "l7_2_r5_opt1": "İkisi birleşir; çelişkide kök kazanır.",
+  "l7_2_r5_opt2": "Düzenlenen koda en yakın dosya — packages/web/AGENTS.md.",
+  "l7_2_r5_explain": "AGENTS.md sözleşmesi en-yakın-dosya-kazanır der: değiştirilen koda en yakın dosya öncelik alır; böylece bir alt proje, monorepo genelindeki varsayılanları onlara dokunmadan geçersiz kılabilir."
 }

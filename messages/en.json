@@ -617,5 +617,15 @@
   "byok_no_key": "enter your API key to send",
   "byok_block_system": "system prompt",
   "byok_block_user": "user message",
-  "byok_block_assistant": "assistant reply"
+  "byok_block_assistant": "assistant reply",
+  "l7_2_r4_prompt": "A Cursor project has .cursor/rules/api.mdc with frontmatter globs: src/api/** and alwaysApply: false. You ask about a file in src/ui/. Does the rule enter the context?",
+  "l7_2_r4_opt0": "Yes — anything under .cursor/rules always ships in full.",
+  "l7_2_r4_opt1": "No — its globs didn't match the files in play, so it isn't injected.",
+  "l7_2_r4_opt2": "Yes — the model reads the filesystem itself and loads whatever it wants.",
+  "l7_2_r4_explain": "Modern .mdc rules are conditional context injection: alwaysApply: true ships every time, otherwise the globs decide (and a description lets the agent request the rule on demand). Nothing matches → nothing ships → zero tokens.",
+  "l7_2_r5_prompt": "A monorepo has AGENTS.md at the root and another at packages/web/AGENTS.md. Your agent edits packages/web/src/App.tsx. Where they conflict, which instructions win?",
+  "l7_2_r5_opt0": "The root file — it's more global, so it takes precedence.",
+  "l7_2_r5_opt1": "Both merge; on conflict the root wins.",
+  "l7_2_r5_opt2": "The nearest file to the code being edited — packages/web/AGENTS.md.",
+  "l7_2_r5_explain": "The AGENTS.md convention is nearest-file-wins: the file closest to the code being changed takes precedence, so a subproject can override monorepo-wide defaults without editing them."
 }
