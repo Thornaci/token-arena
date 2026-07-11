@@ -722,5 +722,15 @@
   "game_scale_needle_line": "{tokens} token · hedef ≤ {target}",
   "game_scale_tile_title": "token id {id} · {bytes} bayt",
   "game_scale_bet_chip": "bahsin",
-  "game_scale_bet_hint": "Bahis çipini token olarak DAHA AĞIR olduğunu düşündüğün metnin üzerine sürükle — sonra tile'lar düşer, terazi oturur."
+  "game_scale_bet_hint": "Bahis çipini token olarak DAHA AĞIR olduğunu düşündüğün metnin üzerine sürükle — sonra tile'lar düşer, terazi oturur.",
+  "game_tower_aria": "otorite kulesi",
+  "game_tower_overridden": "GEÇERSİZ KILINDI",
+  "game_tower_token": "modelin itaati",
+  "game_tower_hint": "İtaat jetonunu tahmininin üzerine sürükle.",
+  "game_route_card": "gelen araç sonucu",
+  "game_route_scan_cta": "yükü tara",
+  "game_route_hint": "Gelen kartı yönlendir: bu veri mi, yoksa talimat vermesine izin var mı?",
+  "game_route_data_tray": "VERİ tepsisi — güvenilmeyen veri olarak oku",
+  "game_route_tower": "talimat yığını",
+  "game_route_tower_breach": "Talimat yığınına yönlendirildi — gizlenmiş komut az önce çalıştı. Güvenilmeyen içerik asla talimat muamelesi görmemeli."
 }

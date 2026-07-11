@@ -722,5 +722,15 @@
   "game_scale_needle_line": "{tokens} tokens · target ≤ {target}",
   "game_scale_tile_title": "token id {id} · {bytes} bytes",
   "game_scale_bet_chip": "your bet",
-  "game_scale_bet_hint": "Drag the bet chip onto the string you think weighs MORE tokens — then the tiles drop and the scales settle."
+  "game_scale_bet_hint": "Drag the bet chip onto the string you think weighs MORE tokens — then the tiles drop and the scales settle.",
+  "game_tower_aria": "authority tower",
+  "game_tower_overridden": "OVERRIDDEN",
+  "game_tower_token": "the model's obedience",
+  "game_tower_hint": "Drag the obedience token onto your prediction.",
+  "game_route_card": "incoming tool result",
+  "game_route_scan_cta": "scan the payload",
+  "game_route_hint": "Route the incoming card: is this data, or is it allowed to give instructions?",
+  "game_route_data_tray": "DATA tray — read as untrusted data",
+  "game_route_tower": "instruction stack",
+  "game_route_tower_breach": "Routed into the instruction stack — the smuggled command just executed. Untrusted content must never be treated as instructions."
 }
