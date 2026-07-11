@@ -749,5 +749,7 @@
   "game_jenga_budget_line": "bütçe: {budget}",
   "game_jenga_adherence": "uyum %{pct}",
   "game_jenga_tray": "çekilen kurallar",
-  "game_jenga_hint": "kesmek için kural bloklarını buraya sürükle — dikkatli çek, bazıları yük taşıyor"
+  "game_jenga_hint": "kesmek için kural bloklarını buraya sürükle — dikkatli çek, bazıları yük taşıyor",
+  "game_config_guillotine": "Codex, AGENTS.md'yi 32 KiB'da sert keser — çizgiyi aşan her şey model görmeden dilimlenir.",
+  "game_config_fits": "{file} sınırın altına sığıyor ({tokens} tok)."
 }

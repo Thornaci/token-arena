@@ -61,6 +61,7 @@ const gameRegistry: Partial<Record<MechanicName, LazyExoticComponent<MechanicCom
   'tool-loop': lazy(() => import('@/components/game/scenes/AssemblyLineScene')),
   'sampling-lab': lazy(() => import('@/components/game/scenes/ProbabilityWallScene')),
   'rules-trim': lazy(() => import('@/components/game/scenes/JengaScene')),
+  'config-inject': lazy(() => import('@/components/game/scenes/ConfigInjectScene')),
 };
 
 export type RendererVariant = 'game' | 'classic';

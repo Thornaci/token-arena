@@ -749,5 +749,7 @@
   "game_jenga_budget_line": "budget: {budget}",
   "game_jenga_adherence": "adherence {pct}%",
   "game_jenga_tray": "pulled rules",
-  "game_jenga_hint": "drag rule blocks here to cut them — pull carefully, some are load-bearing"
+  "game_jenga_hint": "drag rule blocks here to cut them — pull carefully, some are load-bearing",
+  "game_config_guillotine": "Codex hard-caps AGENTS.md at 32 KiB — anything past the line is sliced off before the model ever sees it.",
+  "game_config_fits": "{file} fits under the cap ({tokens} tok)."
 }
