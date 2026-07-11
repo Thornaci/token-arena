@@ -53,6 +53,8 @@ const gameRegistry: Partial<Record<MechanicName, LazyExoticComponent<MechanicCom
   'needle-lab': lazy(() => import('@/components/game/scenes/CorridorScene')),
   'stateless-chat': lazy(() => import('@/components/game/scenes/ConveyorScene')),
   'history-bill': lazy(() => import('@/components/game/scenes/ConveyorScene')),
+  'tokenizer-playground': lazy(() => import('@/components/game/scenes/TokenScaleScene')),
+  'token-compare': lazy(() => import('@/components/game/scenes/TokenScaleScene')),
 };
 
 export type RendererVariant = 'game' | 'classic';

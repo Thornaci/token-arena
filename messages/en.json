@@ -717,5 +717,10 @@
   "game_conveyor_cached_seal": "CACHED −90%",
   "game_conveyor_space_note": "Cached envelopes are cheaper to read — but they still ride the belt and still fill the window. Caching cuts price, not context.",
   "l2_1_game_amnesia": "What file? What bug? I don't see any earlier conversation in this request.",
-  "l2_1_game_amnesia_explain": "The model only saw what was on the belt. Anything you left off simply does not exist for it — there is no memory waiting on the other side of the door."
+  "l2_1_game_amnesia_explain": "The model only saw what was on the belt. Anything you left off simply does not exist for it — there is no memory waiting on the other side of the door.",
+  "game_scale_aria": "token weight scale",
+  "game_scale_needle_line": "{tokens} tokens · target ≤ {target}",
+  "game_scale_tile_title": "token id {id} · {bytes} bytes",
+  "game_scale_bet_chip": "your bet",
+  "game_scale_bet_hint": "Drag the bet chip onto the string you think weighs MORE tokens — then the tiles drop and the scales settle."
 }

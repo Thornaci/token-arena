@@ -717,5 +717,10 @@
   "game_conveyor_cached_seal": "CACHED −90%",
   "game_conveyor_space_note": "Önbelleğe alınmış zarfların okunması ucuzdur — ama yine de bantta yol alır ve pencereyi doldurur. Önbellek fiyatı keser, bağlamı değil.",
   "l2_1_game_amnesia": "Hangi dosya? Hangi hata? Bu istekte daha önceki bir konuşma görmüyorum.",
-  "l2_1_game_amnesia_explain": "Model yalnızca bantta olanı gördü. Dışarıda bıraktığın her şey onun için hiç var olmadı — kapının öbür tarafında bekleyen bir hafıza yok."
+  "l2_1_game_amnesia_explain": "Model yalnızca bantta olanı gördü. Dışarıda bıraktığın her şey onun için hiç var olmadı — kapının öbür tarafında bekleyen bir hafıza yok.",
+  "game_scale_aria": "token ağırlık terazisi",
+  "game_scale_needle_line": "{tokens} token · hedef ≤ {target}",
+  "game_scale_tile_title": "token id {id} · {bytes} bayt",
+  "game_scale_bet_chip": "bahsin",
+  "game_scale_bet_hint": "Bahis çipini token olarak DAHA AĞIR olduğunu düşündüğün metnin üzerine sürükle — sonra tile'lar düşer, terazi oturur."
 }
