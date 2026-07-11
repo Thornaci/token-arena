@@ -732,5 +732,12 @@
   "game_route_hint": "Gelen kartı yönlendir: bu veri mi, yoksa talimat vermesine izin var mı?",
   "game_route_data_tray": "VERİ tepsisi — güvenilmeyen veri olarak oku",
   "game_route_tower": "talimat yığını",
-  "game_route_tower_breach": "Talimat yığınına yönlendirildi — gizlenmiş komut az önce çalıştı. Güvenilmeyen içerik asla talimat muamelesi görmemeli."
+  "game_route_tower_breach": "Talimat yığınına yönlendirildi — gizlenmiş komut az önce çalıştı. Güvenilmeyen içerik asla talimat muamelesi görmemeli.",
+  "game_press_title": "sıkıştırıcı",
+  "game_press_cube": "özet küpü",
+  "game_press_cube_line": "{from} tok, {to} tok'a preslendi",
+  "game_press_shredder": "parçalayıcı tepsisi — geri dönüşü yok",
+  "game_press_remembered": "hatırlananlar tepsisi",
+  "game_press_hint": "ajanın HÂLÂ bildiği gerçeği buraya sürükle",
+  "game_press_wrong": "parçalayıcıda bulundu"
 }

@@ -57,6 +57,7 @@ const gameRegistry: Partial<Record<MechanicName, LazyExoticComponent<MechanicCom
   'token-compare': lazy(() => import('@/components/game/scenes/TokenScaleScene')),
   'hierarchy-predict': lazy(() => import('@/components/game/scenes/TowerScene')),
   'injection-defense': lazy(() => import('@/components/game/scenes/RoutingScene')),
+  'compaction-sim': lazy(() => import('@/components/game/scenes/CompactorScene')),
 };
 
 export type RendererVariant = 'game' | 'classic';

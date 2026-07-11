@@ -732,5 +732,12 @@
   "game_route_hint": "Route the incoming card: is this data, or is it allowed to give instructions?",
   "game_route_data_tray": "DATA tray — read as untrusted data",
   "game_route_tower": "instruction stack",
-  "game_route_tower_breach": "Routed into the instruction stack — the smuggled command just executed. Untrusted content must never be treated as instructions."
+  "game_route_tower_breach": "Routed into the instruction stack — the smuggled command just executed. Untrusted content must never be treated as instructions.",
+  "game_press_title": "the compactor",
+  "game_press_cube": "summary cube",
+  "game_press_cube_line": "{from} tok pressed into {to} tok",
+  "game_press_shredder": "shredder tray — lost for good",
+  "game_press_remembered": "remembered tray",
+  "game_press_hint": "drag the fact the agent STILL knows here",
+  "game_press_wrong": "found in the shredder"
 }
