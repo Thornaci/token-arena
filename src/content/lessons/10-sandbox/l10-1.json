@@ -1,0 +1,24 @@
+{
+  "id": "L10.1",
+  "module": "sandbox",
+  "order": 1,
+  "titleKey": "l10_1_title",
+  "objectiveKey": "l10_1_objective",
+  "misconceptionKey": "l10_1_misconception",
+  "inspector": true,
+  "mechanic": "byok-chat",
+  "params": {
+    "introKey": "l10_1_intro",
+    "systemPromptKey": "l10_1_system_prompt",
+    "maxOutputTokens": 1024,
+    "defaultModels": {
+      "openai": "gpt-5-mini",
+      "anthropic": "claude-haiku-4-5",
+      "custom": "llama3.2"
+    }
+  },
+  "pass": { "type": "completeAll", "count": 1 },
+  "hints": ["l10_1_hint1", "l10_1_hint2", "l10_1_hint3"],
+  "xp": 175,
+  "badge": "sandbox-pilot"
+}

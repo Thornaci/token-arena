@@ -48,6 +48,7 @@ describe('lesson data', () => {
   it('ships every authored lesson, all schema-valid', () => {
     expect([...byId.keys()].sort()).toEqual([
       'L1.1', 'L1.2',
+      'L10.1',
       'L2.1', 'L2.2',
       'L3.1', 'L3.2',
       'L4.1', 'L4.2',
@@ -456,6 +457,24 @@ describe('L6.2 recorded fallback stays honest', () => {
         contradiction.candidates[0]!.probability,
         `pair "${pair.id}" does not flatten`,
       ).toBeLessThan(base.candidates[0]!.probability);
+    }
+  });
+});
+
+describe('L10.1 capstone structure', () => {
+  const lesson = byId.get('L10.1')!;
+  if (lesson.mechanic !== 'byok-chat') throw new Error('wrong mechanic');
+
+  it('is the optional last module, sending with the inspector open', () => {
+    expect(lesson.module).toBe('sandbox');
+    expect(lesson.inspector).toBe(true);
+    expect(lesson.pass).toEqual({ type: 'completeAll', count: 1 });
+  });
+
+  it('prefills a model name for every provider tab', () => {
+    const { defaultModels } = lesson.params;
+    for (const name of Object.values(defaultModels)) {
+      expect(name.length).toBeGreaterThan(0);
     }
   });
 });

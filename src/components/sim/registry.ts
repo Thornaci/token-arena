@@ -35,6 +35,7 @@ const registry: Partial<Record<MechanicName, LazyExoticComponent<MechanicCompone
   'tool-loop': lazy(() => import('@/components/mechanics/ToolLoop')),
   'compaction-sim': lazy(() => import('@/components/mechanics/CompactionSim')),
   'model-indecision': lazy(() => import('@/components/mechanics/ModelIndecision')),
+  'byok-chat': lazy(() => import('@/components/mechanics/ByokChat')),
 };
 
 export function getMechanic(name: MechanicName): LazyExoticComponent<MechanicComponent> | null {
