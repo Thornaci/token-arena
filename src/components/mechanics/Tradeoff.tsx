@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import type { MechanicComponentProps } from '@/components/sim/registry';
 import { evaluate } from '@/engine/scoring';
 import { lessonText } from '@/lib/lessonText';
+import { mascotEvent } from '@/stores/mascot';
 import { ChoiceQuestion, GhostButton } from './shared';
 
 /**
@@ -24,6 +25,7 @@ export default function Tradeoff({ lesson, locale, onPass }: MechanicComponentPr
   const predict = (index: number) => {
     if (!strategy || predicted !== null) return;
     setPredicted(index);
+    mascotEvent(index === strategy.downsideCorrectIndex ? 'retrieve-hit' : 'confuse');
     const verdict = evaluate(
       { type: 'tradeoff' },
       { type: 'tradeoff', predictedIndex: index, correctIndex: strategy.downsideCorrectIndex },
@@ -53,7 +55,10 @@ export default function Tradeoff({ lesson, locale, onPass }: MechanicComponentPr
             <button
               key={s.id}
               type="button"
-              onClick={() => setStrategyIndex(i)}
+              onClick={() => {
+                setStrategyIndex(i);
+                mascotEvent('send');
+              }}
               className="ta-panel cursor-pointer p-3 text-left text-sm text-(--color-ink) transition-colors hover:border-(--color-ice)"
             >
               {t(s.labelKey)}

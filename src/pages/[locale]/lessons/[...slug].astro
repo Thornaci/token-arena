@@ -6,6 +6,7 @@ import ContextInspector from '@/components/inspector/ContextInspector.tsx';
 import LessonShell from '@/components/lesson/LessonShell.tsx';
 import HudBadge from '@/components/hud/HudBadge.tsx';
 import SettingsMenu from '@/components/hud/SettingsMenu.tsx';
+import MascotDock from '@/components/mascot/MascotDock.tsx';
 import { nextLesson, sortLessons, type LessonMeta } from '@/lib/curriculum';
 import { LOCALES } from '@/lib/locales';
 import { lessonText } from '@/lib/lessonText';
@@ -50,6 +51,9 @@ const title = lessonText(lesson.titleKey, locale);
         ← Token_Arena
       </a>
       <div class="flex items-center gap-3">
+        <span class:list={[lesson.inspector && 'lg:hidden']}>
+          <MascotDock client:load locale={locale} variant="compact" />
+        </span>
         <HudBadge client:load locale={locale} totalLessons={totalLessons} />
         <SettingsMenu client:load locale={locale} />
         <LocaleSwitcher locale={locale} />
@@ -83,7 +87,10 @@ const title = lessonText(lesson.titleKey, locale);
       {
         lesson.inspector && (
           <aside class="fixed inset-x-0 bottom-0 z-40 px-2 pb-2 lg:static lg:px-0 lg:pb-0">
-            <div class="lg:sticky lg:top-6 lg:max-h-[calc(100dvh-3rem)]">
+            <div class="lg:sticky lg:top-6 lg:flex lg:max-h-[calc(100dvh-3rem)] lg:flex-col lg:gap-3">
+              <div class="hidden lg:block">
+                <MascotDock client:load locale={locale} variant="panel" />
+              </div>
               <ContextInspector client:load locale={locale} />
             </div>
           </aside>

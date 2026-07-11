@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { evaluate } from '@/engine/scoring';
 import { lessonText } from '@/lib/lessonText';
 import type { Locale } from '@/lib/locales';
+import { mascotEvent } from '@/stores/mascot';
 import { ChoiceQuestion, GhostButton, PrimaryButton } from './shared';
 
 export interface QuizRound {
@@ -55,6 +56,7 @@ export default function RoundsQuiz({
     if (answered) return;
     setSelected(index);
     setAnswers((a) => [...a, index]);
+    mascotEvent(index === correctIndex ? 'retrieve-hit' : 'confuse');
     onAnswered?.(round, index);
   };
 

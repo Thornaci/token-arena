@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import type { MechanicComponentProps } from '@/components/sim/registry';
 import { evaluate } from '@/engine/scoring';
 import { lessonText } from '@/lib/lessonText';
+import { mascotEvent, mascotReport } from '@/stores/mascot';
 import HeatStrip from './HeatStrip';
 import { ChoiceQuestion, PrimaryButton } from './shared';
 
@@ -28,6 +29,9 @@ export default function NeedleLab({ lesson, locale, onPass }: MechanicComponentP
     if (selected === null) return;
     setRevealed((r) => new Set(r).add(selected));
     setLastRun(selected);
+    const spot = spots[selected]!;
+    mascotReport({ needleRecallPct: spot.recallPct });
+    mascotEvent(spot.success ? 'retrieve-hit' : 'retrieve-miss');
 
     if (params.mode === 'position') {
       // The placement IS the answer: a successful retrieval passes the level.

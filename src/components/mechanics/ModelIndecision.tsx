@@ -8,6 +8,7 @@ import {
   type PrerecordedFile,
   type WorkerRequest,
 } from '@/engine/indecision';
+import { normalizedEntropy } from '@/engine/mascot';
 import { evaluate } from '@/engine/scoring';
 import { lessonText } from '@/lib/lessonText';
 import {
@@ -16,6 +17,7 @@ import {
   initialModelPhase,
   setStoredConsent,
 } from '@/stores/localModel';
+import { mascotEvent, mascotReport } from '@/stores/mascot';
 import { GhostButton, PrimaryButton } from './shared';
 
 const visible = (token: string) => token.replace(/ /g, '␣').replace(/\n/g, '↵');
@@ -182,9 +184,18 @@ export default function ModelIndecision({ lesson, locale, onPass }: MechanicComp
     [phase, pair, prerecorded, inferLive],
   );
 
+  // The mascot's uncertainty mirrors whatever distribution is on screen.
+  useEffect(() => {
+    const latest = freeDist ?? contraDist ?? baseDist;
+    mascotReport({
+      entropyNorm: latest ? normalizedEntropy(latest.candidates.map((c) => c.probability)) : null,
+    });
+  }, [baseDist, contraDist, freeDist]);
+
   const run = async (which: 'base' | 'contradiction') => {
     setBusy(true);
     setInferError(null);
+    mascotEvent('send');
     try {
       const distribution = await getDistribution(which);
       if (which === 'base') setBaseDist(distribution);
@@ -200,6 +211,7 @@ export default function ModelIndecision({ lesson, locale, onPass }: MechanicComp
     if (!freePrompt.trim()) return;
     setBusy(true);
     setInferError(null);
+    mascotEvent('send');
     try {
       setFreeDist(await inferLive(freePrompt));
     } catch (error) {
