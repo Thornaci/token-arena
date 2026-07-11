@@ -41,3 +41,37 @@ const registry: Partial<Record<MechanicName, LazyExoticComponent<MechanicCompone
 export function getMechanic(name: MechanicName): LazyExoticComponent<MechanicComponent> | null {
   return registry[name] ?? null;
 }
+
+/**
+ * Direct-manipulation "game" renderers (Iteration 2). A mechanic listed here
+ * renders as a physical scene by default; the classic component above stays
+ * registered forever as the fallback / Classic-mode / data-opt-out substrate.
+ */
+const gameRegistry: Partial<Record<MechanicName, LazyExoticComponent<MechanicComponent>>> = {};
+
+export type RendererVariant = 'game' | 'classic';
+
+export interface ResolvedMechanic {
+  Component: LazyExoticComponent<MechanicComponent>;
+  variant: RendererVariant;
+}
+
+/**
+ * Resolution order (spec §6.1):
+ * 1. global Classic-mode setting — the accessibility escape hatch, wins always
+ * 2. the lesson's optional `renderer: 'classic'` data opt-out
+ * 3. a registered game variant
+ * 4. the classic component
+ * prefers-reduced-motion never changes the renderer — reduced motion means an
+ * always-flushed animation queue INSIDE the game renderer, not classic.
+ */
+export function resolveMechanic(
+  lesson: Lesson,
+  rendererSetting: RendererVariant,
+): ResolvedMechanic | null {
+  const classic = registry[lesson.mechanic] ?? null;
+  const game = gameRegistry[lesson.mechanic] ?? null;
+  const forceClassic = rendererSetting === 'classic' || lesson.renderer === 'classic';
+  if (!forceClassic && game) return { Component: game, variant: 'game' };
+  return classic ? { Component: classic, variant: 'classic' } : null;
+}

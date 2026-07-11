@@ -488,6 +488,12 @@ const lessonBaseSchema = z.object({
   ecosystem: z.enum(['claude', 'openai', 'cursor']).nullable().default(null),
   /** Show the Context Inspector on this level. */
   inspector: z.boolean(),
+  /**
+   * Per-lesson renderer opt-out. Omitted (the norm) = the game renderer when
+   * one is registered for the mechanic, classic otherwise; the global
+   * "Classic mode" setting overrides everything (see sim/registry.ts).
+   */
+  renderer: z.enum(['game', 'classic']).optional(),
   initialState: initialStateSchema.optional(),
   steps: z.array(simStepSchema).default([]),
   pass: lessonPassSchema,

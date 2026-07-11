@@ -523,3 +523,25 @@ describe('Tur 3 mechanic alignment rules', () => {
     expect(messagesOf(lessonSchema.safeParse(wrong))).toContain('completeAll pass with count 1');
   });
 });
+
+describe('Tur 4 renderer field', () => {
+  it('is optional and stays absent when omitted', () => {
+    const result = lessonSchema.safeParse(validLesson);
+    expect(result.success, messagesOf(result)).toBe(true);
+    if (!result.success) return;
+    expect(result.data.renderer).toBeUndefined();
+  });
+
+  it('accepts the two known renderer values', () => {
+    for (const renderer of ['game', 'classic']) {
+      const result = lessonSchema.safeParse({ ...validLesson, renderer });
+      expect(result.success, messagesOf(result)).toBe(true);
+      if (result.success) expect(result.data.renderer).toBe(renderer);
+    }
+  });
+
+  it('rejects unknown renderer values', () => {
+    const result = lessonSchema.safeParse({ ...validLesson, renderer: 'fancy' });
+    expect(result.success).toBe(false);
+  });
+});
