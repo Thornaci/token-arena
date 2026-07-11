@@ -4,7 +4,9 @@ import {
   type AnimationBeat,
   type BeatDelivery,
 } from '@/engine/animationQueue';
+import { BEAT_EFFECTS, playEffect, shouldPlay } from '@/engine/sfx';
 import { useMotionPref, type MotionPref } from '@/lib/motionPref';
+import { progress } from '@/stores/progress';
 
 export interface SceneAnimation {
   enqueue: (beats: AnimationBeat | AnimationBeat[]) => void;
@@ -33,6 +35,11 @@ export function useAnimationQueue(): SceneAnimation {
     const unsubscribe = queue.subscribe((delivery) => {
       setLastDelivery(delivery);
       if (!delivery.instant) setIsAnimating(true);
+      // SFX ride the delivery: flush/skip/reduced are instant → silent
+      const effect = BEAT_EFFECTS[delivery.beat.kind];
+      if (effect && shouldPlay(progress.get().settings.sfx, delivery.instant)) {
+        playEffect(effect);
+      }
     });
     const unsubscribeIdle = queue.subscribeIdle(() => setIsAnimating(false));
     return () => {
