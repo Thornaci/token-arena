@@ -14,6 +14,7 @@ export function getStaticPaths() {
 }
 
 const { locale } = Astro.params;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const entries = await getCollection('lessons');
 const lessons: LessonMeta[] = entries.map((entry) => ({
@@ -34,6 +35,12 @@ const lessons: LessonMeta[] = entries.map((entry) => ({
       </p>
       <div class="flex items-center gap-3">
         <HudBadge client:load locale={locale} totalLessons={lessons.length} />
+        <a
+          href={`${base}/${locale}/summary/`}
+          class="font-mono text-xs uppercase tracking-widest text-(--color-dim) underline decoration-dotted underline-offset-4 hover:text-(--color-ink)"
+        >
+          {m.summary_map_link()}
+        </a>
         <LocaleSwitcher locale={locale} />
       </div>
     </header>

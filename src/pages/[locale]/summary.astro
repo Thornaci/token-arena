@@ -1,0 +1,78 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import LocaleSwitcher from '@/components/ui/LocaleSwitcher.astro';
+import CompletionSummary from '@/components/summary/CompletionSummary.tsx';
+import type { SummaryLesson } from '@/components/summary/CompletionSummary.tsx';
+import { sortLessons, type LessonMeta } from '@/lib/curriculum';
+import { LOCALES } from '@/lib/locales';
+import * as m from '@/paraglide/messages';
+
+export function getStaticPaths() {
+  return LOCALES.map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const entries = await getCollection('lessons');
+const metas: (LessonMeta & { badge: string | null })[] = entries.map((entry) => ({
+  id: entry.data.id,
+  slug: entry.id,
+  module: entry.data.module,
+  order: entry.data.order,
+  titleKey: entry.data.titleKey,
+  xp: entry.data.xp,
+  badge: entry.data.badge,
+}));
+const sorted = sortLessons(metas) as typeof metas;
+const toSummary = (lesson: (typeof metas)[number]): SummaryLesson => ({
+  id: lesson.id,
+  titleKey: lesson.titleKey,
+  xp: lesson.xp,
+  badge: lesson.badge,
+});
+const coreLessons = sorted.filter((lesson) => lesson.module !== 'sandbox').map(toSummary);
+const bonusLessons = sorted.filter((lesson) => lesson.module === 'sandbox').map(toSummary);
+---
+
+<Base locale={locale} title={`${m.summary_title()} · ${m.app_title()}`} description={m.app_description()}>
+  <div class="mx-auto flex min-h-dvh max-w-4xl flex-col px-5 sm:px-8">
+    <header class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 py-5">
+      <a
+        href={`${base}/${locale}/`}
+        class="font-mono text-xs uppercase tracking-[0.25em] text-(--color-faint) underline decoration-dotted underline-offset-4 hover:text-(--color-ink)"
+      >
+        ← {m.summary_back()}
+      </a>
+      <LocaleSwitcher locale={locale} />
+    </header>
+
+    <section class="py-8">
+      <h1 class="font-display text-4xl font-bold tracking-tight text-(--color-ink) sm:text-5xl">
+        {m.summary_title()}
+      </h1>
+      <p class="mt-3 max-w-xl text-(--color-dim)">{m.summary_intro()}</p>
+    </section>
+
+    <main class="pb-16">
+      <CompletionSummary
+        client:load
+        locale={locale}
+        coreLessons={coreLessons}
+        bonusLessons={bonusLessons}
+      />
+    </main>
+
+    <footer
+      class="mt-auto flex items-center justify-between border-t border-(--color-line) py-6 font-mono text-xs text-(--color-faint)"
+    >
+      <span>MIT · Token Arena</span>
+      <a
+        href="https://github.com/Thornaci/token-arena"
+        class="underline decoration-dotted underline-offset-4 hover:text-(--color-ink)"
+        >{m.footer_source()}</a
+      >
+    </footer>
+  </div>
+</Base>
