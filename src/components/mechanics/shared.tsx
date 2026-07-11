@@ -1,6 +1,22 @@
 import type { Lesson } from '@/content/schema';
 import { getModelProfile } from '@/engine/modelProfiles';
-import type { ContextState } from '@/engine/contextModel';
+import type { ContextState, Role } from '@/engine/contextModel';
+
+export const ROLE_TAG: Record<Role, string> = {
+  system: 'SYS',
+  developer: 'DEV',
+  user: 'USR',
+  assistant: 'AST',
+  tool: 'TOOL',
+};
+
+export const ROLE_COLOR: Record<Role, string> = {
+  system: 'var(--color-role-system)',
+  developer: 'var(--color-role-developer)',
+  user: 'var(--color-role-user)',
+  assistant: 'var(--color-role-assistant)',
+  tool: 'var(--color-role-tool)',
+};
 
 export function buildContextState(init: NonNullable<Lesson['initialState']>): ContextState {
   return {

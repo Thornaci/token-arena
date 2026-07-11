@@ -7,32 +7,16 @@ import {
   segmentTotals,
   type ContextBlock,
   type CountFn,
-  type Role,
 } from '@/engine/contextModel';
 import { MODEL_PROFILES, getModelProfile } from '@/engine/modelProfiles';
 import { inspectorStore, setInspectorModel } from '@/stores/inspector';
 import { lessonText } from '@/lib/lessonText';
 import type { Locale } from '@/lib/locales';
+import { ROLE_COLOR, ROLE_TAG } from '@/components/mechanics/shared';
 
 /** Lesson blocks always carry authored counts; this fallback only guards
     future free-text blocks (≈4 chars/token, the OpenAI rule of thumb). */
 const fallbackCount: CountFn = (text) => Math.ceil(text.length / 4);
-
-const ROLE_TAG: Record<Role, string> = {
-  system: 'SYS',
-  developer: 'DEV',
-  user: 'USR',
-  assistant: 'AST',
-  tool: 'TOOL',
-};
-
-const ROLE_COLOR: Record<Role, string> = {
-  system: 'var(--color-role-system)',
-  developer: 'var(--color-role-developer)',
-  user: 'var(--color-role-user)',
-  assistant: 'var(--color-role-assistant)',
-  tool: 'var(--color-role-tool)',
-};
 
 const KIND_GLYPH: Record<ContextBlock['kind'], string | null> = {
   message: null,
