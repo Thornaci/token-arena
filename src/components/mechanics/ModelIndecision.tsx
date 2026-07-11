@@ -18,14 +18,17 @@ import {
   setStoredConsent,
 } from '@/stores/localModel';
 import { mascotEvent, mascotReport } from '@/stores/mascot';
+import ProbabilityWall from '@/components/game/parts/ProbabilityWall';
 import { GhostButton, PrimaryButton } from './shared';
-
-const visible = (token: string) => token.replace(/ /g, '␣').replace(/\n/g, '↵');
 
 type Phase = 'boot' | 'consent' | 'loading' | 'live' | 'fallback';
 type FallbackReason = 'nogpu' | 'declined' | 'error';
 
-/** One prompt's top-k, rendered identically for live and recorded data. */
+/**
+ * One prompt's top-k, rendered identically for live and recorded data —
+ * on the shared Probability Wall (same part the sampling lesson uses; the
+ * renderer consumes the same distribution data structure either way).
+ */
 function DistributionBars({
   distribution,
   label,
@@ -35,7 +38,6 @@ function DistributionBars({
   label: string;
   aria: string;
 }) {
-  const top = distribution.candidates[0];
   return (
     <div className="flex min-w-0 flex-1 flex-col gap-2">
       <p className="font-mono text-xs uppercase tracking-widest text-(--color-faint)">{label}</p>
@@ -43,28 +45,7 @@ function DistributionBars({
         “<span className="text-(--color-ink)">{distribution.prompt}</span>”
         <span aria-hidden="true" className="text-(--color-phosphor)">▌</span>
       </p>
-      <ol className="flex flex-col gap-1.5" aria-label={aria}>
-        {distribution.candidates.map((candidate, i) => (
-          <li key={`${candidate.token}-${i}`} className="flex items-center gap-2">
-            <span className="w-20 shrink-0 truncate text-right font-mono text-xs text-(--color-ink)">
-              {visible(candidate.token)}
-            </span>
-            <span className="h-4 flex-1 overflow-hidden rounded-sm bg-(--color-surface)">
-              <span
-                className="block h-full motion-safe:transition-[width] motion-safe:duration-300"
-                style={{
-                  width: `${Math.max(0.5, candidate.probability * 100)}%`,
-                  background:
-                    candidate === top ? 'var(--color-phosphor)' : 'var(--color-ice)',
-                }}
-              />
-            </span>
-            <span className="w-12 shrink-0 font-mono text-[10px] text-(--color-dim)">
-              {(candidate.probability * 100).toFixed(1)}%
-            </span>
-          </li>
-        ))}
-      </ol>
+      <ProbabilityWall candidates={distribution.candidates} ariaLabel={aria} heightPx={110} />
     </div>
   );
 }
