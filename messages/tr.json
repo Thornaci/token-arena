@@ -744,5 +744,10 @@
   "game_line_sort_hint": "istasyonları döngünün gerçekte çalıştığı sıraya sürükle (klavye: Boşluk ile kaldır, oklarla taşı)",
   "game_wall_aria": "olasılık duvarı — sütun yüksekliği olasılıktır",
   "game_wall_drop_cta": "bilyeyi bırak",
-  "game_wall_samples": "{n} bırakış"
+  "game_wall_samples": "{n} bırakış",
+  "game_jenga_status": "{kept} / {budget} token tutuldu · uyum %{pct}",
+  "game_jenga_budget_line": "bütçe: {budget}",
+  "game_jenga_adherence": "uyum %{pct}",
+  "game_jenga_tray": "çekilen kurallar",
+  "game_jenga_hint": "kesmek için kural bloklarını buraya sürükle — dikkatli çek, bazıları yük taşıyor"
 }

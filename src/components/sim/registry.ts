@@ -60,6 +60,7 @@ const gameRegistry: Partial<Record<MechanicName, LazyExoticComponent<MechanicCom
   'compaction-sim': lazy(() => import('@/components/game/scenes/CompactorScene')),
   'tool-loop': lazy(() => import('@/components/game/scenes/AssemblyLineScene')),
   'sampling-lab': lazy(() => import('@/components/game/scenes/ProbabilityWallScene')),
+  'rules-trim': lazy(() => import('@/components/game/scenes/JengaScene')),
 };
 
 export type RendererVariant = 'game' | 'classic';

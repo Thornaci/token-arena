@@ -744,5 +744,10 @@
   "game_line_sort_hint": "drag the stations into the order the loop actually runs (keyboard: Space to lift, arrows to move)",
   "game_wall_aria": "probability wall — column height is probability",
   "game_wall_drop_cta": "drop the marble",
-  "game_wall_samples": "{n} drops"
+  "game_wall_samples": "{n} drops",
+  "game_jenga_status": "{kept} / {budget} tokens kept · adherence {pct}%",
+  "game_jenga_budget_line": "budget: {budget}",
+  "game_jenga_adherence": "adherence {pct}%",
+  "game_jenga_tray": "pulled rules",
+  "game_jenga_hint": "drag rule blocks here to cut them — pull carefully, some are load-bearing"
 }
