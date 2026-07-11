@@ -1,0 +1,93 @@
+{
+  "id": "L8.1",
+  "module": "tools",
+  "order": 1,
+  "titleKey": "l8_1_title",
+  "objectiveKey": "l8_1_objective",
+  "misconceptionKey": "l8_1_misconception",
+  "inspector": true,
+  "mechanic": "tool-loop",
+  "initialState": {
+    "modelId": "generic-128k",
+    "reservedOutput": 400,
+    "blocks": [
+      {
+        "id": "sys",
+        "role": "system",
+        "kind": "message",
+        "labelKey": "l8_1_block_sys",
+        "fixedTokens": 300
+      },
+      {
+        "id": "tooldef",
+        "role": "system",
+        "kind": "tool-def",
+        "labelKey": "l8_1_block_tooldef",
+        "fixedTokens": 220
+      }
+    ]
+  },
+  "steps": [
+    { "type": "narrate", "textKey": "l8_1_step_intro" },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "ask",
+        "role": "user",
+        "kind": "message",
+        "labelKey": "l8_1_block_ask",
+        "fixedTokens": 25
+      }
+    },
+    { "type": "sendRequest", "noteKey": "l8_1_send1" },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "call",
+        "role": "assistant",
+        "kind": "message",
+        "labelKey": "l8_1_block_call",
+        "fixedTokens": 40
+      }
+    },
+    { "type": "narrate", "textKey": "l8_1_step_yourcode" },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "result",
+        "role": "tool",
+        "kind": "tool-result",
+        "labelKey": "l8_1_block_result",
+        "fixedTokens": 35
+      }
+    },
+    { "type": "sendRequest", "noteKey": "l8_1_send2" },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "answer",
+        "role": "assistant",
+        "kind": "message",
+        "labelKey": "l8_1_block_answer",
+        "fixedTokens": 45
+      }
+    },
+    { "type": "narrate", "textKey": "l8_1_step_wrap" }
+  ],
+  "params": {
+    "cards": [
+      { "textKey": "l8_1_card_ask" },
+      { "textKey": "l8_1_card_emit" },
+      { "textKey": "l8_1_card_exec" },
+      { "textKey": "l8_1_card_append" },
+      { "textKey": "l8_1_card_reship" },
+      { "textKey": "l8_1_card_answer" }
+    ],
+    "initialOrder": [3, 0, 4, 2, 5, 1],
+    "orderPromptKey": "l8_1_order_prompt"
+  },
+  "pass": { "type": "ordering", "size": 6 },
+  "hints": ["l8_1_hint1", "l8_1_hint2", "l8_1_hint3"],
+  "xp": 150,
+  "badge": null
+}

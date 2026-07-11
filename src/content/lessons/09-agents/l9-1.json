@@ -1,0 +1,168 @@
+{
+  "id": "L9.1",
+  "module": "agents",
+  "order": 1,
+  "titleKey": "l9_1_title",
+  "objectiveKey": "l9_1_objective",
+  "misconceptionKey": "l9_1_misconception",
+  "inspector": true,
+  "mechanic": "compaction-sim",
+  "initialState": {
+    "modelId": "generic-8k",
+    "reservedOutput": 800,
+    "blocks": [
+      {
+        "id": "sys",
+        "role": "system",
+        "kind": "message",
+        "labelKey": "l9_1_block_sys",
+        "fixedTokens": 400
+      }
+    ]
+  },
+  "steps": [
+    { "type": "narrate", "textKey": "l9_1_step_intro" },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "t1",
+        "role": "user",
+        "kind": "message",
+        "labelKey": "l9_1_block_t1",
+        "fixedTokens": 60
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "t2",
+        "role": "assistant",
+        "kind": "message",
+        "labelKey": "l9_1_block_t2",
+        "fixedTokens": 250
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "t3",
+        "role": "tool",
+        "kind": "tool-result",
+        "labelKey": "l9_1_block_t3",
+        "fixedTokens": 2100
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "t4",
+        "role": "assistant",
+        "kind": "message",
+        "labelKey": "l9_1_block_t4",
+        "fixedTokens": 180
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "t5",
+        "role": "tool",
+        "kind": "tool-result",
+        "labelKey": "l9_1_block_t5",
+        "fixedTokens": 2300
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "t6",
+        "role": "user",
+        "kind": "message",
+        "labelKey": "l9_1_block_t6",
+        "fixedTokens": 40
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "t7",
+        "role": "assistant",
+        "kind": "message",
+        "labelKey": "l9_1_block_t7",
+        "fixedTokens": 160
+      }
+    },
+    { "type": "narrate", "textKey": "l9_1_step_pressure" },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "t8",
+        "role": "tool",
+        "kind": "tool-result",
+        "labelKey": "l9_1_block_t8",
+        "fixedTokens": 1900
+      }
+    },
+    { "type": "freeze", "noteKey": "l9_1_freeze_over", "targetBlockId": "t8" },
+    { "type": "narrate", "textKey": "l9_1_step_compaction" },
+    { "type": "removeBlock", "blockId": "t2" },
+    { "type": "removeBlock", "blockId": "t3" },
+    { "type": "removeBlock", "blockId": "t5" },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "summary",
+        "role": "system",
+        "kind": "message",
+        "labelKey": "l9_1_block_summary",
+        "fixedTokens": 350
+      }
+    },
+    { "type": "narrate", "textKey": "l9_1_step_aftermath" },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "t9",
+        "role": "user",
+        "kind": "message",
+        "labelKey": "l9_1_block_t9",
+        "fixedTokens": 45
+      }
+    },
+    { "type": "sendRequest", "noteKey": "l9_1_send_after" },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "t10",
+        "role": "assistant",
+        "kind": "message",
+        "labelKey": "l9_1_block_t10",
+        "fixedTokens": 120
+      }
+    },
+    { "type": "narrate", "textKey": "l9_1_step_cost" }
+  ],
+  "params": {
+    "rounds": [
+      {
+        "promptKey": "l9_1_r1_prompt",
+        "optionKeys": ["l9_1_r1_opt0", "l9_1_r1_opt1", "l9_1_r1_opt2"],
+        "explainKey": "l9_1_r1_explain"
+      },
+      {
+        "promptKey": "l9_1_r2_prompt",
+        "optionKeys": ["l9_1_r2_opt0", "l9_1_r2_opt1", "l9_1_r2_opt2"],
+        "explainKey": "l9_1_r2_explain"
+      },
+      {
+        "promptKey": "l9_1_r3_prompt",
+        "optionKeys": ["l9_1_r3_opt0", "l9_1_r3_opt1", "l9_1_r3_opt2"],
+        "explainKey": "l9_1_r3_explain"
+      }
+    ]
+  },
+  "pass": { "type": "choiceRounds", "correctIndexes": [1, 0, 0], "minCorrect": 2 },
+  "hints": ["l9_1_hint1", "l9_1_hint2", "l9_1_hint3"],
+  "xp": 175,
+  "badge": "compaction-survivor"
+}

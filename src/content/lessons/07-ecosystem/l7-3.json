@@ -1,0 +1,31 @@
+{
+  "id": "L7.3",
+  "module": "ecosystem",
+  "order": 3,
+  "titleKey": "l7_3_title",
+  "objectiveKey": "l7_3_objective",
+  "misconceptionKey": "l7_3_misconception",
+  "inspector": false,
+  "mechanic": "rules-trim",
+  "params": {
+    "introKey": "l7_3_intro",
+    "fileName": "CLAUDE.md",
+    "rules": [
+      { "id": "expert", "textKey": "l7_3_rule_expert", "tokens": 340, "loadBearing": false },
+      { "id": "tests", "textKey": "l7_3_rule_tests", "tokens": 180, "loadBearing": true },
+      { "id": "clean", "textKey": "l7_3_rule_clean", "tokens": 310, "loadBearing": false },
+      { "id": "migrate", "textKey": "l7_3_rule_migrate", "tokens": 140, "loadBearing": true },
+      { "id": "stepbystep", "textKey": "l7_3_rule_stepbystep", "tokens": 290, "loadBearing": false },
+      { "id": "env", "textKey": "l7_3_rule_env", "tokens": 90, "loadBearing": true },
+      { "id": "detail", "textKey": "l7_3_rule_detail", "tokens": 380, "loadBearing": false },
+      { "id": "vpn", "textKey": "l7_3_rule_vpn", "tokens": 110, "loadBearing": true },
+      { "id": "kind", "textKey": "l7_3_rule_kind", "tokens": 260, "loadBearing": false },
+      { "id": "elegant", "textKey": "l7_3_rule_elegant", "tokens": 300, "loadBearing": false }
+    ],
+    "successKey": "l7_3_success"
+  },
+  "pass": { "type": "budgetFit", "budget": 900 },
+  "hints": ["l7_3_hint1", "l7_3_hint2", "l7_3_hint3"],
+  "xp": 150,
+  "badge": "config-surgeon"
+}

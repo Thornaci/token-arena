@@ -1,0 +1,44 @@
+{
+  "id": "L6.1",
+  "module": "sampling",
+  "order": 1,
+  "titleKey": "l6_1_title",
+  "objectiveKey": "l6_1_objective",
+  "misconceptionKey": "l6_1_misconception",
+  "inspector": false,
+  "mechanic": "sampling-lab",
+  "params": {
+    "promptText": "The capital of France is",
+    "candidates": [
+      { "token": " Paris", "logit": 6.8 },
+      { "token": " the", "logit": 3.9 },
+      { "token": " located", "logit": 3.1 },
+      { "token": " a", "logit": 2.6 },
+      { "token": " widely", "logit": 1.9 },
+      { "token": " Marseille", "logit": 1.2 }
+    ],
+    "temperatures": [0.2, 0.7, 1.0, 1.3, 1.8],
+    "topPStops": [0.5, 0.8, 0.95, 1.0],
+    "rounds": [
+      {
+        "promptKey": "l6_1_r1_prompt",
+        "optionKeys": ["l6_1_r1_opt0", "l6_1_r1_opt1", "l6_1_r1_opt2"],
+        "explainKey": "l6_1_r1_explain"
+      },
+      {
+        "promptKey": "l6_1_r2_prompt",
+        "optionKeys": ["l6_1_r2_opt0", "l6_1_r2_opt1", "l6_1_r2_opt2"],
+        "explainKey": "l6_1_r2_explain"
+      },
+      {
+        "promptKey": "l6_1_r3_prompt",
+        "optionKeys": ["l6_1_r3_opt0", "l6_1_r3_opt1", "l6_1_r3_opt2"],
+        "explainKey": "l6_1_r3_explain"
+      }
+    ]
+  },
+  "pass": { "type": "choiceRounds", "correctIndexes": [0, 1, 0], "minCorrect": 2 },
+  "hints": ["l6_1_hint1", "l6_1_hint2", "l6_1_hint3"],
+  "xp": 150,
+  "badge": null
+}

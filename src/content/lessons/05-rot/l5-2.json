@@ -1,0 +1,29 @@
+{
+  "id": "L5.2",
+  "module": "rot",
+  "order": 2,
+  "titleKey": "l5_2_title",
+  "objectiveKey": "l5_2_objective",
+  "misconceptionKey": "l5_2_misconception",
+  "inspector": false,
+  "mechanic": "needle-lab",
+  "params": {
+    "mode": "length",
+    "needleKey": "l5_2_needle",
+    "questionKey": "l5_2_question",
+    "options": [
+      { "labelKey": "l5_2_opt_lean", "contextTokens": 2000, "recallPct": 96, "success": true },
+      { "labelKey": "l5_2_opt_roomy", "contextTokens": 12000, "recallPct": 83, "success": true },
+      { "labelKey": "l5_2_opt_bulky", "contextTokens": 60000, "recallPct": 61, "success": false },
+      { "labelKey": "l5_2_opt_maxed", "contextTokens": 150000, "recallPct": 37, "success": false }
+    ],
+    "promptKey": "l5_2_commit_prompt",
+    "explainKey": "l5_2_explain",
+    "hitKey": "l5_2_hit",
+    "missKey": "l5_2_miss"
+  },
+  "pass": { "type": "choice", "correctIndex": 0 },
+  "hints": ["l5_2_hint1", "l5_2_hint2", "l5_2_hint3"],
+  "xp": 125,
+  "badge": null
+}

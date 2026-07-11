@@ -1,0 +1,70 @@
+{
+  "id": "L3.1",
+  "module": "context-window",
+  "order": 1,
+  "titleKey": "l3_1_title",
+  "objectiveKey": "l3_1_objective",
+  "misconceptionKey": "l3_1_misconception",
+  "inspector": true,
+  "mechanic": "window-fit",
+  "initialState": {
+    "modelId": "generic-8k",
+    "reservedOutput": 1000,
+    "blocks": [
+      {
+        "id": "sys",
+        "role": "system",
+        "kind": "message",
+        "labelKey": "l3_1_block_sys",
+        "fixedTokens": 600
+      },
+      {
+        "id": "guide",
+        "role": "system",
+        "kind": "config-file",
+        "labelKey": "l3_1_block_guide",
+        "fixedTokens": 900
+      },
+      {
+        "id": "log",
+        "role": "user",
+        "kind": "attachment",
+        "labelKey": "l3_1_block_log",
+        "fixedTokens": 7400
+      },
+      {
+        "id": "ticket",
+        "role": "user",
+        "kind": "message",
+        "labelKey": "l3_1_block_ticket",
+        "fixedTokens": 500
+      },
+      {
+        "id": "chat",
+        "role": "user",
+        "kind": "message",
+        "labelKey": "l3_1_block_chat",
+        "fixedTokens": 800
+      }
+    ]
+  },
+  "params": {
+    "items": [
+      { "blockId": "guide", "removable": true },
+      {
+        "blockId": "log",
+        "removable": true,
+        "required": true,
+        "summaryTokens": 700,
+        "summaryLabelKey": "l3_1_log_summary"
+      },
+      { "blockId": "chat", "removable": true }
+    ],
+    "errorKey": "l3_1_error",
+    "successKey": "l3_1_success"
+  },
+  "pass": { "type": "budgetFit", "budget": 8000 },
+  "hints": ["l3_1_hint1", "l3_1_hint2", "l3_1_hint3"],
+  "xp": 125,
+  "badge": null
+}

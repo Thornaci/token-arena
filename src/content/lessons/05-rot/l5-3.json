@@ -1,0 +1,55 @@
+{
+  "id": "L5.3",
+  "module": "rot",
+  "order": 3,
+  "titleKey": "l5_3_title",
+  "objectiveKey": "l5_3_objective",
+  "misconceptionKey": "l5_3_misconception",
+  "inspector": false,
+  "mechanic": "tradeoff",
+  "params": {
+    "scenarioKey": "l5_3_scenario",
+    "strategies": [
+      {
+        "id": "compact",
+        "labelKey": "l5_3_s1_label",
+        "outcomeKey": "l5_3_s1_outcome",
+        "downsidePromptKey": "l5_3_s1_prompt",
+        "downsideOptionKeys": ["l5_3_s1_opt0", "l5_3_s1_opt1", "l5_3_s1_opt2", "l5_3_s1_opt3"],
+        "downsideCorrectIndex": 2,
+        "explainKey": "l5_3_s1_explain"
+      },
+      {
+        "id": "drop-old",
+        "labelKey": "l5_3_s2_label",
+        "outcomeKey": "l5_3_s2_outcome",
+        "downsidePromptKey": "l5_3_s2_prompt",
+        "downsideOptionKeys": ["l5_3_s2_opt0", "l5_3_s2_opt1", "l5_3_s2_opt2", "l5_3_s2_opt3"],
+        "downsideCorrectIndex": 0,
+        "explainKey": "l5_3_s2_explain"
+      },
+      {
+        "id": "fresh",
+        "labelKey": "l5_3_s3_label",
+        "outcomeKey": "l5_3_s3_outcome",
+        "downsidePromptKey": "l5_3_s3_prompt",
+        "downsideOptionKeys": ["l5_3_s3_opt0", "l5_3_s3_opt1", "l5_3_s3_opt2", "l5_3_s3_opt3"],
+        "downsideCorrectIndex": 3,
+        "explainKey": "l5_3_s3_explain"
+      },
+      {
+        "id": "nothing",
+        "labelKey": "l5_3_s4_label",
+        "outcomeKey": "l5_3_s4_outcome",
+        "downsidePromptKey": "l5_3_s4_prompt",
+        "downsideOptionKeys": ["l5_3_s4_opt0", "l5_3_s4_opt1", "l5_3_s4_opt2", "l5_3_s4_opt3"],
+        "downsideCorrectIndex": 1,
+        "explainKey": "l5_3_s4_explain"
+      }
+    ]
+  },
+  "pass": { "type": "tradeoff" },
+  "hints": ["l5_3_hint1", "l5_3_hint2", "l5_3_hint3"],
+  "xp": 150,
+  "badge": "tradeoff-realist"
+}

@@ -1,0 +1,98 @@
+{
+  "id": "L7.2",
+  "module": "ecosystem",
+  "order": 2,
+  "titleKey": "l7_2_title",
+  "objectiveKey": "l7_2_objective",
+  "misconceptionKey": "l7_2_misconception",
+  "inspector": true,
+  "mechanic": "config-inject",
+  "initialState": {
+    "modelId": "generic-200k",
+    "reservedOutput": 800,
+    "blocks": [
+      {
+        "id": "sys",
+        "role": "system",
+        "kind": "message",
+        "labelKey": "l7_2_block_sys",
+        "fixedTokens": 300
+      },
+      {
+        "id": "repo",
+        "role": "user",
+        "kind": "attachment",
+        "labelKey": "l7_2_block_repo",
+        "fixedTokens": 1500
+      },
+      {
+        "id": "ask",
+        "role": "user",
+        "kind": "message",
+        "labelKey": "l7_2_block_ask",
+        "fixedTokens": 80
+      }
+    ]
+  },
+  "params": {
+    "tabs": [
+      {
+        "id": "claude",
+        "fileName": "CLAUDE.md",
+        "factKeys": ["l7_2_claude_fact1", "l7_2_claude_fact2", "l7_2_claude_fact3"],
+        "block": {
+          "id": "cfg-claude",
+          "role": "system",
+          "kind": "config-file",
+          "labelKey": "l7_2_claude_block",
+          "fixedTokens": 850
+        }
+      },
+      {
+        "id": "agents",
+        "fileName": "AGENTS.md",
+        "factKeys": ["l7_2_agents_fact1", "l7_2_agents_fact2", "l7_2_agents_fact3"],
+        "block": {
+          "id": "cfg-agents",
+          "role": "system",
+          "kind": "config-file",
+          "labelKey": "l7_2_agents_block",
+          "fixedTokens": 620
+        }
+      },
+      {
+        "id": "cursor",
+        "fileName": ".cursor/rules",
+        "factKeys": ["l7_2_cursor_fact1", "l7_2_cursor_fact2"],
+        "block": {
+          "id": "cfg-cursor",
+          "role": "system",
+          "kind": "config-file",
+          "labelKey": "l7_2_cursor_block",
+          "fixedTokens": 480
+        }
+      }
+    ],
+    "rounds": [
+      {
+        "promptKey": "l7_2_r1_prompt",
+        "optionKeys": ["l7_2_r1_opt0", "l7_2_r1_opt1", "l7_2_r1_opt2"],
+        "explainKey": "l7_2_r1_explain"
+      },
+      {
+        "promptKey": "l7_2_r2_prompt",
+        "optionKeys": ["l7_2_r2_opt0", "l7_2_r2_opt1", "l7_2_r2_opt2"],
+        "explainKey": "l7_2_r2_explain"
+      },
+      {
+        "promptKey": "l7_2_r3_prompt",
+        "optionKeys": ["l7_2_r3_opt0", "l7_2_r3_opt1", "l7_2_r3_opt2"],
+        "explainKey": "l7_2_r3_explain"
+      }
+    ]
+  },
+  "pass": { "type": "choiceRounds", "correctIndexes": [2, 1, 0], "minCorrect": 2 },
+  "hints": ["l7_2_hint1", "l7_2_hint2", "l7_2_hint3"],
+  "xp": 150,
+  "badge": null
+}

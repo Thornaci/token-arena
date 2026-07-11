@@ -1,0 +1,43 @@
+{
+  "id": "L3.2",
+  "module": "context-window",
+  "order": 2,
+  "titleKey": "l3_2_title",
+  "objectiveKey": "l3_2_objective",
+  "misconceptionKey": "l3_2_misconception",
+  "inspector": true,
+  "mechanic": "output-reserve",
+  "initialState": {
+    "modelId": "generic-8k",
+    "reservedOutput": 128,
+    "blocks": [
+      {
+        "id": "sys",
+        "role": "system",
+        "kind": "message",
+        "labelKey": "l3_2_block_sys",
+        "fixedTokens": 500
+      },
+      {
+        "id": "code",
+        "role": "user",
+        "kind": "attachment",
+        "labelKey": "l3_2_block_code",
+        "fixedTokens": 5500
+      }
+    ]
+  },
+  "params": {
+    "requiredOutputTokens": 1200,
+    "sliderMax": 4000,
+    "sliderStep": 64,
+    "taskKey": "l3_2_task",
+    "fullReplyKey": "l3_2_full_reply",
+    "truncatedReplyKey": "l3_2_truncated_reply",
+    "successKey": "l3_2_success"
+  },
+  "pass": { "type": "budgetFit", "budget": 8000 },
+  "hints": ["l3_2_hint1", "l3_2_hint2", "l3_2_hint3"],
+  "xp": 150,
+  "badge": "window-warden"
+}

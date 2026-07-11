@@ -1,0 +1,59 @@
+{
+  "id": "L4.1",
+  "module": "hierarchy",
+  "order": 1,
+  "titleKey": "l4_1_title",
+  "objectiveKey": "l4_1_objective",
+  "misconceptionKey": "l4_1_misconception",
+  "inspector": false,
+  "mechanic": "hierarchy-predict",
+  "params": {
+    "rounds": [
+      {
+        "blocks": [
+          { "role": "system", "textKey": "l4_1_r1_sys" },
+          { "role": "user", "textKey": "l4_1_r1_user" }
+        ],
+        "winnerIndex": 0,
+        "promptKey": "l4_1_r1_prompt",
+        "optionKeys": ["l4_1_r1_opt0", "l4_1_r1_opt1", "l4_1_r1_opt2"],
+        "explainKey": "l4_1_r1_explain"
+      },
+      {
+        "blocks": [
+          { "role": "developer", "textKey": "l4_1_r2_dev" },
+          { "role": "user", "textKey": "l4_1_r2_user" }
+        ],
+        "winnerIndex": 0,
+        "promptKey": "l4_1_r2_prompt",
+        "optionKeys": ["l4_1_r2_opt0", "l4_1_r2_opt1", "l4_1_r2_opt2"],
+        "explainKey": "l4_1_r2_explain"
+      },
+      {
+        "blocks": [
+          { "role": "system", "textKey": "l4_1_r3_sys" },
+          { "role": "user", "textKey": "l4_1_r3_user" }
+        ],
+        "winnerIndex": 1,
+        "promptKey": "l4_1_r3_prompt",
+        "optionKeys": ["l4_1_r3_opt0", "l4_1_r3_opt1", "l4_1_r3_opt2"],
+        "explainKey": "l4_1_r3_explain"
+      },
+      {
+        "blocks": [
+          { "role": "system", "textKey": "l4_1_r4_sys" },
+          { "role": "tool", "textKey": "l4_1_r4_tool" },
+          { "role": "user", "textKey": "l4_1_r4_user" }
+        ],
+        "winnerIndex": 0,
+        "promptKey": "l4_1_r4_prompt",
+        "optionKeys": ["l4_1_r4_opt0", "l4_1_r4_opt1", "l4_1_r4_opt2"],
+        "explainKey": "l4_1_r4_explain"
+      }
+    ]
+  },
+  "pass": { "type": "choiceRounds", "correctIndexes": [1, 0, 2, 0], "minCorrect": 3 },
+  "hints": ["l4_1_hint1", "l4_1_hint2", "l4_1_hint3"],
+  "xp": 125,
+  "badge": null
+}

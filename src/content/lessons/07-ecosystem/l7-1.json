@@ -1,0 +1,38 @@
+{
+  "id": "L7.1",
+  "module": "ecosystem",
+  "order": 1,
+  "titleKey": "l7_1_title",
+  "objectiveKey": "l7_1_objective",
+  "misconceptionKey": "l7_1_misconception",
+  "inspector": false,
+  "mechanic": "quiz",
+  "params": {
+    "rounds": [
+      {
+        "promptKey": "l7_1_r1_prompt",
+        "optionKeys": ["l7_1_cat_model", "l7_1_cat_ide", "l7_1_cat_cli"],
+        "explainKey": "l7_1_r1_explain"
+      },
+      {
+        "promptKey": "l7_1_r2_prompt",
+        "optionKeys": ["l7_1_cat_model", "l7_1_cat_ide", "l7_1_cat_cli"],
+        "explainKey": "l7_1_r2_explain"
+      },
+      {
+        "promptKey": "l7_1_r3_prompt",
+        "optionKeys": ["l7_1_cat_model", "l7_1_cat_ide", "l7_1_cat_cli"],
+        "explainKey": "l7_1_r3_explain"
+      },
+      {
+        "promptKey": "l7_1_r4_prompt",
+        "optionKeys": ["l7_1_cat_model", "l7_1_cat_ide", "l7_1_cat_cli"],
+        "explainKey": "l7_1_r4_explain"
+      }
+    ]
+  },
+  "pass": { "type": "choiceRounds", "correctIndexes": [1, 0, 2, 0], "minCorrect": 3 },
+  "hints": ["l7_1_hint1", "l7_1_hint2", "l7_1_hint3"],
+  "xp": 100,
+  "badge": null
+}

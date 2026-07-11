@@ -1,0 +1,89 @@
+{
+  "id": "L4.2",
+  "module": "hierarchy",
+  "order": 2,
+  "titleKey": "l4_2_title",
+  "objectiveKey": "l4_2_objective",
+  "misconceptionKey": "l4_2_misconception",
+  "inspector": true,
+  "mechanic": "injection-defense",
+  "initialState": {
+    "modelId": "generic-128k",
+    "reservedOutput": 500,
+    "blocks": [
+      {
+        "id": "sys",
+        "role": "system",
+        "kind": "message",
+        "labelKey": "l4_2_block_sys",
+        "fixedTokens": 350
+      },
+      {
+        "id": "tooldef",
+        "role": "system",
+        "kind": "tool-def",
+        "labelKey": "l4_2_block_tooldef",
+        "fixedTokens": 250
+      },
+      {
+        "id": "task",
+        "role": "user",
+        "kind": "message",
+        "labelKey": "l4_2_block_task",
+        "fixedTokens": 60
+      }
+    ]
+  },
+  "params": {
+    "defenses": [
+      {
+        "id": "harden",
+        "labelKey": "l4_2_def_harden",
+        "descKey": "l4_2_def_harden_desc",
+        "costTokens": 120
+      },
+      {
+        "id": "input-guard",
+        "labelKey": "l4_2_def_input",
+        "descKey": "l4_2_def_input_desc",
+        "costTokens": 300
+      },
+      {
+        "id": "output-guard",
+        "labelKey": "l4_2_def_output",
+        "descKey": "l4_2_def_output_desc",
+        "costTokens": 250
+      }
+    ],
+    "attempts": [
+      {
+        "id": "direct",
+        "introKey": "l4_2_a1_intro",
+        "attackKey": "l4_2_a1_attack",
+        "requiredDefenseIds": ["harden"],
+        "resistKey": "l4_2_a1_resist",
+        "breachKey": "l4_2_a1_breach"
+      },
+      {
+        "id": "smuggled",
+        "introKey": "l4_2_a2_intro",
+        "attackKey": "l4_2_a2_attack",
+        "requiredDefenseIds": ["harden", "input-guard"],
+        "resistKey": "l4_2_a2_resist",
+        "breachKey": "l4_2_a2_breach"
+      },
+      {
+        "id": "exfiltrate",
+        "introKey": "l4_2_a3_intro",
+        "attackKey": "l4_2_a3_attack",
+        "requiredDefenseIds": ["harden", "input-guard", "output-guard"],
+        "resistKey": "l4_2_a3_resist",
+        "breachKey": "l4_2_a3_breach"
+      }
+    ]
+  },
+  "pass": { "type": "completeAll", "count": 3 },
+  "hints": ["l4_2_hint1", "l4_2_hint2", "l4_2_hint3"],
+  "xp": 175,
+  "badge": "injection-resister"
+}
