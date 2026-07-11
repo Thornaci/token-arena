@@ -1,0 +1,43 @@
+{
+  "id": "L1.2",
+  "module": "tokens",
+  "order": 2,
+  "titleKey": "l1_2_title",
+  "objectiveKey": "l1_2_objective",
+  "misconceptionKey": "l1_2_misconception",
+  "inspector": false,
+  "mechanic": "token-compare",
+  "params": {
+    "encoding": "o200k_base",
+    "rounds": [
+      {
+        "promptKey": "l1_2_round_prompt",
+        "a": "The quick brown fox jumps over the lazy dog",
+        "b": "Çevik kahverengi tilki tembel köpeğin üstünden atlar",
+        "explainKey": "l1_2_explain_r1"
+      },
+      {
+        "promptKey": "l1_2_round_prompt",
+        "a": "hello world hello world",
+        "b": "🚀🔥✨🎉🥳",
+        "explainKey": "l1_2_explain_r2"
+      },
+      {
+        "promptKey": "l1_2_round_prompt",
+        "a": "for (let i = 0; i < 10; i++) console.log(i)",
+        "b": "internationalization",
+        "explainKey": "l1_2_explain_r3"
+      },
+      {
+        "promptKey": "l1_2_round_prompt",
+        "a": "    indented    with    extra    spaces    ",
+        "b": "indented with extra spaces",
+        "explainKey": "l1_2_explain_r4"
+      }
+    ]
+  },
+  "pass": { "type": "choiceRounds", "correctIndexes": [1, 1, 0, 0], "minCorrect": 3 },
+  "hints": ["l1_2_hint1", "l1_2_hint2", "l1_2_hint3"],
+  "xp": 100,
+  "badge": null
+}

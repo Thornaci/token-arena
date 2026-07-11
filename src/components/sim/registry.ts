@@ -1,4 +1,4 @@
-import type { ComponentType, LazyExoticComponent } from 'react';
+import { lazy, type ComponentType, type LazyExoticComponent } from 'react';
 import type { Lesson, MechanicName } from '@/content/schema';
 import type { Locale } from '@/lib/locales';
 
@@ -17,7 +17,11 @@ export type MechanicComponent = ComponentType<MechanicComponentProps>;
  * Entries are lazy so each mechanic ships as its own chunk.
  */
 const registry: Partial<Record<MechanicName, LazyExoticComponent<MechanicComponent>>> = {
-  // Mechanics are registered as they are implemented (Modules 0–2 first).
+  'intro-tour': lazy(() => import('@/components/mechanics/IntroTour')),
+  'tokenizer-playground': lazy(() => import('@/components/mechanics/TokenizerChallenge')),
+  'token-compare': lazy(() => import('@/components/mechanics/TokenCompare')),
+  'stateless-chat': lazy(() => import('@/components/mechanics/StatelessChat')),
+  'history-bill': lazy(() => import('@/components/mechanics/HistoryBill')),
 };
 
 export function getMechanic(name: MechanicName): LazyExoticComponent<MechanicComponent> | null {

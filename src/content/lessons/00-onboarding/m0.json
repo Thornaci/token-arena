@@ -1,0 +1,22 @@
+{
+  "id": "M0",
+  "module": "onboarding",
+  "order": 0,
+  "titleKey": "m0_title",
+  "objectiveKey": "m0_objective",
+  "misconceptionKey": null,
+  "inspector": true,
+  "mechanic": "intro-tour",
+  "params": {
+    "slides": [
+      { "textKey": "m0_s_welcome", "highlight": "none" },
+      { "textKey": "m0_s_inspector", "highlight": "inspector" },
+      { "textKey": "m0_s_blocks", "highlight": "blocks" },
+      { "textKey": "m0_s_lessons", "highlight": "none" }
+    ]
+  },
+  "pass": { "type": "none" },
+  "hints": ["m0_hint1", "m0_hint2", "m0_hint3"],
+  "xp": 25,
+  "badge": null
+}

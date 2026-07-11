@@ -1,0 +1,49 @@
+{
+  "id": "L2.2",
+  "module": "request-loop",
+  "order": 2,
+  "titleKey": "l2_2_title",
+  "objectiveKey": "l2_2_objective",
+  "misconceptionKey": "l2_2_misconception",
+  "inspector": true,
+  "mechanic": "history-bill",
+  "initialState": {
+    "modelId": "generic-128k",
+    "reservedOutput": 0,
+    "blocks": [
+      {
+        "id": "sys",
+        "role": "system",
+        "kind": "message",
+        "labelKey": "l2_2_sys",
+        "fixedTokens": 400
+      },
+      {
+        "id": "brief",
+        "role": "user",
+        "kind": "attachment",
+        "labelKey": "l2_2_file",
+        "fixedTokens": 2600
+      }
+    ]
+  },
+  "params": {
+    "turns": [
+      { "labelKey": "l2_2_t1", "inputTokens": 50, "outputTokens": 150 },
+      { "labelKey": "l2_2_t2", "inputTokens": 60, "outputTokens": 140 },
+      { "labelKey": "l2_2_t3", "inputTokens": 40, "outputTokens": 160 },
+      { "labelKey": "l2_2_t4", "inputTokens": 55, "outputTokens": 145 },
+      { "labelKey": "l2_2_t5", "inputTokens": 45, "outputTokens": 155 }
+    ],
+    "pricePerMTokIn": 300,
+    "cachedReadFactor": 0.1,
+    "question": {
+      "promptKey": "l2_2_q_prompt",
+      "optionKeys": ["l2_2_q_opt0", "l2_2_q_opt1", "l2_2_q_opt2", "l2_2_q_opt3"]
+    }
+  },
+  "pass": { "type": "choice", "correctIndex": 1 },
+  "hints": ["l2_2_hint1", "l2_2_hint2", "l2_2_hint3"],
+  "xp": 125,
+  "badge": null
+}

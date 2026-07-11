@@ -1,0 +1,59 @@
+{
+  "id": "L2.1",
+  "module": "request-loop",
+  "order": 1,
+  "titleKey": "l2_1_title",
+  "objectiveKey": "l2_1_objective",
+  "misconceptionKey": "l2_1_misconception",
+  "inspector": true,
+  "mechanic": "stateless-chat",
+  "initialState": {
+    "modelId": "generic-8k",
+    "reservedOutput": 0,
+    "blocks": [
+      {
+        "id": "sys",
+        "role": "system",
+        "kind": "message",
+        "labelKey": "l2_1_sys",
+        "fixedTokens": 12
+      }
+    ]
+  },
+  "params": {
+    "turns": [
+      {
+        "userKey": "l2_1_u1",
+        "userTokens": 8,
+        "assistantKey": "l2_1_a1",
+        "assistantTokens": 14
+      },
+      {
+        "userKey": "l2_1_u2",
+        "userTokens": 7,
+        "assistantKey": "l2_1_a2",
+        "assistantTokens": 42
+      },
+      {
+        "userKey": "l2_1_u3",
+        "userTokens": 8,
+        "assistantKey": "l2_1_a3",
+        "assistantTokens": 16
+      },
+      {
+        "userKey": "l2_1_u4",
+        "userTokens": 8,
+        "assistantKey": "l2_1_a4",
+        "assistantTokens": 22
+      }
+    ],
+    "question": {
+      "promptKey": "l2_1_q_prompt",
+      "optionKeys": ["l2_1_q_opt0", "l2_1_q_opt1", "l2_1_q_opt2", "l2_1_q_opt3"]
+    }
+  },
+  "pass": { "type": "choice", "correctIndex": 2 },
+  "hints": ["l2_1_hint1", "l2_1_hint2", "l2_1_hint3"],
+  "xp": 125,
+  "badge": null
+}

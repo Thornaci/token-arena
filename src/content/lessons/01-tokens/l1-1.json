@@ -1,0 +1,32 @@
+{
+  "id": "L1.1",
+  "module": "tokens",
+  "order": 1,
+  "titleKey": "l1_1_title",
+  "objectiveKey": "l1_1_objective",
+  "misconceptionKey": "l1_1_misconception",
+  "inspector": false,
+  "mechanic": "tokenizer-playground",
+  "params": {
+    "defaultEncoding": "o200k_base",
+    "challenges": [
+      {
+        "kind": "reduceTokens",
+        "id": "trim-the-fat",
+        "promptKey": "l1_1_c1_prompt",
+        "seedText": "Please could you kindly summarize the following document for me?",
+        "targetTokens": 6
+      },
+      {
+        "kind": "findMultiTokenWord",
+        "id": "word-splitter",
+        "promptKey": "l1_1_c2_prompt",
+        "minTokens": 4
+      }
+    ]
+  },
+  "pass": { "type": "completeAll", "count": 2 },
+  "hints": ["l1_1_hint1", "l1_1_hint2", "l1_1_hint3"],
+  "xp": 100,
+  "badge": "tokenizer-whisperer"
+}

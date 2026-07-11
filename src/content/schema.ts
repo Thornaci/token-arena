@@ -147,7 +147,16 @@ const tokenCompareParams = z
   .object({
     encoding: encodingSchema,
     rounds: z
-      .array(z.object({ promptKey: z.string(), a: z.string().min(1), b: z.string().min(1) }).strict())
+      .array(
+        z
+          .object({
+            promptKey: z.string(),
+            a: z.string().min(1),
+            b: z.string().min(1),
+            explainKey: z.string().optional(),
+          })
+          .strict(),
+      )
       .min(1),
   })
   .strict();
