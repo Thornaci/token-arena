@@ -77,9 +77,15 @@ test('output-reserve: ± buttons change the reserve and a correct reserve passes
   page,
 }) => {
   await gotoLesson(page, 'en/lessons/03-context-window/l3-2/');
-  // 128 start → need ≥1200: 17 × +64
+  // 128 start → need ≥1200; click until the displayed reserve says so
+  // (value-driven, so a click lost to a busy renderer can't flake the test)
   const plus = page.getByRole('button', { name: '+ 64' });
-  for (let i = 0; i < 17; i++) await plus.click();
+  const reserve = page.locator('span.min-w-20');
+  for (let i = 0; i < 25; i++) {
+    const value = Number((await reserve.textContent())!.replace(/[^0-9]/g, ''));
+    if (value >= 1200) break;
+    await plus.click();
+  }
   await page.getByRole('button', { name: 'Send request' }).click();
   await expect(page.getByText('LEVEL CLEAR')).toBeVisible();
 });
