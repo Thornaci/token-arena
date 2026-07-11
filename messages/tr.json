@@ -706,5 +706,16 @@
   "game_corridor_fog_note": "ışık = hatırlama — uçlar aydınlık, orta sisli",
   "game_corridor_grow_cta": "+ dolgu ekle",
   "game_corridor_shrink_cta": "− dolgu çıkar",
-  "game_corridor_length_line": "bağlam: {tokens} token"
+  "game_corridor_length_line": "bağlam: {tokens} token",
+  "game_conveyor_belt": "taşıma bandı",
+  "game_conveyor_hand": "bantta değil — model bunları asla görmeyecek",
+  "game_conveyor_hand_hint": "Modelin görmesi gereken her zarfı banda sürükle, sonra gönder.",
+  "game_conveyor_model_door": "model",
+  "game_conveyor_parcel": "{tokens} tok",
+  "game_conveyor_group_turn": "tur {n}",
+  "game_conveyor_envelope_new": "yeni mesaj (4. tur)",
+  "game_conveyor_cached_seal": "CACHED −90%",
+  "game_conveyor_space_note": "Önbelleğe alınmış zarfların okunması ucuzdur — ama yine de bantta yol alır ve pencereyi doldurur. Önbellek fiyatı keser, bağlamı değil.",
+  "l2_1_game_amnesia": "Hangi dosya? Hangi hata? Bu istekte daha önceki bir konuşma görmüyorum.",
+  "l2_1_game_amnesia_explain": "Model yalnızca bantta olanı gördü. Dışarıda bıraktığın her şey onun için hiç var olmadı — kapının öbür tarafında bekleyen bir hafıza yok."
 }

@@ -706,5 +706,16 @@
   "game_corridor_fog_note": "light = recall — the ends are lit, the middle is fog",
   "game_corridor_grow_cta": "+ add filler",
   "game_corridor_shrink_cta": "− remove filler",
-  "game_corridor_length_line": "context: {tokens} tokens"
+  "game_corridor_length_line": "context: {tokens} tokens",
+  "game_conveyor_belt": "conveyor belt",
+  "game_conveyor_hand": "not on the belt — the model will never see these",
+  "game_conveyor_hand_hint": "Drag every envelope the model should see onto the belt, then send.",
+  "game_conveyor_model_door": "model",
+  "game_conveyor_parcel": "{tokens} tok",
+  "game_conveyor_group_turn": "turn {n}",
+  "game_conveyor_envelope_new": "new message (turn 4)",
+  "game_conveyor_cached_seal": "CACHED −90%",
+  "game_conveyor_space_note": "Cached envelopes are cheaper to read — but they still ride the belt and still fill the window. Caching cuts price, not context.",
+  "l2_1_game_amnesia": "What file? What bug? I don't see any earlier conversation in this request.",
+  "l2_1_game_amnesia_explain": "The model only saw what was on the belt. Anything you left off simply does not exist for it — there is no memory waiting on the other side of the door."
 }

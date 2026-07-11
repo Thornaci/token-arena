@@ -51,6 +51,8 @@ const gameRegistry: Partial<Record<MechanicName, LazyExoticComponent<MechanicCom
   'window-fit': lazy(() => import('@/components/game/scenes/ContainerScene')),
   'output-reserve': lazy(() => import('@/components/game/scenes/ContainerScene')),
   'needle-lab': lazy(() => import('@/components/game/scenes/CorridorScene')),
+  'stateless-chat': lazy(() => import('@/components/game/scenes/ConveyorScene')),
+  'history-bill': lazy(() => import('@/components/game/scenes/ConveyorScene')),
 };
 
 export type RendererVariant = 'game' | 'classic';

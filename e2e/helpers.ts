@@ -56,6 +56,23 @@ export async function dragTo(page: Page, source: Locator, target: Locator): Prom
 }
 
 /**
+ * dragTo with a postcondition — retries once if layout reflow between
+ * boundingBox reads made the first attempt grab thin air.
+ */
+export async function dragUntil(
+  page: Page,
+  source: Locator,
+  target: Locator,
+  landed: Locator,
+): Promise<void> {
+  for (let attempt = 0; attempt < 2; attempt++) {
+    await dragTo(page, source, target);
+    if ((await landed.count()) > 0) return;
+  }
+  throw new Error('drag did not land after two attempts');
+}
+
+/**
  * Keyboard drag via dnd-kit's KeyboardSensor: Enter picks up, arrows move
  * 25px per press, Enter drops. Deterministic and viewport-independent-ish.
  */
