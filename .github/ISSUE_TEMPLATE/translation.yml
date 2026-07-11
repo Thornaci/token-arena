@@ -1,0 +1,25 @@
+name: Translation
+description: Offer a new locale or report a translation problem
+labels: [i18n]
+body:
+  - type: input
+    id: locale
+    attributes:
+      label: Locale
+      placeholder: e.g. de, es, ja
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What is this?
+      options:
+        - I want to contribute a new locale
+        - A translation is wrong or awkward
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: For fixes, quote the key from messages/<locale>.json and the suggested wording.

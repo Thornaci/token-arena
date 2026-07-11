@@ -1,0 +1,30 @@
+name: Bug report
+description: Something renders wrong, computes wrong, or breaks
+labels: [bug]
+body:
+  - type: input
+    id: url
+    attributes:
+      label: Where
+      description: Lesson or page URL (e.g. /en/lessons/03-context-window/l3-1/)
+      placeholder: /en/lessons/…
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, what you got. Screenshots welcome.
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Browser / OS
+      placeholder: e.g. Chrome 138 on macOS, Safari on iOS 26
+  - type: checkboxes
+    id: accuracy
+    attributes:
+      label: Accuracy
+      options:
+        - label: This is a factual error in lesson content (what the lesson claims is not true)

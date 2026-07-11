@@ -1,0 +1,31 @@
+name: Lesson proposal
+description: Propose a new lesson or a new mechanic
+labels: [lesson]
+body:
+  - type: input
+    id: misconception
+    attributes:
+      label: The misconception it kills
+      description: Every lesson exists to break one false belief. Which one?
+      placeholder: '"Temperature makes the model smarter."'
+    validations:
+      required: true
+  - type: textarea
+    id: interaction
+    attributes:
+      label: What the player does
+      description: The interaction, step by step. Which existing mechanic fits — or why a new one is needed.
+    validations:
+      required: true
+  - type: input
+    id: pass
+    attributes:
+      label: Pass criterion
+      description: How does the player demonstrably get it? (see pass-check types in CONTRIBUTING.md)
+    validations:
+      required: true
+  - type: textarea
+    id: truth
+    attributes:
+      label: Ground truth
+      description: Sources or a way a test can recompute the lesson's numbers (the data-reality lock).
