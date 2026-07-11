@@ -10,13 +10,16 @@ export type PassCheck =
   /** One multiple-choice question. */
   | { type: 'choice'; correctIndex: number }
   /** Several prediction rounds; pass when at least `minCorrect` are right. */
-  | { type: 'choiceRounds'; correctIndexes: readonly number[]; minCorrect: number };
+  | { type: 'choiceRounds'; correctIndexes: readonly number[]; minCorrect: number }
+  /** Finish all `count` sub-challenges of a level. */
+  | { type: 'completeAll'; count: number };
 
 export type Evidence =
   | { type: 'tokenCount'; tokens: number }
   | { type: 'word'; word: string; tokens: number }
   | { type: 'choice'; selectedIndex: number }
-  | { type: 'choices'; selectedIndexes: readonly number[] };
+  | { type: 'choices'; selectedIndexes: readonly number[] }
+  | { type: 'counter'; completed: number };
 
 export interface ScoreResult {
   pass: boolean;
@@ -57,6 +60,10 @@ export function evaluate(check: PassCheck, evidence: Evidence): ScoreResult {
         0,
       );
       return { pass: correctCount >= check.minCorrect, correctCount };
+    }
+    case 'completeAll': {
+      if (evidence.type !== 'counter') return mismatch(check, evidence);
+      return { pass: evidence.completed >= check.count, correctCount: evidence.completed };
     }
   }
 }

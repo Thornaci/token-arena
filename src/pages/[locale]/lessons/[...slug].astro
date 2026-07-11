@@ -1,0 +1,40 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import LocaleSwitcher from '@/components/ui/LocaleSwitcher.astro';
+import MechanicHost from '@/components/sim/MechanicHost';
+import { LOCALES } from '@/lib/locales';
+import { lessonText } from '@/lib/lessonText';
+
+export async function getStaticPaths() {
+  const lessons = await getCollection('lessons');
+  return LOCALES.flatMap((locale) =>
+    lessons.map((entry) => ({
+      params: { locale, slug: entry.id },
+      props: { lesson: entry.data },
+    })),
+  );
+}
+
+const { locale } = Astro.params;
+const { lesson } = Astro.props;
+const title = lessonText(lesson.titleKey);
+---
+
+<Base locale={locale} title={`${title} · Token Arena`}>
+  <header class="flex items-center justify-between px-6 py-4">
+    <a
+      href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/${locale}/`}
+      class="font-mono text-sm text-zinc-500 hover:text-zinc-200">← Token Arena</a
+    >
+    <LocaleSwitcher locale={locale} />
+  </header>
+  <main class="mx-auto max-w-5xl px-6 py-8">
+    <p class="font-mono text-xs uppercase tracking-widest text-zinc-500">{lesson.id}</p>
+    <h1 class="mt-1 text-2xl font-bold text-zinc-50">{title}</h1>
+    <p class="mt-2 max-w-2xl text-zinc-400">{lessonText(lesson.objectiveKey)}</p>
+    <div class="mt-8">
+      <MechanicHost client:load lesson={lesson} locale={locale} />
+    </div>
+  </main>
+</Base>

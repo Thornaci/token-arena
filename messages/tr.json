@@ -12,5 +12,17 @@
   "models_claudeClass": "Claude sınıfı (200K)",
   "models_geminiClass": "Gemini sınıfı (1M)",
   "tokens_estimate_badge": "tahmini",
-  "tokens_estimate_note": "Bu model ailesi için doğru bir açık kaynak tokenizer yok; sayımlar yaklaşık değerdir."
+  "tokens_estimate_note": "Bu model ailesi için doğru bir açık kaynak tokenizer yok; sayımlar yaklaşık değerdir.",
+  "ui_loading": "Yükleniyor…",
+  "module_onboarding_title": "Buradan Başla",
+  "module_tokens_title": "Token Nedir?",
+  "module_request_loop_title": "Gönder'e Basınca Ne Olur",
+  "module_context_window_title": "Bağlam Penceresi",
+  "module_hierarchy_title": "Talimat Hiyerarşisi",
+  "module_rot_title": "Bağlam Çürümesi",
+  "module_sampling_title": "Örnekleme",
+  "module_ecosystem_title": "Konfig Dosyaları ve Araçlar",
+  "module_tools_title": "Araç Kullanım Döngüsü",
+  "module_agents_title": "Ajan Hafızası ve Sıkıştırma",
+  "module_sandbox_title": "Gerçek Model Sahası"
 }

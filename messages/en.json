@@ -12,5 +12,17 @@
   "models_claudeClass": "Claude-class (200K)",
   "models_geminiClass": "Gemini-class (1M)",
   "tokens_estimate_badge": "estimate",
-  "tokens_estimate_note": "There is no accurate open-source tokenizer for this model family, so counts are approximations."
+  "tokens_estimate_note": "There is no accurate open-source tokenizer for this model family, so counts are approximations.",
+  "ui_loading": "Loading…",
+  "module_onboarding_title": "Start Here",
+  "module_tokens_title": "What Is a Token?",
+  "module_request_loop_title": "What Happens When You Hit Send",
+  "module_context_window_title": "The Context Window",
+  "module_hierarchy_title": "Instruction Hierarchy",
+  "module_rot_title": "Context Rot",
+  "module_sampling_title": "Sampling",
+  "module_ecosystem_title": "Config Files & Tools",
+  "module_tools_title": "The Tool-Use Loop",
+  "module_agents_title": "Agent Memory & Compaction",
+  "module_sandbox_title": "Real-Model Sandbox"
 }
