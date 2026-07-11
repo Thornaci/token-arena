@@ -22,13 +22,19 @@ export function sortLessons(lessons: readonly LessonMeta[]): LessonMeta[] {
   });
 }
 
-/** Sequential unlock: a lesson opens when the previous one is completed. */
+/**
+ * Sequential unlock: a lesson opens when the previous one is completed.
+ * A completed lesson is always unlocked — inserting a new lesson into the
+ * curriculum must never lock out progress a player already earned.
+ */
 export function isUnlocked(
   sorted: readonly LessonMeta[],
   index: number,
   completedLevels: readonly string[],
 ): boolean {
   if (index <= 0) return true;
+  const lesson = sorted[index];
+  if (lesson !== undefined && completedLevels.includes(lesson.id)) return true;
   const previous = sorted[index - 1];
   return previous !== undefined && completedLevels.includes(previous.id);
 }
