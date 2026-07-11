@@ -231,9 +231,9 @@ export default function ModelIndecision({ lesson, locale, onPass }: MechanicComp
 
       {phase === 'consent' && (
         <div className="ta-panel ta-notched flex flex-col gap-3 p-4">
-          <h3 className="font-mono text-sm font-semibold uppercase tracking-widest text-(--color-ink)">
+          <h2 className="font-mono text-sm font-semibold uppercase tracking-widest text-(--color-ink)">
             {t('l6_2_consent_title')}
-          </h3>
+          </h2>
           <p className="text-sm text-(--color-dim)">{t('l6_2_consent_body', { size: downloadSizeMB })}</p>
           <p className="font-mono text-xs text-(--color-faint)">{t('l6_2_consent_note')}</p>
           <div className="flex flex-wrap gap-3">

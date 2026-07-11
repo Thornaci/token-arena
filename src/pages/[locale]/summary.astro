@@ -48,14 +48,14 @@ const bonusLessons = sorted.filter((lesson) => lesson.module === 'sandbox').map(
       <LocaleSwitcher locale={locale} />
     </header>
 
-    <section class="py-8">
-      <h1 class="font-display text-4xl font-bold tracking-tight text-(--color-ink) sm:text-5xl">
-        {m.summary_title()}
-      </h1>
-      <p class="mt-3 max-w-xl text-(--color-dim)">{m.summary_intro()}</p>
-    </section>
-
     <main class="pb-16">
+      <section class="py-8">
+        <h1 class="font-display text-4xl font-bold tracking-tight text-(--color-ink) sm:text-5xl">
+          {m.summary_title()}
+        </h1>
+        <p class="mt-3 max-w-xl text-(--color-dim)">{m.summary_intro()}</p>
+      </section>
+
       <CompletionSummary
         client:load
         locale={locale}

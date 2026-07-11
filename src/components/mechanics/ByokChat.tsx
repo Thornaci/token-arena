@@ -370,7 +370,12 @@ export default function ByokChat({ lesson, locale, onPass }: MechanicComponentPr
         <summary className="cursor-pointer font-mono text-xs uppercase tracking-widest text-(--color-dim)">
           {t('byok_payload_summary')}
         </summary>
-        <pre className="mt-2 overflow-x-auto font-mono text-xs text-(--color-dim)">
+        <pre
+          tabIndex={0}
+          role="region"
+          aria-label={t('byok_payload_summary')}
+          className="mt-2 overflow-x-auto font-mono text-xs text-(--color-dim)"
+        >
           {JSON.stringify(
             { url: request.url, headers: redactedHeaders(request.headers), body: request.body },
             null,
