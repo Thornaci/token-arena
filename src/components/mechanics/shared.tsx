@@ -21,8 +21,8 @@ interface ChoiceQuestionProps {
 
 export function ChoiceQuestion({ prompt, options, selected, onSelect, verdict }: ChoiceQuestionProps) {
   return (
-    <fieldset className="ta-panel p-4">
-      <legend className="float-left mb-3 w-full font-medium text-(--color-ink)">{prompt}</legend>
+    <div role="radiogroup" aria-label={prompt} className="ta-panel p-4">
+      <p className="mb-3 font-medium text-(--color-ink)">{prompt}</p>
       <div className="flex flex-col gap-2">
         {options.map((option, i) => {
           const isSelected = selected === i;
@@ -58,7 +58,7 @@ export function ChoiceQuestion({ prompt, options, selected, onSelect, verdict }:
           );
         })}
       </div>
-    </fieldset>
+    </div>
   );
 }
 

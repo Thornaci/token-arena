@@ -8,7 +8,7 @@ import type { ModelProfile } from './contextModel';
 export const MODEL_PROFILES: readonly ModelProfile[] = [
   {
     id: 'generic-8k',
-    labelKey: 'models.generic8k',
+    labelKey: 'models_generic8k',
     family: 'generic',
     contextWindow: 8_000,
     encoding: 'o200k_base',
@@ -16,7 +16,7 @@ export const MODEL_PROFILES: readonly ModelProfile[] = [
   },
   {
     id: 'generic-128k',
-    labelKey: 'models.generic128k',
+    labelKey: 'models_generic128k',
     family: 'generic',
     contextWindow: 128_000,
     encoding: 'o200k_base',
@@ -24,7 +24,7 @@ export const MODEL_PROFILES: readonly ModelProfile[] = [
   },
   {
     id: 'generic-200k',
-    labelKey: 'models.generic200k',
+    labelKey: 'models_generic200k',
     family: 'generic',
     contextWindow: 200_000,
     encoding: 'o200k_base',
@@ -32,7 +32,7 @@ export const MODEL_PROFILES: readonly ModelProfile[] = [
   },
   {
     id: 'generic-1m',
-    labelKey: 'models.generic1m',
+    labelKey: 'models_generic1m',
     family: 'generic',
     contextWindow: 1_000_000,
     encoding: 'o200k_base',
@@ -40,7 +40,7 @@ export const MODEL_PROFILES: readonly ModelProfile[] = [
   },
   {
     id: 'gpt-class-128k',
-    labelKey: 'models.gptClass',
+    labelKey: 'models_gptClass',
     family: 'openai',
     contextWindow: 128_000,
     encoding: 'o200k_base',
@@ -48,7 +48,7 @@ export const MODEL_PROFILES: readonly ModelProfile[] = [
   },
   {
     id: 'claude-class-200k',
-    labelKey: 'models.claudeClass',
+    labelKey: 'models_claudeClass',
     family: 'anthropic',
     contextWindow: 200_000,
     encoding: 'o200k_base',
@@ -56,7 +56,7 @@ export const MODEL_PROFILES: readonly ModelProfile[] = [
   },
   {
     id: 'gemini-class-1m',
-    labelKey: 'models.geminiClass',
+    labelKey: 'models_geminiClass',
     family: 'google',
     contextWindow: 1_000_000,
     encoding: 'o200k_base',
