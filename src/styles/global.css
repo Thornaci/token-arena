@@ -1,12 +1,183 @@
 @import "tailwindcss";
 
+/*
+ * Token Arena design system — "instrument panel for the machine's mind".
+ * Dark-first phosphor-terminal aesthetic: near-black green-cast surfaces,
+ * one loud phosphor accent, amber/red reserved for budget warnings, and a
+ * fixed role palette for context blocks. Meaning is never hue-only: roles
+ * also carry text tags, chips carry indexes, reserved segments are hatched.
+ */
+
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-display: "Bricolage Grotesque Variable", "IBM Plex Sans", sans-serif;
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* surfaces */
+  --color-bg: #0a0f0d;
+  --color-surface: #10171380;
+  --color-surface-solid: #101713;
+  --color-raised: #17211c;
+  --color-line: #24332b;
+  --color-line-bright: #3a5245;
+
+  /* ink */
+  --color-ink: #d9e7de;
+  --color-dim: #8fa89b;
+  --color-faint: #5c7568;
+
+  /* signals */
+  --color-phosphor: #34e88a;
+  --color-phosphor-deep: #17a35b;
+  --color-amber: #ffb454;
+  --color-alert: #ff6057;
+  --color-ice: #5ecbff;
+
+  /* context-block roles (each pairs with a text tag, never hue-only) */
+  --color-role-system: #c0a3ff;
+  --color-role-developer: #ff9de2;
+  --color-role-user: #5ecbff;
+  --color-role-assistant: #34e88a;
+  --color-role-tool: #ffb454;
+  --color-role-file: #f5d76e;
+  --color-role-reserved: #7d938a;
+
+  /* token chip cycle (order-fixed; chips are also index-numbered) */
+  --color-chip-1: #2e4a3c;
+  --color-chip-2: #1f3d4a;
+  --color-chip-3: #46402a;
+  --color-chip-4: #3d2e4a;
+  --color-chip-5: #4a2e33;
+
+  --shadow-panel: 0 0 0 1px var(--color-line), 0 12px 40px -18px rgb(0 0 0 / 0.9);
+  --shadow-glow: 0 0 24px -6px color-mix(in oklab, var(--color-phosphor) 55%, transparent);
 }
 
-/* Dark-mode-first: dark is the default and only theme for now.
-   Keep colors behind variables so a light theme can be added later. */
 :root {
   color-scheme: dark;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    /* engineering graph paper, barely there */
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgb(52 232 138 / 0.05), transparent),
+      radial-gradient(rgb(217 231 222 / 0.045) 1px, transparent 1px);
+    background-size: auto, 24px 24px;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-phosphor) 30%, transparent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-phosphor);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  /* IC-chip style panel with notched corners — the app's signature frame */
+  .ta-panel {
+    background: var(--color-surface);
+    box-shadow: var(--shadow-panel);
+    border-radius: 0.5rem;
+    backdrop-filter: blur(4px);
+  }
+
+  .ta-notched {
+    clip-path: polygon(
+      0.75rem 0, 100% 0, 100% calc(100% - 0.75rem),
+      calc(100% - 0.75rem) 100%, 0 100%, 0 0.75rem
+    );
+  }
+
+  .ta-kbd {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 0.1rem 0.4rem;
+    border: 1px solid var(--color-line-bright);
+    border-bottom-width: 2px;
+    border-radius: 0.25rem;
+    background: var(--color-raised);
+  }
+
+  /* hatched pattern for "reserved output" — meaning beyond hue */
+  .ta-hatch {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent 0 4px,
+      rgb(217 231 222 / 0.28) 4px 6px
+    );
+  }
+}
+
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 14px color-mix(in oklab, var(--color-phosphor) 60%, transparent);
+  }
+}
+
+/* Functional motion only — and none for those who ask for none. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes ta-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(3px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes ta-pulse-pad {
+  0%, 100% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-phosphor) 45%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 6px transparent;
+  }
+}
+
+@keyframes ta-alarm {
+  0%, 100% {
+    border-color: var(--color-alert);
+  }
+  50% {
+    border-color: color-mix(in oklab, var(--color-alert) 35%, var(--color-line));
+  }
+}
+
+@keyframes ta-envelope {
+  0% {
+    transform: translateX(0) scaleY(1);
+    opacity: 1;
+  }
+  35% {
+    transform: translateX(0) scaleY(0.12);
+    opacity: 1;
+  }
+  80% {
+    transform: translateX(var(--ta-envelope-distance, 240px)) scaleY(0.12);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(var(--ta-envelope-distance, 240px)) scaleY(0.12);
+    opacity: 0;
+  }
 }

@@ -5,6 +5,8 @@ import type { Locale } from '@/lib/locales';
 export interface MechanicComponentProps {
   lesson: Lesson;
   locale: Locale;
+  /** Idempotent: the lesson shell records completion/XP exactly once. */
+  onPass: () => void;
 }
 
 export type MechanicComponent = ComponentType<MechanicComponentProps>;

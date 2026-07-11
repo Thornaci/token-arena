@@ -2,39 +2,91 @@
 import { getCollection } from 'astro:content';
 import Base from '@/layouts/Base.astro';
 import LocaleSwitcher from '@/components/ui/LocaleSwitcher.astro';
-import MechanicHost from '@/components/sim/MechanicHost';
+import ContextInspector from '@/components/inspector/ContextInspector.tsx';
+import LessonShell from '@/components/lesson/LessonShell.tsx';
+import HudBadge from '@/components/hud/HudBadge.tsx';
+import { nextLesson, sortLessons, type LessonMeta } from '@/lib/curriculum';
 import { LOCALES } from '@/lib/locales';
 import { lessonText } from '@/lib/lessonText';
 
 export async function getStaticPaths() {
-  const lessons = await getCollection('lessons');
+  const entries = await getCollection('lessons');
+  const metas: LessonMeta[] = entries.map((entry) => ({
+    id: entry.data.id,
+    slug: entry.id,
+    module: entry.data.module,
+    order: entry.data.order,
+    titleKey: entry.data.titleKey,
+    xp: entry.data.xp,
+  }));
+  const sorted = sortLessons(metas);
+
   return LOCALES.flatMap((locale) =>
-    lessons.map((entry) => ({
+    entries.map((entry) => ({
       params: { locale, slug: entry.id },
-      props: { lesson: entry.data },
+      props: {
+        lesson: entry.data,
+        next: nextLesson(sorted, entry.data.id),
+        totalLessons: entries.length,
+      },
     })),
   );
 }
 
 const { locale } = Astro.params;
-const { lesson } = Astro.props;
-const title = lessonText(lesson.titleKey);
+const { lesson, next, totalLessons } = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const mapHref = `${base}/${locale}/`;
+const nextHref = next ? `${base}/${locale}/lessons/${next.slug}/` : mapHref;
+const title = lessonText(lesson.titleKey, locale);
 ---
 
 <Base locale={locale} title={`${title} · Token Arena`}>
-  <header class="flex items-center justify-between px-6 py-4">
-    <a
-      href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/${locale}/`}
-      class="font-mono text-sm text-zinc-500 hover:text-zinc-200">← Token Arena</a
+  <div class="mx-auto flex min-h-dvh max-w-6xl flex-col px-5 sm:px-8">
+    <header class="flex items-center justify-between gap-3 py-4">
+      <a href={mapHref} class="font-mono text-sm text-(--color-faint) hover:text-(--color-ink)">
+        ← Token_Arena
+      </a>
+      <div class="flex items-center gap-3">
+        <HudBadge client:load locale={locale} totalLessons={totalLessons} />
+        <LocaleSwitcher locale={locale} />
+      </div>
+    </header>
+
+    <div
+      class:list={[
+        'grid grid-cols-1 gap-6 pb-28 lg:pb-16',
+        lesson.inspector && 'lg:grid-cols-[minmax(0,1fr)_360px]',
+      ]}
     >
-    <LocaleSwitcher locale={locale} />
-  </header>
-  <main class="mx-auto max-w-5xl px-6 py-8">
-    <p class="font-mono text-xs uppercase tracking-widest text-zinc-500">{lesson.id}</p>
-    <h1 class="mt-1 text-2xl font-bold text-zinc-50">{title}</h1>
-    <p class="mt-2 max-w-2xl text-zinc-400">{lessonText(lesson.objectiveKey)}</p>
-    <div class="mt-8">
-      <MechanicHost client:load lesson={lesson} locale={locale} />
+      <main>
+        <p class="font-mono text-xs uppercase tracking-[0.25em] text-(--color-faint)">
+          {lesson.id}
+        </p>
+        <h1 class="mt-1 font-display text-3xl font-bold text-(--color-ink)">{title}</h1>
+        <p class="mt-2 max-w-2xl text-(--color-dim)">{lessonText(lesson.objectiveKey, locale)}</p>
+
+        <div class="mt-8">
+          <LessonShell
+            client:load
+            lesson={lesson}
+            locale={locale}
+            nextHref={nextHref}
+            nextIsMap={!next}
+          />
+        </div>
+      </main>
+
+      {
+        lesson.inspector && (
+          <aside class="fixed inset-x-0 bottom-0 z-40 px-2 pb-2 lg:static lg:px-0 lg:pb-0">
+            <div class="lg:sticky lg:top-6 lg:max-h-[calc(100dvh-3rem)]">
+              <ContextInspector client:load locale={locale} />
+            </div>
+          </aside>
+        )
+      }
     </div>
-  </main>
+  </div>
 </Base>
