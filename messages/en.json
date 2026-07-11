@@ -739,5 +739,7 @@
   "game_press_shredder": "shredder tray — lost for good",
   "game_press_remembered": "remembered tray",
   "game_press_hint": "drag the fact the agent STILL knows here",
-  "game_press_wrong": "found in the shredder"
+  "game_press_wrong": "found in the shredder",
+  "game_line_window": "the context window",
+  "game_line_sort_hint": "drag the stations into the order the loop actually runs (keyboard: Space to lift, arrows to move)"
 }

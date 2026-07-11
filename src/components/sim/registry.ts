@@ -58,6 +58,7 @@ const gameRegistry: Partial<Record<MechanicName, LazyExoticComponent<MechanicCom
   'hierarchy-predict': lazy(() => import('@/components/game/scenes/TowerScene')),
   'injection-defense': lazy(() => import('@/components/game/scenes/RoutingScene')),
   'compaction-sim': lazy(() => import('@/components/game/scenes/CompactorScene')),
+  'tool-loop': lazy(() => import('@/components/game/scenes/AssemblyLineScene')),
 };
 
 export type RendererVariant = 'game' | 'classic';

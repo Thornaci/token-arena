@@ -739,5 +739,7 @@
   "game_press_shredder": "parçalayıcı tepsisi — geri dönüşü yok",
   "game_press_remembered": "hatırlananlar tepsisi",
   "game_press_hint": "ajanın HÂLÂ bildiği gerçeği buraya sürükle",
-  "game_press_wrong": "parçalayıcıda bulundu"
+  "game_press_wrong": "parçalayıcıda bulundu",
+  "game_line_window": "bağlam penceresi",
+  "game_line_sort_hint": "istasyonları döngünün gerçekte çalıştığı sıraya sürükle (klavye: Boşluk ile kaldır, oklarla taşı)"
 }
