@@ -5,6 +5,7 @@ import LocaleSwitcher from '@/components/ui/LocaleSwitcher.astro';
 import ContextInspector from '@/components/inspector/ContextInspector.tsx';
 import LessonShell from '@/components/lesson/LessonShell.tsx';
 import HudBadge from '@/components/hud/HudBadge.tsx';
+import SettingsMenu from '@/components/hud/SettingsMenu.tsx';
 import { nextLesson, sortLessons, type LessonMeta } from '@/lib/curriculum';
 import { LOCALES } from '@/lib/locales';
 import { lessonText } from '@/lib/lessonText';
@@ -50,6 +51,7 @@ const title = lessonText(lesson.titleKey, locale);
       </a>
       <div class="flex items-center gap-3">
         <HudBadge client:load locale={locale} totalLessons={totalLessons} />
+        <SettingsMenu client:load locale={locale} />
         <LocaleSwitcher locale={locale} />
       </div>
     </header>

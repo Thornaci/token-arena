@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Base from '@/layouts/Base.astro';
 import LocaleSwitcher from '@/components/ui/LocaleSwitcher.astro';
 import HudBadge from '@/components/hud/HudBadge.tsx';
+import SettingsMenu from '@/components/hud/SettingsMenu.tsx';
 import WorldMap from '@/components/map/WorldMap.tsx';
 import { MODULES } from '@/content/modules';
 import type { LessonMeta } from '@/lib/curriculum';
@@ -35,6 +36,7 @@ const lessons: LessonMeta[] = entries.map((entry) => ({
       </p>
       <div class="flex items-center gap-3">
         <HudBadge client:load locale={locale} totalLessons={lessons.length} />
+        <SettingsMenu client:load locale={locale} />
         <a
           href={`${base}/${locale}/summary/`}
           class="font-mono text-xs uppercase tracking-widest text-(--color-dim) underline decoration-dotted underline-offset-4 hover:text-(--color-ink)"

@@ -134,6 +134,17 @@
   }
 }
 
+/* Same stillness when the in-app motion setting asks for it (SettingsMenu
+   mirrors progress.settings.motion onto <html data-ta-motion>). */
+:root[data-ta-motion='reduced'] *,
+:root[data-ta-motion='reduced'] *::before,
+:root[data-ta-motion='reduced'] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
 @keyframes ta-pop-in {
   from {
     opacity: 0;

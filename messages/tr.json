@@ -647,5 +647,14 @@
   "summary_import_button": "ilerlemeyi içe aktar",
   "summary_import_ok": "ilerleme içe aktarıldı ✓",
   "summary_import_invalid": "bu dosya bir Token Arena ilerleme dışa aktarımı değil",
-  "summary_progress_note": "İlerleme yalnızca bu tarayıcının localStorage'ında yaşar. Başka bir makineye taşımak için dışa aktar — dosya asla API anahtarı içermez."
+  "summary_progress_note": "İlerleme yalnızca bu tarayıcının localStorage'ında yaşar. Başka bir makineye taşımak için dışa aktar — dosya asla API anahtarı içermez.",
+  "settings_title": "ayarlar",
+  "settings_motion": "Hareket",
+  "settings_motion_full": "Tam — fiziksel sahneler animasyonlu",
+  "settings_motion_reduced": "Azaltılmış — son durumlar anında görünür",
+  "settings_motion_hint": "İşletim sistemindeki azaltılmış hareket tercihine her zaman uyulur; bu anahtar uygulama içi ek bir kontroldür.",
+  "settings_sfx": "Ses efektleri",
+  "settings_sfx_hint": "Animasyonlara bağlı birkaç minik sentezlenmiş tık ve gümleme. Varsayılan olarak kapalı.",
+  "settings_classic": "Klasik mod",
+  "settings_classic_hint": "Her yerde orijinal, oyunsuz ders arayüzlerini kullan. Aynı dersler, aynı geçme kuralları."
 }

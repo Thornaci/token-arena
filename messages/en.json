@@ -647,5 +647,14 @@
   "summary_import_button": "import progress",
   "summary_import_ok": "progress imported ✓",
   "summary_import_invalid": "that file is not a Token Arena progress export",
-  "summary_progress_note": "Progress lives only in this browser's localStorage. Export it to move to another machine — the file never contains API keys."
+  "summary_progress_note": "Progress lives only in this browser's localStorage. Export it to move to another machine — the file never contains API keys.",
+  "settings_title": "settings",
+  "settings_motion": "Motion",
+  "settings_motion_full": "Full — physical scenes animate",
+  "settings_motion_reduced": "Reduced — final states appear instantly",
+  "settings_motion_hint": "Your OS reduced-motion preference is always respected; this switch is an extra in-app control.",
+  "settings_sfx": "Sound effects",
+  "settings_sfx_hint": "A few tiny synthesized clicks and thuds tied to animations. Off by default.",
+  "settings_classic": "Classic mode",
+  "settings_classic_hint": "Use the original non-game lesson interfaces everywhere. Same lessons, same pass rules."
 }

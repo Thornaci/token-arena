@@ -4,6 +4,7 @@ import {
   awardBadge,
   completeLevel,
   DEFAULT_PROGRESS,
+  DEFAULT_SETTINGS,
   exportProgress,
   importProgress,
   isLevelCompleted,
@@ -12,6 +13,7 @@ import {
   resetProgress,
   setTool,
   solvedWithoutHints,
+  updateSettings,
   useHint,
 } from '@/stores/progress';
 
@@ -86,12 +88,61 @@ describe('migrateProgress', () => {
     expect(migrated.xp).toBe(0);
     expect(migrated.badges).toEqual(['a']);
     expect(migrated.hintsUsed).toEqual({});
-    expect(migrated.settings).toEqual({});
+    expect(migrated.settings).toEqual(DEFAULT_SETTINGS);
   });
 
   it('deduplicates completed levels from hand-edited payloads', () => {
     const migrated = migrateProgress({ completedLevels: ['a', 'a', 'b'] });
     expect(migrated.completedLevels).toEqual(['a', 'b']);
+  });
+
+  it('migrates v1 payloads (untyped settings bag) to v2 defaults', () => {
+    const migrated = migrateProgress({
+      version: 1,
+      completedLevels: ['L1.1'],
+      xp: 100,
+      settings: {},
+    });
+    expect(migrated.version).toBe(2);
+    expect(migrated.settings).toEqual(DEFAULT_SETTINGS);
+    expect(migrated.completedLevels).toEqual(['L1.1']);
+    expect(migrated.xp).toBe(100);
+  });
+
+  it('keeps recognized settings fields and drops the rest', () => {
+    const migrated = migrateProgress({
+      version: 1,
+      settings: { motion: 'reduced', sfx: true, renderer: 'classic', bogus: 1, theme: 'light' },
+    });
+    expect(migrated.settings).toEqual({ motion: 'reduced', sfx: true, renderer: 'classic' });
+  });
+
+  it('coerces invalid settings values to defaults', () => {
+    const migrated = migrateProgress({
+      settings: { motion: 'off', sfx: 'yes', renderer: 'fancy' },
+    });
+    expect(migrated.settings).toEqual(DEFAULT_SETTINGS);
+  });
+});
+
+describe('updateSettings', () => {
+  it('merges patches without touching other progress fields', () => {
+    completeLevel('L1.1', 100);
+    updateSettings({ motion: 'reduced' });
+    updateSettings({ renderer: 'classic' });
+    const state = progress.get();
+    expect(state.settings).toEqual({ motion: 'reduced', sfx: false, renderer: 'classic' });
+    expect(state.completedLevels).toEqual(['L1.1']);
+    expect(state.xp).toBe(100);
+  });
+
+  it('round-trips settings through export/import', () => {
+    updateSettings({ sfx: true, renderer: 'classic' });
+    const exported = exportProgress();
+    resetProgress();
+    expect(progress.get().settings).toEqual(DEFAULT_SETTINGS);
+    expect(importProgress(exported)).toEqual({ ok: true });
+    expect(progress.get().settings).toEqual({ motion: 'full', sfx: true, renderer: 'classic' });
   });
 });
 
