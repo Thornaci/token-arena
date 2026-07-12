@@ -45,7 +45,7 @@ function Envelope({ label, tokens, dim }: { label: string; tokens: number; dim?:
       }`}
     >
       ✉ <span className="max-w-36 truncate">{label}</span>
-      <span className="text-(--color-dim)">{tokens}</span>
+      <span className={dim ? 'text-(--color-dim)' : 'text-(--color-ink)'}>{tokens}</span>
     </span>
   );
 }
@@ -260,7 +260,7 @@ function StatelessConveyor({ lesson, locale, onPass }: MechanicComponentProps) {
               disabled={!lastTurn || finalSent}
               className="relative flex min-h-16 flex-1 flex-wrap items-center gap-1.5 rounded border-2 border-dashed border-(--color-line-bright) bg-[repeating-linear-gradient(90deg,transparent_0_22px,rgb(217_231_222/0.05)_22px_24px)] p-2 transition-colors data-over:border-(--color-phosphor)"
             >
-              <span className="absolute -top-2.5 left-2 bg-(--color-bg) px-1 font-mono text-[9px] uppercase tracking-widest text-(--color-faint)">
+              <span className="absolute -top-2.5 left-2 bg-(--color-bg) px-1 font-mono text-[9px] uppercase tracking-widest text-(--color-dim)">
                 {t('game_conveyor_belt')}
               </span>
               {/* scripted turns: the whole current context rides as envelopes */}

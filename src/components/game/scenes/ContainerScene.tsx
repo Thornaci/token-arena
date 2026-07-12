@@ -81,7 +81,7 @@ function VesselBlock({
           {tag}
         </span>
       )}
-      <span className="ml-auto shrink-0 font-mono text-[10px] text-(--color-dim)">{tokens}</span>
+      <span className="ml-auto shrink-0 font-mono text-[10px] text-(--color-ink)">{tokens}</span>
     </m.div>
   );
 }
