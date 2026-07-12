@@ -8,7 +8,6 @@ import {
   type PrerecordedFile,
   type WorkerRequest,
 } from '@/engine/indecision';
-import { normalizedEntropy } from '@/engine/mascot';
 import { evaluate } from '@/engine/scoring';
 import { lessonText } from '@/lib/lessonText';
 import {
@@ -17,18 +16,14 @@ import {
   initialModelPhase,
   setStoredConsent,
 } from '@/stores/localModel';
-import { mascotEvent, mascotReport } from '@/stores/mascot';
-import ProbabilityWall from '@/components/game/parts/ProbabilityWall';
 import { GhostButton, PrimaryButton } from './shared';
+
+const visible = (token: string) => token.replace(/ /g, '␣').replace(/\n/g, '↵');
 
 type Phase = 'boot' | 'consent' | 'loading' | 'live' | 'fallback';
 type FallbackReason = 'nogpu' | 'declined' | 'error';
 
-/**
- * One prompt's top-k, rendered identically for live and recorded data —
- * on the shared Probability Wall (same part the sampling lesson uses; the
- * renderer consumes the same distribution data structure either way).
- */
+/** One prompt's top-k, rendered identically for live and recorded data. */
 function DistributionBars({
   distribution,
   label,
@@ -38,6 +33,7 @@ function DistributionBars({
   label: string;
   aria: string;
 }) {
+  const top = distribution.candidates[0];
   return (
     <div className="flex min-w-0 flex-1 flex-col gap-2">
       <p className="font-mono text-xs uppercase tracking-widest text-(--color-faint)">{label}</p>
@@ -45,7 +41,28 @@ function DistributionBars({
         “<span className="text-(--color-ink)">{distribution.prompt}</span>”
         <span aria-hidden="true" className="text-(--color-phosphor)">▌</span>
       </p>
-      <ProbabilityWall candidates={distribution.candidates} ariaLabel={aria} heightPx={110} />
+      <ol className="flex flex-col gap-1.5" aria-label={aria}>
+        {distribution.candidates.map((candidate, i) => (
+          <li key={`${candidate.token}-${i}`} className="flex items-center gap-2">
+            <span className="w-20 shrink-0 truncate text-right font-mono text-xs text-(--color-ink)">
+              {visible(candidate.token)}
+            </span>
+            <span className="h-4 flex-1 overflow-hidden rounded-sm bg-(--color-surface)">
+              <span
+                className="block h-full motion-safe:transition-[width] motion-safe:duration-300"
+                style={{
+                  width: `${Math.max(0.5, candidate.probability * 100)}%`,
+                  background:
+                    candidate === top ? 'var(--color-phosphor)' : 'var(--color-ice)',
+                }}
+              />
+            </span>
+            <span className="w-12 shrink-0 font-mono text-[10px] text-(--color-dim)">
+              {(candidate.probability * 100).toFixed(1)}%
+            </span>
+          </li>
+        ))}
+      </ol>
     </div>
   );
 }
@@ -165,18 +182,9 @@ export default function ModelIndecision({ lesson, locale, onPass }: MechanicComp
     [phase, pair, prerecorded, inferLive],
   );
 
-  // The mascot's uncertainty mirrors whatever distribution is on screen.
-  useEffect(() => {
-    const latest = freeDist ?? contraDist ?? baseDist;
-    mascotReport({
-      entropyNorm: latest ? normalizedEntropy(latest.candidates.map((c) => c.probability)) : null,
-    });
-  }, [baseDist, contraDist, freeDist]);
-
   const run = async (which: 'base' | 'contradiction') => {
     setBusy(true);
     setInferError(null);
-    mascotEvent('send');
     try {
       const distribution = await getDistribution(which);
       if (which === 'base') setBaseDist(distribution);
@@ -192,7 +200,6 @@ export default function ModelIndecision({ lesson, locale, onPass }: MechanicComp
     if (!freePrompt.trim()) return;
     setBusy(true);
     setInferError(null);
-    mascotEvent('send');
     try {
       setFreeDist(await inferLive(freePrompt));
     } catch (error) {

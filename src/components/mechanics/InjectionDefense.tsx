@@ -4,7 +4,6 @@ import type { ContextState } from '@/engine/contextModel';
 import { evaluate } from '@/engine/scoring';
 import { lessonText } from '@/lib/lessonText';
 import { showInspector, signalSend, updateInspectorState } from '@/stores/inspector';
-import { mascotEvent, mascotReport } from '@/stores/mascot';
 import { buildContextState, GhostButton, PrimaryButton } from './shared';
 
 type AttackResult = 'resist' | 'breach';
@@ -52,12 +51,6 @@ export default function InjectionDefense({ lesson, locale, onPass }: MechanicCom
   const attempt = attempts[attemptIndex];
   const allDone = attemptIndex >= attempts.length;
 
-  // Untrusted content is on screen (and still a threat) until it's resisted.
-  useEffect(() => {
-    mascotReport({ injectionActive: !allDone && lastResult !== 'resist' });
-    return () => mascotReport({ injectionActive: false });
-  }, [allDone, lastResult]);
-
   const toggle = (id: string) => {
     if (allDone) return;
     setEnabled((current) => {
@@ -75,11 +68,9 @@ export default function InjectionDefense({ lesson, locale, onPass }: MechanicCom
     const holds = attempt.requiredDefenseIds.every((id) => enabled.has(id));
     if (!holds) {
       setLastResult('breach');
-      mascotEvent('confuse');
       return;
     }
     setLastResult('resist');
-    mascotEvent('retrieve-hit');
     const nextResisted = resisted + 1;
     setResisted(nextResisted);
     const verdict = evaluate(

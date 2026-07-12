@@ -1,9 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { MechanicComponentProps } from '@/components/sim/registry';
-import { normalizedEntropy } from '@/engine/mascot';
 import { sampleDistribution, topCandidate } from '@/engine/sampling';
 import { lessonText } from '@/lib/lessonText';
-import { mascotReport } from '@/stores/mascot';
 import RoundsQuiz from './RoundsQuiz';
 
 /** Render a token's whitespace the way the tokenizer sees it. */
@@ -29,15 +27,6 @@ export default function SamplingLab({ lesson, locale, onPass }: MechanicComponen
     [candidates, temperature, topP],
   );
   const greedy = topCandidate(distribution);
-
-  // The mascot's uncertainty tracks the actual sampling pool (in-nucleus).
-  useEffect(() => {
-    mascotReport({
-      entropyNorm: normalizedEntropy(
-        distribution.filter((c) => c.inNucleus).map((c) => c.probability),
-      ),
-    });
-  }, [distribution]);
 
   return (
     <div className="flex flex-col gap-5">

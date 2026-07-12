@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import type { MechanicComponentProps } from '@/components/sim/registry';
 import { lessonText } from '@/lib/lessonText';
-import { mascotReport } from '@/stores/mascot';
 import RoundsQuiz from './RoundsQuiz';
 import { ROLE_COLOR, ROLE_TAG } from './shared';
 
@@ -14,12 +13,6 @@ export default function HierarchyPredict({ lesson, locale, onPass }: MechanicCom
 
   // Which rounds have been answered — the winner only lights up afterwards.
   const [revealed, setRevealed] = useState<Set<number>>(new Set());
-
-  // Conflicting instructions are on screen for the whole lesson.
-  useEffect(() => {
-    mascotReport({ conflictCount: 1 });
-    return () => mascotReport({ conflictCount: 0 });
-  }, []);
 
   return (
     <RoundsQuiz

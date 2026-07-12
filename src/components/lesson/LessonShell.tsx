@@ -1,11 +1,9 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useStore } from '@nanostores/react';
 import type { Lesson } from '@/content/schema';
 import { lessonText } from '@/lib/lessonText';
 import type { Locale } from '@/lib/locales';
 import { awardBadge, completeLevel, isLevelCompleted, progress, useHint } from '@/stores/progress';
-import { mascotEvent } from '@/stores/mascot';
-import { playEffect } from '@/engine/sfx';
 import MechanicHost from '@/components/sim/MechanicHost';
 
 interface Props {
@@ -24,17 +22,10 @@ export default function LessonShell({ lesson, locale, nextHref, nextIsMap }: Pro
   const t = (key: string, params?: Record<string, string | number>) =>
     lessonText(key, locale, params);
 
-  // Each lesson starts the mascot from a clean slate.
-  useEffect(() => {
-    mascotEvent('reset');
-  }, [lesson.id]);
-
   const handlePass = useCallback(() => {
     setPassed(true);
     completeLevel(lesson.id, lesson.xp);
     if (lesson.badge) awardBadge(lesson.badge);
-    mascotEvent('pass');
-    if (progress.get().settings.sfx) playEffect('chime');
   }, [lesson.id, lesson.xp, lesson.badge]);
 
   const revealHint = () => {

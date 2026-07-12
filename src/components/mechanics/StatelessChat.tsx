@@ -4,7 +4,6 @@ import { addBlock, usedTokens, type ContextState } from '@/engine/contextModel';
 import { evaluate } from '@/engine/scoring';
 import { lessonText } from '@/lib/lessonText';
 import { showInspector, signalSend, updateInspectorState } from '@/stores/inspector';
-import { mascotEvent } from '@/stores/mascot';
 import { buildContextState, ChoiceQuestion, GhostButton, PrimaryButton } from './shared';
 
 const count = () => 0; // lesson blocks always carry authored fixedTokens
@@ -59,7 +58,6 @@ export default function StatelessChat({ lesson, locale, onPass }: MechanicCompon
     setContext(withUser);
     updateInspectorState(withUser);
     signalSend();
-    mascotEvent('send');
 
     // The reply lands after the envelope has visibly shipped.
     setTimeout(() => {

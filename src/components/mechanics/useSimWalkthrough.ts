@@ -11,7 +11,6 @@ import {
   type SimStep,
 } from '@/engine/simEngine';
 import { showInspector, signalSend, updateInspectorState } from '@/stores/inspector';
-import { mascotEvent } from '@/stores/mascot';
 import { buildContextState } from './shared';
 
 /** One transcript row; removed blocks stay visible, struck through. */
@@ -68,12 +67,7 @@ export function useSimWalkthrough(lesson: Lesson) {
       const next = advance(current);
       const applied = next.log[next.log.length - 1]!.step;
       applyEntry(applied);
-      if (applied.type === 'sendRequest') {
-        signalSend();
-        mascotEvent('send');
-      }
-      if (applied.type === 'removeBlock') mascotEvent('compaction');
-      if (next.frozen) mascotEvent('confuse');
+      if (applied.type === 'sendRequest') signalSend();
       updateInspectorState(next.context);
       return next;
     });
