@@ -12,7 +12,7 @@ export default defineConfig({
   output: 'static',
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'tr'],
+    locales: ['en', 'tr', 'es', 'fr', 'zh'],
     routing: {
       prefixDefaultLocale: true,
       redirectToDefaultLocale: false,
@@ -40,6 +40,9 @@ export default defineConfig({
             localized: [
               ['en', '*://*:*/token-arena/en{/:path(.*)}?'],
               ['tr', '*://*:*/token-arena/tr{/:path(.*)}?'],
+              ['es', '*://*:*/token-arena/es{/:path(.*)}?'],
+              ['fr', '*://*:*/token-arena/fr{/:path(.*)}?'],
+              ['zh', '*://*:*/token-arena/zh{/:path(.*)}?'],
             ],
           },
         ],

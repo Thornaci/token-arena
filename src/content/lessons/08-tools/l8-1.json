@@ -88,6 +88,5 @@
   },
   "pass": { "type": "ordering", "size": 6 },
   "hints": ["l8_1_hint1", "l8_1_hint2", "l8_1_hint3"],
-  "xp": 150,
   "badge": null
 }

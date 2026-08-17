@@ -163,6 +163,5 @@
   },
   "pass": { "type": "choiceRounds", "correctIndexes": [1, 0, 0], "minCorrect": 2 },
   "hints": ["l9_1_hint1", "l9_1_hint2", "l9_1_hint3"],
-  "xp": 175,
   "badge": "compaction-survivor"
 }

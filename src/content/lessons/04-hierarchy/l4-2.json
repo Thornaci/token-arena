@@ -84,6 +84,5 @@
   },
   "pass": { "type": "completeAll", "count": 3 },
   "hints": ["l4_2_hint1", "l4_2_hint2", "l4_2_hint3"],
-  "xp": 175,
   "badge": "injection-resister"
 }

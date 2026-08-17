@@ -26,6 +26,5 @@
   },
   "pass": { "type": "budgetFit", "budget": 900 },
   "hints": ["l7_3_hint1", "l7_3_hint2", "l7_3_hint3"],
-  "xp": 150,
   "badge": "config-surgeon"
 }

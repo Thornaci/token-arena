@@ -33,6 +33,5 @@
   },
   "pass": { "type": "choiceRounds", "correctIndexes": [1, 0, 2, 0], "minCorrect": 3 },
   "hints": ["l7_1_hint1", "l7_1_hint2", "l7_1_hint3"],
-  "xp": 100,
   "badge": null
 }

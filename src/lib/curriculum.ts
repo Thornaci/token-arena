@@ -10,7 +10,6 @@ export interface LessonMeta {
   module: ModuleId;
   order: number;
   titleKey: string;
-  xp: number;
 }
 
 const MODULE_ORDER = new Map(MODULES.map((mod) => [mod.id, mod.order]));

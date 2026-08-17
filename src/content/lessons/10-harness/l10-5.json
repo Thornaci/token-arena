@@ -1,0 +1,87 @@
+{
+  "id": "L10.5",
+  "module": "harness",
+  "order": 5,
+  "titleKey": "l10_5_title",
+  "objectiveKey": "l10_5_objective",
+  "misconceptionKey": "l10_5_misconception",
+  "ecosystem": "claude",
+  "inspector": false,
+  "mechanic": "quiz",
+  "params": {
+    "rounds": [
+      {
+        "promptKey": "l10_5_r1_prompt",
+        "optionKeys": [
+          "l10_5_r1_opt0",
+          "l10_5_r1_opt1",
+          "l10_5_r1_opt2"
+        ],
+        "explainKey": "l10_5_r1_explain"
+      },
+      {
+        "promptKey": "l10_5_r2_prompt",
+        "optionKeys": [
+          "l10_5_r2_opt0",
+          "l10_5_r2_opt1",
+          "l10_5_r2_opt2"
+        ],
+        "explainKey": "l10_5_r2_explain"
+      },
+      {
+        "promptKey": "l10_5_r3_prompt",
+        "optionKeys": [
+          "l10_5_r3_opt0",
+          "l10_5_r3_opt1",
+          "l10_5_r3_opt2"
+        ],
+        "explainKey": "l10_5_r3_explain"
+      },
+      {
+        "promptKey": "l10_5_r4_prompt",
+        "optionKeys": [
+          "l10_5_r4_opt0",
+          "l10_5_r4_opt1",
+          "l10_5_r4_opt2"
+        ],
+        "explainKey": "l10_5_r4_explain"
+      },
+      {
+        "promptKey": "l10_5_r5_prompt",
+        "optionKeys": [
+          "l10_5_r5_opt0",
+          "l10_5_r5_opt1",
+          "l10_5_r5_opt2"
+        ],
+        "explainKey": "l10_5_r5_explain"
+      },
+      {
+        "promptKey": "l10_5_r6_prompt",
+        "optionKeys": [
+          "l10_5_r6_opt0",
+          "l10_5_r6_opt1",
+          "l10_5_r6_opt2"
+        ],
+        "explainKey": "l10_5_r6_explain"
+      }
+    ]
+  },
+  "pass": {
+    "type": "choiceRounds",
+    "correctIndexes": [
+      1,
+      1,
+      0,
+      1,
+      1,
+      1
+    ],
+    "minCorrect": 5
+  },
+  "hints": [
+    "l10_5_hint1",
+    "l10_5_hint2",
+    "l10_5_hint3"
+  ],
+  "badge": null
+}

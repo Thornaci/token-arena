@@ -1,7 +1,7 @@
 import type { ContextBlock, CountFn } from '@/engine/contextModel';
 
 /**
- * L10.1 BYO-key sandbox — the pure half. Builds provider requests and parses
+ * L11.1 BYO-key sandbox — the pure half. Builds provider requests and parses
  * responses without ever calling fetch, so every URL, header, and payload
  * shape is unit-testable. The mechanic component owns the actual network call.
  *

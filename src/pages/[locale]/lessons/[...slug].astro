@@ -4,7 +4,6 @@ import Base from '@/layouts/Base.astro';
 import LocaleSwitcher from '@/components/ui/LocaleSwitcher.astro';
 import ContextInspector from '@/components/inspector/ContextInspector.tsx';
 import LessonShell from '@/components/lesson/LessonShell.tsx';
-import HudBadge from '@/components/hud/HudBadge.tsx';
 import { nextLesson, sortLessons, type LessonMeta } from '@/lib/curriculum';
 import { LOCALES } from '@/lib/locales';
 import { lessonText } from '@/lib/lessonText';
@@ -17,7 +16,6 @@ export async function getStaticPaths() {
     module: entry.data.module,
     order: entry.data.order,
     titleKey: entry.data.titleKey,
-    xp: entry.data.xp,
   }));
   const sorted = sortLessons(metas);
 
@@ -27,14 +25,13 @@ export async function getStaticPaths() {
       props: {
         lesson: entry.data,
         next: nextLesson(sorted, entry.data.id),
-        totalLessons: entries.length,
       },
     })),
   );
 }
 
 const { locale } = Astro.params;
-const { lesson, next, totalLessons } = Astro.props;
+const { lesson, next } = Astro.props;
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const mapHref = `${base}/${locale}/`;
@@ -49,7 +46,6 @@ const title = lessonText(lesson.titleKey, locale);
         ← Token_Arena
       </a>
       <div class="flex items-center gap-3">
-        <HudBadge client:load locale={locale} totalLessons={totalLessons} />
         <LocaleSwitcher locale={locale} />
       </div>
     </header>

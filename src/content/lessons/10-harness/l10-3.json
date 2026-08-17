@@ -1,0 +1,255 @@
+{
+  "id": "L10.3",
+  "module": "harness",
+  "order": 3,
+  "titleKey": "l10_3_title",
+  "objectiveKey": "l10_3_objective",
+  "misconceptionKey": "l10_3_misconception",
+  "ecosystem": "claude",
+  "inspector": true,
+  "mechanic": "subagent-sim",
+  "initialState": {
+    "modelId": "generic-200k",
+    "reservedOutput": 4000,
+    "blocks": [
+      {
+        "id": "sys",
+        "role": "system",
+        "kind": "message",
+        "labelKey": "l10_3_block_sys",
+        "fixedTokens": 4200
+      },
+      {
+        "id": "claude-md",
+        "role": "system",
+        "kind": "config-file",
+        "labelKey": "l10_3_block_claude_md",
+        "fixedTokens": 1800
+      },
+      {
+        "id": "prev",
+        "role": "assistant",
+        "kind": "message",
+        "labelKey": "l10_3_block_prev",
+        "fixedTokens": 6300
+      }
+    ]
+  },
+  "steps": [
+    {
+      "type": "narrate",
+      "textKey": "l10_3_step_intro"
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "ask",
+        "role": "user",
+        "kind": "message",
+        "labelKey": "l10_3_block_ask",
+        "fixedTokens": 40
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "spawn",
+        "role": "assistant",
+        "kind": "message",
+        "labelKey": "l10_3_block_spawn",
+        "fixedTokens": 80
+      }
+    },
+    {
+      "type": "freeze",
+      "noteKey": "l10_3_freeze_delegate",
+      "targetBlockId": "spawn"
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "sub-result",
+        "role": "tool",
+        "kind": "tool-result",
+        "labelKey": "l10_3_block_sub_result",
+        "fixedTokens": 420
+      }
+    },
+    {
+      "type": "narrate",
+      "textKey": "l10_3_step_return"
+    },
+    {
+      "type": "sendRequest",
+      "noteKey": "l10_3_send_after"
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "fix",
+        "role": "assistant",
+        "kind": "message",
+        "labelKey": "l10_3_block_fix",
+        "fixedTokens": 1200
+      }
+    },
+    {
+      "type": "narrate",
+      "textKey": "l10_3_step_cost"
+    }
+  ],
+  "params": {
+    "sub": {
+      "labelKey": "l10_3_sub_label",
+      "initialState": {
+        "modelId": "generic-200k",
+        "reservedOutput": 4000,
+        "blocks": []
+      },
+      "steps": [
+        {
+          "type": "addBlock",
+          "block": {
+            "id": "ssys",
+            "role": "system",
+            "kind": "message",
+            "labelKey": "l10_3_sub_block_sys",
+            "fixedTokens": 900
+          }
+        },
+        {
+          "type": "addBlock",
+          "block": {
+            "id": "scm",
+            "role": "system",
+            "kind": "config-file",
+            "labelKey": "l10_3_sub_block_claude_md",
+            "fixedTokens": 1800
+          }
+        },
+        {
+          "type": "addBlock",
+          "block": {
+            "id": "stools",
+            "role": "system",
+            "kind": "tool-def",
+            "labelKey": "l10_3_sub_block_tools",
+            "fixedTokens": 970
+          }
+        },
+        {
+          "type": "addBlock",
+          "block": {
+            "id": "stask",
+            "role": "user",
+            "kind": "message",
+            "labelKey": "l10_3_sub_block_task",
+            "fixedTokens": 120
+          }
+        },
+        {
+          "type": "narrate",
+          "textKey": "l10_3_sub_step_fresh"
+        },
+        {
+          "type": "addBlock",
+          "block": {
+            "id": "sr1",
+            "role": "tool",
+            "kind": "tool-result",
+            "labelKey": "l10_3_sub_block_read1",
+            "fixedTokens": 2200
+          }
+        },
+        {
+          "type": "addBlock",
+          "block": {
+            "id": "sr2",
+            "role": "tool",
+            "kind": "tool-result",
+            "labelKey": "l10_3_sub_block_read2",
+            "fixedTokens": 800
+          }
+        },
+        {
+          "type": "addBlock",
+          "block": {
+            "id": "sr3",
+            "role": "tool",
+            "kind": "tool-result",
+            "labelKey": "l10_3_sub_block_read3",
+            "fixedTokens": 3100
+          }
+        },
+        {
+          "type": "addBlock",
+          "block": {
+            "id": "sout",
+            "role": "assistant",
+            "kind": "message",
+            "labelKey": "l10_3_sub_block_out",
+            "fixedTokens": 420
+          }
+        },
+        {
+          "type": "narrate",
+          "textKey": "l10_3_sub_step_done"
+        }
+      ]
+    },
+    "rounds": [
+      {
+        "promptKey": "l10_3_r1_prompt",
+        "optionKeys": [
+          "l10_3_r1_opt0",
+          "l10_3_r1_opt1",
+          "l10_3_r1_opt2"
+        ],
+        "explainKey": "l10_3_r1_explain"
+      },
+      {
+        "promptKey": "l10_3_r2_prompt",
+        "optionKeys": [
+          "l10_3_r2_opt0",
+          "l10_3_r2_opt1",
+          "l10_3_r2_opt2"
+        ],
+        "explainKey": "l10_3_r2_explain"
+      },
+      {
+        "promptKey": "l10_3_r3_prompt",
+        "optionKeys": [
+          "l10_3_r3_opt0",
+          "l10_3_r3_opt1",
+          "l10_3_r3_opt2"
+        ],
+        "explainKey": "l10_3_r3_explain"
+      },
+      {
+        "promptKey": "l10_3_r4_prompt",
+        "optionKeys": [
+          "l10_3_r4_opt0",
+          "l10_3_r4_opt1",
+          "l10_3_r4_opt2"
+        ],
+        "explainKey": "l10_3_r4_explain"
+      }
+    ]
+  },
+  "pass": {
+    "type": "choiceRounds",
+    "correctIndexes": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "minCorrect": 3
+  },
+  "hints": [
+    "l10_3_hint1",
+    "l10_3_hint2",
+    "l10_3_hint3"
+  ],
+  "badge": null
+}

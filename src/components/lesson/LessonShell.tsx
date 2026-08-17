@@ -24,9 +24,9 @@ export default function LessonShell({ lesson, locale, nextHref, nextIsMap }: Pro
 
   const handlePass = useCallback(() => {
     setPassed(true);
-    completeLevel(lesson.id, lesson.xp);
+    completeLevel(lesson.id);
     if (lesson.badge) awardBadge(lesson.badge);
-  }, [lesson.id, lesson.xp, lesson.badge]);
+  }, [lesson.id, lesson.badge]);
 
   const revealHint = () => {
     const tier = Math.min(revealedHints + 1, 3);
@@ -51,14 +51,11 @@ export default function LessonShell({ lesson, locale, nextHref, nextIsMap }: Pro
           <p className="font-display text-xl font-bold text-(--color-phosphor) text-glow">
             {t('lesson_passed_title')}
           </p>
-          {!wasCompleted && (
+          {!wasCompleted && lesson.badge && (
             <p className="mt-1 font-mono text-sm text-(--color-ink)">
-              +{t('hud_xp', { xp: lesson.xp })}
-              {lesson.badge && (
-                <span className="ml-3 rounded border border-(--color-amber) px-2 py-0.5 text-xs text-(--color-amber)">
-                  ★ {t(`badge_${lesson.badge.replace(/-/g, '_')}`)}
-                </span>
-              )}
+              <span className="rounded border border-(--color-amber) px-2 py-0.5 text-xs text-(--color-amber)">
+                ★ {t(`badge_${lesson.badge.replace(/-/g, '_')}`)}
+              </span>
             </p>
           )}
           {lesson.misconceptionKey && (

@@ -14,7 +14,6 @@ const meta = (id: string, module: LessonMeta['module'], order: number): LessonMe
   module,
   order,
   titleKey: 'l1_1_title',
-  xp: 100,
 });
 
 // A miniature curriculum around the Tur 3 insertion point: L6.2 lands

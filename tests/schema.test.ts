@@ -25,7 +25,6 @@ const validLesson = {
   },
   pass: { type: 'completeAll', count: 2 },
   hints: ['app_title', 'app_title', 'app_title'],
-  xp: 100,
 };
 
 function messagesOf(result: ReturnType<typeof lessonSchema.safeParse>): string {
@@ -462,7 +461,6 @@ describe('Tur 3 mechanic alignment rules', () => {
     },
     pass: { type: 'completeAll', count: 1 },
     hints: ['app_title', 'app_title', 'app_title'],
-    xp: 125,
   };
 
   it('accepts a valid model-indecision lesson', () => {
@@ -489,7 +487,7 @@ describe('Tur 3 mechanic alignment rules', () => {
   });
 
   const byokLesson = {
-    id: 'L10.1',
+    id: 'L11.1',
     module: 'sandbox',
     order: 1,
     titleKey: 'app_title',
@@ -504,7 +502,6 @@ describe('Tur 3 mechanic alignment rules', () => {
     },
     pass: { type: 'completeAll', count: 1 },
     hints: ['app_title', 'app_title', 'app_title'],
-    xp: 175,
     badge: 'sandbox-pilot',
   };
 
@@ -521,5 +518,126 @@ describe('Tur 3 mechanic alignment rules', () => {
   it('rejects byok-chat without a completeAll count-1 pass', () => {
     const wrong = { ...byokLesson, pass: { type: 'completeAll', count: 3 } };
     expect(messagesOf(lessonSchema.safeParse(wrong))).toContain('completeAll pass with count 1');
+  });
+});
+
+describe('harness module mechanic rules', () => {
+  const walkBase = {
+    ...validLesson,
+    id: 'L10.1',
+    module: 'harness',
+    inspector: true,
+    mechanic: 'session-sim',
+    initialState: { modelId: 'generic-200k', blocks: [] },
+    steps: [{ type: 'narrate', textKey: 'app_title' }],
+    params: { rounds: [{ promptKey: 'app_title', optionKeys: ['app_title', 'app_tagline'] }] },
+    pass: { type: 'choiceRounds', correctIndexes: [1], minCorrect: 1 },
+  };
+
+  it('session-sim is a compaction-sim alias: same params, same requirements', () => {
+    const ok = lessonSchema.safeParse(walkBase);
+    expect(ok.success, messagesOf(ok)).toBe(true);
+    expect(messagesOf(lessonSchema.safeParse({ ...walkBase, initialState: undefined }))).toContain(
+      'requires initialState',
+    );
+    expect(messagesOf(lessonSchema.safeParse({ ...walkBase, steps: [] }))).toContain(
+      'steps must not be empty',
+    );
+  });
+
+  const subagentBase = {
+    ...walkBase,
+    id: 'L10.3',
+    mechanic: 'subagent-sim',
+    steps: [
+      { type: 'narrate', textKey: 'app_title' },
+      { type: 'freeze', noteKey: 'app_title' },
+      {
+        type: 'addBlock',
+        block: { id: 'sub-result', role: 'tool', kind: 'tool-result', fixedTokens: 420 },
+      },
+    ],
+    params: {
+      sub: {
+        labelKey: 'app_title',
+        initialState: { modelId: 'generic-200k', blocks: [] },
+        steps: [
+          {
+            type: 'addBlock',
+            block: { id: 'read', role: 'tool', kind: 'tool-result', fixedTokens: 9000 },
+          },
+        ],
+      },
+      rounds: walkBase.params.rounds,
+    },
+  };
+
+  it('accepts a well-formed subagent-sim lesson', () => {
+    const result = lessonSchema.safeParse(subagentBase);
+    expect(result.success, messagesOf(result)).toBe(true);
+  });
+
+  it('requires the delegation freeze and a result block after it', () => {
+    const noFreeze = lessonSchema.safeParse({
+      ...subagentBase,
+      steps: subagentBase.steps.filter((s) => s.type !== 'freeze'),
+    });
+    expect(noFreeze.success).toBe(false);
+    expect(messagesOf(noFreeze)).toContain('freeze');
+
+    const freezeLast = lessonSchema.safeParse({
+      ...subagentBase,
+      steps: subagentBase.steps.filter((s) => s.type !== 'addBlock'),
+    });
+    expect(freezeLast.success).toBe(false);
+    expect(messagesOf(freezeLast)).toContain('follow the delegation freeze');
+  });
+
+  it('requires a non-empty subagent script and the shared walkthrough rules', () => {
+    expect(
+      lessonSchema.safeParse({
+        ...subagentBase,
+        params: { ...subagentBase.params, sub: { ...subagentBase.params.sub, steps: [] } },
+      }).success,
+    ).toBe(false);
+    expect(messagesOf(lessonSchema.safeParse({ ...subagentBase, initialState: undefined }))).toContain(
+      'requires initialState',
+    );
+    expect(messagesOf(lessonSchema.safeParse({ ...subagentBase, steps: [] }))).toContain(
+      'steps must not be empty',
+    );
+    expect(
+      messagesOf(lessonSchema.safeParse({ ...subagentBase, pass: { type: 'choice', correctIndex: 0 } })),
+    ).toContain('choiceRounds');
+  });
+
+  it('accepts free-form config-inject tab ids but rejects duplicates', () => {
+    const tab = (id: string, fixedTokens: number) => ({
+      id,
+      fileName: 'CLAUDE.md',
+      factKeys: ['app_title'],
+      block: { id: `cfg-${id}`, role: 'system', kind: 'config-file', fixedTokens },
+    });
+    const base = {
+      ...validLesson,
+      id: 'L10.2',
+      module: 'harness',
+      inspector: true,
+      mechanic: 'config-inject',
+      initialState: { modelId: 'generic-200k', blocks: [] },
+      params: {
+        tabs: [tab('always', 2000), tab('desc-a', 0)],
+        rounds: [{ promptKey: 'app_title', optionKeys: ['app_title', 'app_tagline'] }],
+      },
+      pass: { type: 'choiceRounds', correctIndexes: [0], minCorrect: 1 },
+    };
+    const ok = lessonSchema.safeParse(base);
+    expect(ok.success, messagesOf(ok)).toBe(true);
+    const dup = lessonSchema.safeParse({
+      ...base,
+      params: { ...base.params, tabs: [tab('always', 2000), tab('always', 50)] },
+    });
+    expect(dup.success).toBe(false);
+    expect(messagesOf(dup)).toContain('unique');
   });
 });

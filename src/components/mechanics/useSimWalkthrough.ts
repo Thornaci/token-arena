@@ -21,15 +21,27 @@ export interface WalkEntry {
   removed: boolean;
 }
 
+/** Anything with a scripted context: the lesson itself, or `params.sub` of subagent-sim. */
+export interface WalkthroughScript {
+  initialState?: Lesson['initialState'];
+  steps: readonly SimStep[];
+}
+
+export interface WalkthroughOptions {
+  /** Push state to the Context Inspector store (default true). Isolated sub-contexts pass false. */
+  mirrorInspector?: boolean;
+}
+
 /**
- * Drives lesson.steps one beat per click for walkthrough mechanics (tool
- * loop, compaction). The inspector mirrors the live context; the local
- * transcript also remembers what was dropped — that contrast IS the lesson.
+ * Drives a script's steps one beat per click for walkthrough mechanics (tool
+ * loop, compaction, subagent). The inspector mirrors the live context; the
+ * local transcript also remembers what was dropped — that contrast IS the lesson.
  */
-export function useSimWalkthrough(lesson: Lesson) {
-  if (!lesson.initialState) throw new Error('walkthrough lessons need initialState');
+export function useSimWalkthrough(script: WalkthroughScript, opts: WalkthroughOptions = {}) {
+  const mirrorInspector = opts.mirrorInspector ?? true;
+  if (!script.initialState) throw new Error('walkthrough lessons need initialState');
   const [sim, setSim] = useState<SimState>(() =>
-    createSim(buildContextState(lesson.initialState!), lesson.steps),
+    createSim(buildContextState(script.initialState!), script.steps),
   );
   const [entries, setEntries] = useState<WalkEntry[]>([]);
   const initialized = useRef(false);
@@ -37,7 +49,7 @@ export function useSimWalkthrough(lesson: Lesson) {
   useEffect(() => {
     if (initialized.current) return;
     initialized.current = true;
-    showInspector(buildContextState(lesson.initialState!));
+    if (mirrorInspector) showInspector(buildContextState(script.initialState!));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -67,17 +79,21 @@ export function useSimWalkthrough(lesson: Lesson) {
       const next = advance(current);
       const applied = next.log[next.log.length - 1]!.step;
       applyEntry(applied);
-      if (applied.type === 'sendRequest') signalSend();
-      updateInspectorState(next.context);
+      if (mirrorInspector) {
+        if (applied.type === 'sendRequest') signalSend();
+        updateInspectorState(next.context);
+      }
       return next;
     });
-  }, [applyEntry]);
+  }, [applyEntry, mirrorInspector]);
 
   return {
     entries,
     context: sim.context,
     frozen: sim.frozen,
     done: isDone(sim),
+    /** Index of the next step to apply — lets a host detect "past the delegation freeze". */
+    cursor: sim.cursor,
     step,
   };
 }

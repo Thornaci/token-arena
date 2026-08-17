@@ -7,8 +7,9 @@ import { computeBill } from '@/engine/billing';
 import { fillInfo, type ContextState } from '@/engine/contextModel';
 import { getModelProfile } from '@/engine/modelProfiles';
 import { applyTemperature, sampleDistribution, topCandidate } from '@/engine/sampling';
-import { acknowledgeFreeze, advanceUntilPause, createSim, isDone } from '@/engine/simEngine';
+import { acknowledgeFreeze, advance, advanceUntilPause, createSim, isDone } from '@/engine/simEngine';
 import { lookupPrerecorded, type PrerecordedFile } from '@/engine/indecision';
+import enCatalog from '../messages/en.json';
 
 const count = () => 0; // lesson blocks always carry authored fixedTokens
 
@@ -48,7 +49,8 @@ describe('lesson data', () => {
   it('ships every authored lesson, all schema-valid', () => {
     expect([...byId.keys()].sort()).toEqual([
       'L1.1', 'L1.2',
-      'L10.1',
+      'L10.1', 'L10.2', 'L10.3', 'L10.4', 'L10.5', 'L10.6', 'L10.7',
+      'L11.1',
       'L2.1', 'L2.2',
       'L3.1', 'L3.2',
       'L4.1', 'L4.2',
@@ -461,8 +463,8 @@ describe('L6.2 recorded fallback stays honest', () => {
   });
 });
 
-describe('L10.1 capstone structure', () => {
-  const lesson = byId.get('L10.1')!;
+describe('L11.1 capstone structure', () => {
+  const lesson = byId.get('L11.1')!;
   if (lesson.mechanic !== 'byok-chat') throw new Error('wrong mechanic');
 
   it('is the optional last module, sending with the inspector open', () => {
@@ -476,5 +478,275 @@ describe('L10.1 capstone structure', () => {
     for (const name of Object.values(defaultModels)) {
       expect(name.length).toBeGreaterThan(0);
     }
+  });
+});
+
+// --- Module 10 (harness) -----------------------------------------------------
+// The authored numbers below mirror the representative session figures in the
+// Claude Code docs (context-window, sub-agents, skills, memory). These locks
+// keep the prose, the JSON and the engines from drifting apart.
+
+type Step = Lesson['steps'][number];
+
+/** Walks a script one beat at a time so "never overflowed" is exact, not sampled. */
+function walkScript(context: ContextState, steps: readonly Step[]) {
+  let sim = createSim(context, steps);
+  const freezeFills = [];
+  let everOver = false;
+  while (!isDone(sim)) {
+    sim = sim.frozen ? acknowledgeFreeze(sim) : advance(sim);
+    const fill = fillInfo(sim.context, count);
+    if (sim.frozen) freezeFills.push(fill);
+    everOver ||= fill.status === 'over';
+  }
+  return { sim, freezeFills, everOver };
+}
+
+const addedBlocks = (steps: readonly Step[]) =>
+  steps.flatMap((step) => (step.type === 'addBlock' ? [step.block] : []));
+
+const sumTokens = (blocks: { fixedTokens?: number }[]) =>
+  blocks.reduce((total, block) => total + (block.fixedTokens ?? 0), 0);
+
+/** "7,850" / "7 850" / "7.850" → "7850", so a locale's separator never breaks the check. */
+const digitsOf = (text: string) => text.replace(/[,.\s  ]/g, '');
+
+const correctKeys = (lesson: Lesson) => {
+  const pass = lesson.pass;
+  if (pass.type !== 'choiceRounds') throw new Error('wrong pass type');
+  const rounds = (lesson.params as { rounds: { optionKeys: string[] }[] }).rounds;
+  return rounds.map((round, i) => round.optionKeys[pass.correctIndexes[i]!]!);
+};
+
+describe('L10.1 the startup context is exactly what the lesson claims', () => {
+  const lesson = byId.get('L10.1')!;
+  if (lesson.mechanic !== 'session-sim') throw new Error('wrong mechanic');
+  const blocks = addedBlocks(lesson.steps);
+
+  it('adds up to 7,850 tokens before the user block ever lands', () => {
+    const firstUserAt = lesson.steps.findIndex(
+      (step) => step.type === 'addBlock' && step.block.role === 'user',
+    );
+    expect(firstUserAt).toBeGreaterThan(0);
+    const startup =
+      sumTokens(lesson.initialState!.blocks) + sumTokens(addedBlocks(lesson.steps.slice(0, firstUserAt)));
+    expect(startup).toBe(7850);
+    expect(sumTokens(lesson.initialState!.blocks) + sumTokens(blocks)).toBe(13175);
+  });
+
+  it('the correct answer states the real startup number', () => {
+    const key = correctKeys(lesson)[0]!;
+    expect(key).toBe('l10_1_r1_opt2');
+    expect(digitsOf(enCatalog[key as keyof typeof enCatalog] as string)).toContain('7850');
+  });
+
+  it('the path-scoped rule arrives only after a file has been read', () => {
+    const firstRead = blocks.findIndex((block) => block.kind === 'tool-result');
+    expect(firstRead).toBeGreaterThanOrEqual(0);
+    const ruleBlocks = blocks
+      .map((block, i) => ({ block, i }))
+      .filter(({ block }) => block.id.startsWith('rule-'));
+    expect(ruleBlocks.length).toBeGreaterThan(0);
+    for (const { block, i } of ruleBlocks) {
+      expect(block.kind).toBe('config-file');
+      expect(i).toBeGreaterThan(firstRead);
+    }
+  });
+
+  it('never overflows — this lesson is about cost, not rejection', () => {
+    expect(walkScript(initialContext(lesson), lesson.steps).everOver).toBe(false);
+  });
+});
+
+describe('L10.2 the always/on-demand token gap is real', () => {
+  const lesson = byId.get('L10.2')!;
+  if (lesson.mechanic !== 'config-inject') throw new Error('wrong mechanic');
+  const tabs = lesson.params.tabs;
+  const tabOf = (id: string) => tabs.find((tab) => tab.id === id)!;
+
+  it('the always-loaded file dwarfs every description-only entry combined', () => {
+    const descriptions = tabs.filter((tab) => tab.id.startsWith('desc-'));
+    expect(descriptions.length).toBeGreaterThanOrEqual(2);
+    expect(tabOf('always').block.fixedTokens).toBeGreaterThan(
+      sumTokens(descriptions.map((tab) => tab.block)),
+    );
+  });
+
+  it('the invoked skill body costs exactly what the same text costs in CLAUDE.md', () => {
+    // The whole point of round 1 vs round 2: same content, different loading strategy.
+    expect(tabOf('skill-body').block.fixedTokens).toBe(tabOf('always').block.fixedTokens);
+  });
+
+  it('two entries genuinely cost nothing until something triggers them', () => {
+    const free = tabs.filter((tab) => (tab.block.fixedTokens ?? 0) === 0).map((tab) => tab.id);
+    expect(free.sort()).toEqual(['rule-path', 'skill-hidden']);
+  });
+
+  it('answers point at the authored options', () => {
+    expect(correctKeys(lesson).slice(0, 3)).toEqual([
+      'l10_2_r1_opt1',
+      'l10_2_r2_opt0',
+      'l10_2_r3_opt1',
+    ]);
+  });
+});
+
+describe('L10.3 delegation really keeps the reads out of the main window', () => {
+  const lesson = byId.get('L10.3')!;
+  if (lesson.mechanic !== 'subagent-sim') throw new Error('wrong mechanic');
+  const sub = lesson.params.sub;
+
+  const subReads = sumTokens(
+    addedBlocks(sub.steps).filter((b) => b.kind === 'tool-result' || b.kind === 'attachment'),
+  );
+  const resultBlock = addedBlocks(lesson.steps).find((b) => b.id === 'sub-result')!;
+
+  it('the subagent reads far more than it returns', () => {
+    expect(subReads).toBe(6100);
+    expect(resultBlock.fixedTokens).toBe(420);
+    expect(subReads).toBeGreaterThan(resultBlock.fixedTokens!);
+  });
+
+  it('the result crosses back after the delegation freeze', () => {
+    const freezeAt = lesson.steps.findIndex((step) => step.type === 'freeze');
+    const resultAt = lesson.steps.findIndex(
+      (step) => step.type === 'addBlock' && step.block.id === 'sub-result',
+    );
+    expect(freezeAt).toBeGreaterThanOrEqual(0);
+    expect(resultAt).toBeGreaterThan(freezeAt);
+  });
+
+  it('the main window grows by the delegation only — far less than reading inline', () => {
+    const freezeAt = lesson.steps.findIndex((step) => step.type === 'freeze');
+    const atAsk = walkScript(initialContext(lesson), lesson.steps.slice(0, freezeAt - 1)).sim.context;
+    const afterResult = walkScript(initialContext(lesson), lesson.steps.slice(0, freezeAt + 2)).sim
+      .context;
+    const delegationCost =
+      fillInfo(afterResult, count).used - fillInfo(atAsk, count).used;
+    expect(delegationCost).toBe(500); // the call out (80) + the answer back (420)
+    expect(delegationCost).toBeLessThan(subReads);
+    expect(digitsOf(enCatalog.l10_3_r4_opt1)).toContain('500');
+  });
+
+  it('neither window ever overflows', () => {
+    expect(walkScript(initialContext(lesson), lesson.steps).everOver).toBe(false);
+    const subContext: ContextState = {
+      model: getModelProfile(sub.initialState.modelId),
+      blocks: [...sub.initialState.blocks],
+      reservedOutput: sub.initialState.reservedOutput,
+    };
+    expect(walkScript(subContext, sub.steps).everOver).toBe(false);
+  });
+});
+
+describe('L10.4 hooks fire around the tool run, and only their output costs tokens', () => {
+  const lesson = byId.get('L10.4')!;
+  if (lesson.mechanic !== 'tool-loop') throw new Error('wrong mechanic');
+  const blocks = addedBlocks(lesson.steps);
+
+  it('one prompt costs three full requests', () => {
+    expect(lesson.steps.filter((step) => step.type === 'sendRequest')).toHaveLength(3);
+  });
+
+  it('the deny lands before the second request; the post-hook output lands after the tool result', () => {
+    const kinds = lesson.steps.map((step) =>
+      step.type === 'addBlock' ? `add:${step.block.id}` : step.type,
+    );
+    const sends = kinds.flatMap((k, i) => (k === 'sendRequest' ? [i] : []));
+    expect(kinds.indexOf('add:hook-deny')).toBeLessThan(sends[1]!);
+    expect(kinds.indexOf('add:hook-prettier')).toBeGreaterThan(kinds.indexOf('add:result'));
+  });
+
+  it('hook output is a tool-role block and stays small', () => {
+    const hookBlocks = blocks.filter((block) => block.id.startsWith('hook-'));
+    expect(hookBlocks).toHaveLength(2);
+    for (const block of hookBlocks) expect(block.role).toBe('tool');
+    expect(sumTokens(hookBlocks)).toBe(145);
+    expect(digitsOf(enCatalog.l10_4_step_stop)).toContain('145');
+  });
+
+  it('the ordering exercise is an honest, unsolved shuffle of every card', () => {
+    const { cards, initialOrder } = lesson.params;
+    expect(cards).toHaveLength(7);
+    expect([...initialOrder].sort((a, b) => a - b)).toEqual([0, 1, 2, 3, 4, 5, 6]);
+    expect(initialOrder.some((value, i) => value !== i)).toBe(true);
+    expect(walkScript(initialContext(lesson), lesson.steps).everOver).toBe(false);
+  });
+});
+
+describe('L10.5 permission answers stay pinned to the authored options', () => {
+  const lesson = byId.get('L10.5')!;
+  if (lesson.mechanic !== 'quiz') throw new Error('wrong mechanic');
+
+  it('grades the six gate scenarios against the intended keys', () => {
+    expect(lesson.params.rounds).toHaveLength(6);
+    expect(correctKeys(lesson)).toEqual([
+      'l10_5_r1_opt1',
+      'l10_5_r2_opt1',
+      'l10_5_r3_opt0',
+      'l10_5_r4_opt1',
+      'l10_5_r5_opt1',
+      'l10_5_r6_opt1',
+    ]);
+  });
+});
+
+describe('L10.6 compaction is triggered by real pressure and loses the right things', () => {
+  const lesson = byId.get('L10.6')!;
+  if (lesson.mechanic !== 'compaction-sim') throw new Error('wrong mechanic');
+  const run = walkScript(initialContext(lesson), lesson.steps);
+  const finalIds = run.sim.context.blocks.map((block) => block.id);
+
+  it('the freeze fires while the window is genuinely under pressure', () => {
+    expect(run.freezeFills).toHaveLength(1);
+    expect(run.freezeFills[0]!.ratio).toBeGreaterThanOrEqual(0.85);
+    expect(run.freezeFills[0]!.status).toBe('warn'); // pressure, not the 400 of L3.1
+  });
+
+  it('files on disk survive; the chat-only rule and the path rule do not', () => {
+    expect(finalIds).toContain('claude-md');
+    expect(finalIds).toContain('summary');
+    expect(finalIds).not.toContain('chat-rule');
+    const removedRules = lesson.steps.flatMap((step) =>
+      step.type === 'removeBlock' && step.blockId.startsWith('rule-') ? [step.blockId] : [],
+    );
+    expect(removedRules.length).toBeGreaterThan(0);
+    for (const id of removedRules) expect(finalIds).not.toContain(id);
+  });
+
+  it('the re-attached skill is truncated to the documented 5,000-token cap', () => {
+    const blocks = addedBlocks(lesson.steps);
+    const full = blocks.find((block) => block.id === 'skill-full')!;
+    const reload = blocks.find((block) => block.id === 'skill-reload')!;
+    expect(reload.fixedTokens).toBeLessThanOrEqual(5000);
+    expect(reload.fixedTokens).toBeLessThan(full.fixedTokens!);
+    expect(digitsOf(enCatalog.l10_6_r3_opt1)).toContain('5000');
+  });
+
+  it('the session fits comfortably again afterwards', () => {
+    expect(fillInfo(run.sim.context, count).status).toBe('ok');
+  });
+});
+
+describe('L10.7 the decision quiz stays pinned to the authored options', () => {
+  const lesson = byId.get('L10.7')!;
+  if (lesson.mechanic !== 'quiz') throw new Error('wrong mechanic');
+
+  it('grades all seven triggers against the intended keys', () => {
+    expect(lesson.params.rounds).toHaveLength(7);
+    expect(correctKeys(lesson)).toEqual([
+      'l10_7_r1_opt0',
+      'l10_7_r2_opt1',
+      'l10_7_r3_opt1',
+      'l10_7_r4_opt1',
+      'l10_7_r5_opt1',
+      'l10_7_r6_opt1',
+      'l10_7_r7_opt1',
+    ]);
+  });
+
+  it('is the module capstone: it awards the badge', () => {
+    expect(lesson.badge).toBe('harness-architect');
+    expect(enCatalog.badge_harness_architect).toBeTruthy();
   });
 });

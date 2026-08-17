@@ -1,0 +1,191 @@
+{
+  "id": "L10.4",
+  "module": "harness",
+  "order": 4,
+  "titleKey": "l10_4_title",
+  "objectiveKey": "l10_4_objective",
+  "misconceptionKey": "l10_4_misconception",
+  "ecosystem": "claude",
+  "inspector": true,
+  "mechanic": "tool-loop",
+  "initialState": {
+    "modelId": "generic-128k",
+    "reservedOutput": 400,
+    "blocks": [
+      {
+        "id": "sys",
+        "role": "system",
+        "kind": "message",
+        "labelKey": "l10_4_block_sys",
+        "fixedTokens": 300
+      },
+      {
+        "id": "tooldef",
+        "role": "system",
+        "kind": "tool-def",
+        "labelKey": "l10_4_block_tooldef",
+        "fixedTokens": 220
+      },
+      {
+        "id": "claude-md",
+        "role": "system",
+        "kind": "config-file",
+        "labelKey": "l10_4_block_claude_md",
+        "fixedTokens": 400
+      }
+    ]
+  },
+  "steps": [
+    {
+      "type": "narrate",
+      "textKey": "l10_4_step_intro"
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "ask",
+        "role": "user",
+        "kind": "message",
+        "labelKey": "l10_4_block_ask",
+        "fixedTokens": 30
+      }
+    },
+    {
+      "type": "narrate",
+      "textKey": "l10_4_step_prompt_hook"
+    },
+    {
+      "type": "sendRequest",
+      "noteKey": "l10_4_send1"
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "call1",
+        "role": "assistant",
+        "kind": "message",
+        "labelKey": "l10_4_block_call1",
+        "fixedTokens": 60
+      }
+    },
+    {
+      "type": "narrate",
+      "textKey": "l10_4_step_pre_deny"
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "hook-deny",
+        "role": "tool",
+        "kind": "tool-result",
+        "labelKey": "l10_4_block_hook_deny",
+        "fixedTokens": 25
+      }
+    },
+    {
+      "type": "sendRequest",
+      "noteKey": "l10_4_send2"
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "call2",
+        "role": "assistant",
+        "kind": "message",
+        "labelKey": "l10_4_block_call2",
+        "fixedTokens": 70
+      }
+    },
+    {
+      "type": "narrate",
+      "textKey": "l10_4_step_pre_ok"
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "result",
+        "role": "tool",
+        "kind": "tool-result",
+        "labelKey": "l10_4_block_result",
+        "fixedTokens": 45
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "hook-prettier",
+        "role": "tool",
+        "kind": "tool-result",
+        "labelKey": "l10_4_block_hook_prettier",
+        "fixedTokens": 120
+      }
+    },
+    {
+      "type": "narrate",
+      "textKey": "l10_4_step_post"
+    },
+    {
+      "type": "sendRequest",
+      "noteKey": "l10_4_send3"
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "answer",
+        "role": "assistant",
+        "kind": "message",
+        "labelKey": "l10_4_block_answer",
+        "fixedTokens": 50
+      }
+    },
+    {
+      "type": "narrate",
+      "textKey": "l10_4_step_stop"
+    }
+  ],
+  "params": {
+    "cards": [
+      {
+        "textKey": "l10_4_card_prompt"
+      },
+      {
+        "textKey": "l10_4_card_emit"
+      },
+      {
+        "textKey": "l10_4_card_pre"
+      },
+      {
+        "textKey": "l10_4_card_exec"
+      },
+      {
+        "textKey": "l10_4_card_post"
+      },
+      {
+        "textKey": "l10_4_card_reship"
+      },
+      {
+        "textKey": "l10_4_card_stop"
+      }
+    ],
+    "initialOrder": [
+      4,
+      0,
+      6,
+      2,
+      5,
+      1,
+      3
+    ],
+    "orderPromptKey": "l10_4_order_prompt"
+  },
+  "pass": {
+    "type": "ordering",
+    "size": 7
+  },
+  "hints": [
+    "l10_4_hint1",
+    "l10_4_hint2",
+    "l10_4_hint3"
+  ],
+  "badge": null
+}

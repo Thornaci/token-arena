@@ -54,6 +54,5 @@
   },
   "pass": { "type": "choiceRounds", "correctIndexes": [1, 0, 2, 0], "minCorrect": 3 },
   "hints": ["l4_1_hint1", "l4_1_hint2", "l4_1_hint3"],
-  "xp": 125,
   "badge": null
 }

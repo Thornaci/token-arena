@@ -6,11 +6,10 @@ export type ToolChoice = 'claude-code' | 'codex' | 'cursor' | 'curious';
 const TOOL_CHOICES: readonly ToolChoice[] = ['claude-code', 'codex', 'cursor', 'curious'];
 
 export interface Progress {
-  version: 1;
+  version: 2;
   /** Primary tool picked at onboarding; only changes which ecosystem tab shows by default. */
   tool: ToolChoice | null;
   completedLevels: string[];
-  xp: number;
   badges: string[];
   /** lessonId → highest hint tier revealed (1 nudge, 2 strong, 3 reveal). */
   hintsUsed: Record<string, number>;
@@ -18,10 +17,9 @@ export interface Progress {
 }
 
 export const DEFAULT_PROGRESS: Progress = {
-  version: 1,
+  version: 2,
   tool: null,
   completedLevels: [],
-  xp: 0,
   badges: [],
   hintsUsed: {},
   settings: {},
@@ -33,17 +31,32 @@ export const LOCALE_STORAGE_KEY = 'ta:locale';
  * Accepts any historical (or hand-edited) payload and returns a valid
  * current-version Progress, dropping anything malformed.
  */
+/**
+ * v1 → v2: the harness module took slot M10, so the sandbox capstone moved
+ * L10.1 → L11.1. Applied only to pre-v2 payloads — under v2, L10.1 is a real
+ * (different) lesson.
+ */
+const V1_LEVEL_RENAMES: Readonly<Record<string, string>> = { 'L10.1': 'L11.1' };
+
 export function migrateProgress(raw: unknown): Progress {
   if (typeof raw !== 'object' || raw === null) return { ...DEFAULT_PROGRESS };
   const record = raw as Record<string, unknown>;
-  // version 1 is the only schema so far; future versions migrate here, oldest first
+  const version = typeof record.version === 'number' ? record.version : 1;
+  let completedLevels = isStringArray(record.completedLevels) ? record.completedLevels : [];
+  let hintsUsed: Record<string, number> = isHintRecord(record.hintsUsed) ? { ...record.hintsUsed } : {};
+  // migrations run oldest first
+  if (version < 2) {
+    completedLevels = completedLevels.map((id) => V1_LEVEL_RENAMES[id] ?? id);
+    hintsUsed = Object.fromEntries(
+      Object.entries(hintsUsed).map(([id, tier]) => [V1_LEVEL_RENAMES[id] ?? id, tier]),
+    );
+  }
   return {
-    version: 1,
+    version: 2,
     tool: TOOL_CHOICES.includes(record.tool as ToolChoice) ? (record.tool as ToolChoice) : null,
-    completedLevels: isStringArray(record.completedLevels) ? dedupe(record.completedLevels) : [],
-    xp: typeof record.xp === 'number' && Number.isFinite(record.xp) && record.xp >= 0 ? record.xp : 0,
+    completedLevels: dedupe(completedLevels),
     badges: isStringArray(record.badges) ? dedupe(record.badges) : [],
-    hintsUsed: isHintRecord(record.hintsUsed) ? { ...record.hintsUsed } : {},
+    hintsUsed,
     settings:
       typeof record.settings === 'object' && record.settings !== null && !Array.isArray(record.settings)
         ? { ...(record.settings as Record<string, unknown>) }
@@ -83,14 +96,13 @@ export function setTool(tool: ToolChoice): void {
   progress.set({ ...progress.get(), tool });
 }
 
-/** Awards XP once per level — replays never double-count. */
-export function completeLevel(levelId: string, xpAward: number): void {
+/** Records completion once per level — replays never double-count. */
+export function completeLevel(levelId: string): void {
   const current = progress.get();
   if (current.completedLevels.includes(levelId)) return;
   progress.set({
     ...current,
     completedLevels: [...current.completedLevels, levelId],
-    xp: current.xp + xpAward,
   });
 }
 

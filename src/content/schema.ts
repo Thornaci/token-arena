@@ -23,6 +23,7 @@ export const MODULE_IDS = [
   'ecosystem',
   'tools',
   'agents',
+  'harness',
   'sandbox',
 ] as const;
 
@@ -383,7 +384,8 @@ const configInjectParams = z
       .array(
         z
           .object({
-            id: z.enum(['claude', 'agents', 'cursor']),
+            /** Free-form tab id (unique within the lesson) — a Set key, nothing more. */
+            id: z.string().min(1),
             /** Literal file name, e.g. "CLAUDE.md" — identical in every locale. */
             fileName: z.string().min(1),
             factKeys: z.array(z.string()).min(1),
@@ -428,6 +430,25 @@ const toolLoopParams = z
 
 const compactionSimParams = z
   .object({
+    rounds: z.array(quizRoundSchema).min(1),
+  })
+  .strict();
+
+/**
+ * Two stepped windows. lesson.initialState + lesson.steps drive the MAIN agent
+ * (mirrored to the Context Inspector); params.sub is an isolated SUBAGENT
+ * context with its own window that never touches the inspector — only the
+ * result block the main script adds after the delegation freeze crosses back.
+ */
+const subagentSimParams = z
+  .object({
+    sub: z
+      .object({
+        labelKey: z.string(),
+        initialState: initialStateSchema,
+        steps: z.array(simStepSchema).min(1),
+      })
+      .strict(),
     rounds: z.array(quizRoundSchema).min(1),
   })
   .strict();
@@ -492,7 +513,6 @@ const lessonBaseSchema = z.object({
   steps: z.array(simStepSchema).default([]),
   pass: lessonPassSchema,
   hints: z.tuple([z.string(), z.string(), z.string()]),
-  xp: z.number().int().nonnegative(),
   badge: z.string().nullable().default(null),
 });
 
@@ -546,6 +566,10 @@ export const lessonSchema = z
     variant('rules-trim', rulesTrimParams),
     variant('tool-loop', toolLoopParams),
     variant('compaction-sim', compactionSimParams),
+    // Same renderer as compaction-sim; a self-documenting name for lessons that
+    // walk a session without compacting it.
+    variant('session-sim', compactionSimParams),
+    variant('subagent-sim', subagentSimParams),
     variant('model-indecision', modelIndecisionParams),
     variant('byok-chat', byokChatParams),
   ])
@@ -606,6 +630,8 @@ export const lessonSchema = z
         case 'quiz':
         case 'config-inject':
         case 'compaction-sim':
+        case 'session-sim':
+        case 'subagent-sim':
           return l.params.rounds;
         default:
           return null;
@@ -790,6 +816,8 @@ export const lessonSchema = z
 
     if (
       (lesson.mechanic === 'compaction-sim' ||
+        lesson.mechanic === 'session-sim' ||
+        lesson.mechanic === 'subagent-sim' ||
         lesson.mechanic === 'tool-loop' ||
         lesson.mechanic === 'injection-defense' ||
         lesson.mechanic === 'config-inject') &&
@@ -800,8 +828,40 @@ export const lessonSchema = z
         message: `mechanic "${lesson.mechanic}" requires initialState`,
       });
     }
-    if (lesson.mechanic === 'compaction-sim' && lesson.steps.length === 0) {
-      ctx.addIssue({ code: 'custom', message: 'compaction-sim walks lesson.steps — steps must not be empty' });
+    if (
+      (lesson.mechanic === 'compaction-sim' ||
+        lesson.mechanic === 'session-sim' ||
+        lesson.mechanic === 'subagent-sim') &&
+      lesson.steps.length === 0
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `${lesson.mechanic} walks lesson.steps — steps must not be empty`,
+      });
+    }
+    if (lesson.mechanic === 'subagent-sim') {
+      // The first freeze is the delegation beat: the sub panel unlocks there and
+      // the main script must resume afterwards with the result crossing back.
+      const freezeAt = lesson.steps.findIndex((step) => step.type === 'freeze');
+      if (freezeAt === -1) {
+        ctx.addIssue({
+          code: 'custom',
+          message:
+            'subagent-sim needs a freeze step in lesson.steps — the delegation beat that hands off to the subagent',
+        });
+      } else if (!lesson.steps.slice(freezeAt + 1).some((step) => step.type === 'addBlock')) {
+        ctx.addIssue({
+          code: 'custom',
+          message:
+            'subagent-sim: at least one addBlock must follow the delegation freeze (the subagent result returning to main)',
+        });
+      }
+    }
+    if (lesson.mechanic === 'config-inject') {
+      const tabIds = lesson.params.tabs.map((tab) => tab.id);
+      if (new Set(tabIds).size !== tabIds.length) {
+        ctx.addIssue({ code: 'custom', message: 'config-inject tab ids must be unique' });
+      }
     }
 
     // Exploratory Tur 3 mechanics: completion = one full run, nothing to grade.

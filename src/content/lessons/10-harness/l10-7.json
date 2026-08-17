@@ -1,0 +1,97 @@
+{
+  "id": "L10.7",
+  "module": "harness",
+  "order": 7,
+  "titleKey": "l10_7_title",
+  "objectiveKey": "l10_7_objective",
+  "misconceptionKey": "l10_7_misconception",
+  "ecosystem": "claude",
+  "inspector": false,
+  "mechanic": "quiz",
+  "params": {
+    "rounds": [
+      {
+        "promptKey": "l10_7_r1_prompt",
+        "optionKeys": [
+          "l10_7_r1_opt0",
+          "l10_7_r1_opt1",
+          "l10_7_r1_opt2"
+        ],
+        "explainKey": "l10_7_r1_explain"
+      },
+      {
+        "promptKey": "l10_7_r2_prompt",
+        "optionKeys": [
+          "l10_7_r2_opt0",
+          "l10_7_r2_opt1",
+          "l10_7_r2_opt2"
+        ],
+        "explainKey": "l10_7_r2_explain"
+      },
+      {
+        "promptKey": "l10_7_r3_prompt",
+        "optionKeys": [
+          "l10_7_r3_opt0",
+          "l10_7_r3_opt1",
+          "l10_7_r3_opt2"
+        ],
+        "explainKey": "l10_7_r3_explain"
+      },
+      {
+        "promptKey": "l10_7_r4_prompt",
+        "optionKeys": [
+          "l10_7_r4_opt0",
+          "l10_7_r4_opt1",
+          "l10_7_r4_opt2"
+        ],
+        "explainKey": "l10_7_r4_explain"
+      },
+      {
+        "promptKey": "l10_7_r5_prompt",
+        "optionKeys": [
+          "l10_7_r5_opt0",
+          "l10_7_r5_opt1",
+          "l10_7_r5_opt2"
+        ],
+        "explainKey": "l10_7_r5_explain"
+      },
+      {
+        "promptKey": "l10_7_r6_prompt",
+        "optionKeys": [
+          "l10_7_r6_opt0",
+          "l10_7_r6_opt1",
+          "l10_7_r6_opt2"
+        ],
+        "explainKey": "l10_7_r6_explain"
+      },
+      {
+        "promptKey": "l10_7_r7_prompt",
+        "optionKeys": [
+          "l10_7_r7_opt0",
+          "l10_7_r7_opt1",
+          "l10_7_r7_opt2"
+        ],
+        "explainKey": "l10_7_r7_explain"
+      }
+    ]
+  },
+  "pass": {
+    "type": "choiceRounds",
+    "correctIndexes": [
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "minCorrect": 6
+  },
+  "hints": [
+    "l10_7_hint1",
+    "l10_7_hint2",
+    "l10_7_hint3"
+  ],
+  "badge": "harness-architect"
+}

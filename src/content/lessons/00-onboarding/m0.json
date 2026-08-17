@@ -17,6 +17,5 @@
   },
   "pass": { "type": "none" },
   "hints": ["m0_hint1", "m0_hint2", "m0_hint3"],
-  "xp": 25,
   "badge": null
 }

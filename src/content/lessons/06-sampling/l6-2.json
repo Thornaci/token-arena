@@ -36,6 +36,5 @@
   },
   "pass": { "type": "completeAll", "count": 1 },
   "hints": ["l6_2_hint1", "l6_2_hint2", "l6_2_hint3"],
-  "xp": 125,
   "badge": null
 }

@@ -18,5 +18,6 @@ export const MODULES: readonly ModuleInfo[] = [
   { id: 'ecosystem', order: 7, titleKey: 'module_ecosystem_title' },
   { id: 'tools', order: 8, titleKey: 'module_tools_title' },
   { id: 'agents', order: 9, titleKey: 'module_agents_title' },
-  { id: 'sandbox', order: 10, titleKey: 'module_sandbox_title' },
+  { id: 'harness', order: 10, titleKey: 'module_harness_title' },
+  { id: 'sandbox', order: 11, titleKey: 'module_sandbox_title' },
 ];

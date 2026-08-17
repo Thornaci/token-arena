@@ -27,6 +27,5 @@
   },
   "pass": { "type": "completeAll", "count": 2 },
   "hints": ["l1_1_hint1", "l1_1_hint2", "l1_1_hint3"],
-  "xp": 100,
   "badge": "tokenizer-whisperer"
 }

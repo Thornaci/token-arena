@@ -1,0 +1,225 @@
+{
+  "id": "L10.1",
+  "module": "harness",
+  "order": 1,
+  "titleKey": "l10_1_title",
+  "objectiveKey": "l10_1_objective",
+  "misconceptionKey": "l10_1_misconception",
+  "ecosystem": "claude",
+  "inspector": true,
+  "mechanic": "session-sim",
+  "initialState": {
+    "modelId": "generic-200k",
+    "reservedOutput": 4000,
+    "blocks": []
+  },
+  "steps": [
+    {
+      "type": "narrate",
+      "textKey": "l10_1_step_intro"
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "sys",
+        "role": "system",
+        "kind": "message",
+        "labelKey": "l10_1_block_sys",
+        "fixedTokens": 4200
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "mem",
+        "role": "system",
+        "kind": "config-file",
+        "labelKey": "l10_1_block_mem",
+        "fixedTokens": 680
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "env",
+        "role": "system",
+        "kind": "message",
+        "labelKey": "l10_1_block_env",
+        "fixedTokens": 280
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "mcp",
+        "role": "system",
+        "kind": "tool-def",
+        "labelKey": "l10_1_block_mcp",
+        "fixedTokens": 120
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "skills",
+        "role": "system",
+        "kind": "tool-def",
+        "labelKey": "l10_1_block_skills",
+        "fixedTokens": 450
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "ucm",
+        "role": "system",
+        "kind": "config-file",
+        "labelKey": "l10_1_block_ucm",
+        "fixedTokens": 320
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "claude-md",
+        "role": "system",
+        "kind": "config-file",
+        "labelKey": "l10_1_block_claude_md",
+        "fixedTokens": 1800
+      }
+    },
+    {
+      "type": "freeze",
+      "noteKey": "l10_1_freeze_before",
+      "targetBlockId": "claude-md"
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "prompt",
+        "role": "user",
+        "kind": "message",
+        "labelKey": "l10_1_block_prompt",
+        "fixedTokens": 45
+      }
+    },
+    {
+      "type": "sendRequest",
+      "noteKey": "l10_1_send1"
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "read1",
+        "role": "tool",
+        "kind": "tool-result",
+        "labelKey": "l10_1_block_read1",
+        "fixedTokens": 2400
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "rule-api",
+        "role": "system",
+        "kind": "config-file",
+        "labelKey": "l10_1_block_rule_api",
+        "fixedTokens": 380
+      }
+    },
+    {
+      "type": "narrate",
+      "textKey": "l10_1_step_rule"
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "read2",
+        "role": "tool",
+        "kind": "tool-result",
+        "labelKey": "l10_1_block_read2",
+        "fixedTokens": 1100
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "grep",
+        "role": "tool",
+        "kind": "tool-result",
+        "labelKey": "l10_1_block_grep",
+        "fixedTokens": 600
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "analysis",
+        "role": "assistant",
+        "kind": "message",
+        "labelKey": "l10_1_block_analysis",
+        "fixedTokens": 800
+      }
+    },
+    {
+      "type": "narrate",
+      "textKey": "l10_1_step_wrap"
+    }
+  ],
+  "params": {
+    "rounds": [
+      {
+        "promptKey": "l10_1_r1_prompt",
+        "optionKeys": [
+          "l10_1_r1_opt0",
+          "l10_1_r1_opt1",
+          "l10_1_r1_opt2"
+        ],
+        "explainKey": "l10_1_r1_explain"
+      },
+      {
+        "promptKey": "l10_1_r2_prompt",
+        "optionKeys": [
+          "l10_1_r2_opt0",
+          "l10_1_r2_opt1",
+          "l10_1_r2_opt2"
+        ],
+        "explainKey": "l10_1_r2_explain"
+      },
+      {
+        "promptKey": "l10_1_r3_prompt",
+        "optionKeys": [
+          "l10_1_r3_opt0",
+          "l10_1_r3_opt1",
+          "l10_1_r3_opt2"
+        ],
+        "explainKey": "l10_1_r3_explain"
+      },
+      {
+        "promptKey": "l10_1_r4_prompt",
+        "optionKeys": [
+          "l10_1_r4_opt0",
+          "l10_1_r4_opt1",
+          "l10_1_r4_opt2"
+        ],
+        "explainKey": "l10_1_r4_explain"
+      }
+    ]
+  },
+  "pass": {
+    "type": "choiceRounds",
+    "correctIndexes": [
+      2,
+      2,
+      1,
+      1
+    ],
+    "minCorrect": 3
+  },
+  "hints": [
+    "l10_1_hint1",
+    "l10_1_hint2",
+    "l10_1_hint3"
+  ],
+  "badge": null
+}

@@ -236,9 +236,9 @@ describe('progress export never carries the API key', () => {
   });
 
   it('exports progress fields only — no byok, no key material', () => {
-    completeLevel('L10.1', 175);
+    completeLevel('L11.1');
     const exported = exportProgress();
-    expect(exported).toContain('L10.1');
+    expect(exported).toContain('L11.1');
     expect(exported).not.toContain('byok');
     expect(exported).not.toContain('apiKey');
     expect(exported).not.toContain(KEY);

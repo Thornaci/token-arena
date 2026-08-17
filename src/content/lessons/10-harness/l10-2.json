@@ -1,0 +1,195 @@
+{
+  "id": "L10.2",
+  "module": "harness",
+  "order": 2,
+  "titleKey": "l10_2_title",
+  "objectiveKey": "l10_2_objective",
+  "misconceptionKey": "l10_2_misconception",
+  "ecosystem": "claude",
+  "inspector": true,
+  "mechanic": "config-inject",
+  "initialState": {
+    "modelId": "generic-200k",
+    "reservedOutput": 4000,
+    "blocks": [
+      {
+        "id": "sys",
+        "role": "system",
+        "kind": "message",
+        "labelKey": "l10_2_block_sys",
+        "fixedTokens": 4200
+      },
+      {
+        "id": "ask",
+        "role": "user",
+        "kind": "message",
+        "labelKey": "l10_2_block_ask",
+        "fixedTokens": 30
+      }
+    ]
+  },
+  "params": {
+    "tabs": [
+      {
+        "id": "always",
+        "fileName": "CLAUDE.md",
+        "factKeys": [
+          "l10_2_always_fact1",
+          "l10_2_always_fact2",
+          "l10_2_always_fact3"
+        ],
+        "block": {
+          "id": "cfg-always",
+          "role": "system",
+          "kind": "config-file",
+          "labelKey": "l10_2_always_block",
+          "fixedTokens": 2000
+        }
+      },
+      {
+        "id": "desc-skill",
+        "fileName": "SKILL.md (index)",
+        "factKeys": [
+          "l10_2_desc_skill_fact1",
+          "l10_2_desc_skill_fact2",
+          "l10_2_desc_skill_fact3"
+        ],
+        "block": {
+          "id": "cfg-desc-skill",
+          "role": "system",
+          "kind": "tool-def",
+          "labelKey": "l10_2_desc_skill_block",
+          "fixedTokens": 50
+        }
+      },
+      {
+        "id": "skill-body",
+        "fileName": "SKILL.md (invoked)",
+        "factKeys": [
+          "l10_2_skill_body_fact1",
+          "l10_2_skill_body_fact2",
+          "l10_2_skill_body_fact3"
+        ],
+        "block": {
+          "id": "cfg-skill-body",
+          "role": "system",
+          "kind": "config-file",
+          "labelKey": "l10_2_skill_body_block",
+          "fixedTokens": 2000
+        }
+      },
+      {
+        "id": "skill-hidden",
+        "fileName": "SKILL.md (user-only)",
+        "factKeys": [
+          "l10_2_skill_hidden_fact1",
+          "l10_2_skill_hidden_fact2",
+          "l10_2_skill_hidden_fact3"
+        ],
+        "block": {
+          "id": "cfg-skill-hidden",
+          "role": "system",
+          "kind": "tool-def",
+          "labelKey": "l10_2_skill_hidden_block",
+          "fixedTokens": 0
+        }
+      },
+      {
+        "id": "desc-mcp",
+        "fileName": ".mcp.json",
+        "factKeys": [
+          "l10_2_desc_mcp_fact1",
+          "l10_2_desc_mcp_fact2",
+          "l10_2_desc_mcp_fact3"
+        ],
+        "block": {
+          "id": "cfg-desc-mcp",
+          "role": "system",
+          "kind": "tool-def",
+          "labelKey": "l10_2_desc_mcp_block",
+          "fixedTokens": 150
+        }
+      },
+      {
+        "id": "rule-path",
+        "fileName": "rules/api.md",
+        "factKeys": [
+          "l10_2_rule_path_fact1",
+          "l10_2_rule_path_fact2",
+          "l10_2_rule_path_fact3"
+        ],
+        "block": {
+          "id": "cfg-rule-path",
+          "role": "system",
+          "kind": "config-file",
+          "labelKey": "l10_2_rule_path_block",
+          "fixedTokens": 0
+        }
+      }
+    ],
+    "rounds": [
+      {
+        "promptKey": "l10_2_r1_prompt",
+        "optionKeys": [
+          "l10_2_r1_opt0",
+          "l10_2_r1_opt1",
+          "l10_2_r1_opt2"
+        ],
+        "explainKey": "l10_2_r1_explain"
+      },
+      {
+        "promptKey": "l10_2_r2_prompt",
+        "optionKeys": [
+          "l10_2_r2_opt0",
+          "l10_2_r2_opt1",
+          "l10_2_r2_opt2"
+        ],
+        "explainKey": "l10_2_r2_explain"
+      },
+      {
+        "promptKey": "l10_2_r3_prompt",
+        "optionKeys": [
+          "l10_2_r3_opt0",
+          "l10_2_r3_opt1",
+          "l10_2_r3_opt2"
+        ],
+        "explainKey": "l10_2_r3_explain"
+      },
+      {
+        "promptKey": "l10_2_r4_prompt",
+        "optionKeys": [
+          "l10_2_r4_opt0",
+          "l10_2_r4_opt1",
+          "l10_2_r4_opt2"
+        ],
+        "explainKey": "l10_2_r4_explain"
+      },
+      {
+        "promptKey": "l10_2_r5_prompt",
+        "optionKeys": [
+          "l10_2_r5_opt0",
+          "l10_2_r5_opt1",
+          "l10_2_r5_opt2"
+        ],
+        "explainKey": "l10_2_r5_explain"
+      }
+    ]
+  },
+  "pass": {
+    "type": "choiceRounds",
+    "correctIndexes": [
+      1,
+      0,
+      1,
+      1,
+      1
+    ],
+    "minCorrect": 4
+  },
+  "hints": [
+    "l10_2_hint1",
+    "l10_2_hint2",
+    "l10_2_hint3"
+  ],
+  "badge": null
+}

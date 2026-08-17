@@ -5,8 +5,8 @@ import { baseLocale, extractLocaleFromUrl, locales } from '@/paraglide/runtime';
 import * as m from '@/paraglide/messages';
 
 describe('paraglide runtime', () => {
-  it('is configured for en (base) + tr', () => {
-    expect([...locales].sort()).toEqual(['en', 'tr']);
+  it('is configured for en (base) + tr, es, fr, zh', () => {
+    expect([...locales].sort()).toEqual(['en', 'es', 'fr', 'tr', 'zh']);
     expect(baseLocale).toBe('en');
   });
 

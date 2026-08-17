@@ -50,6 +50,5 @@
   },
   "pass": { "type": "tradeoff" },
   "hints": ["l5_3_hint1", "l5_3_hint2", "l5_3_hint3"],
-  "xp": 150,
   "badge": "tradeoff-realist"
 }

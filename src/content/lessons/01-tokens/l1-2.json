@@ -13,7 +13,7 @@
       {
         "promptKey": "l1_2_round_prompt",
         "a": "The quick brown fox jumps over the lazy dog",
-        "b": "Çevik kahverengi tilki tembel köpeğin üstünden atlar",
+        "b": "敏捷的棕色狐狸跳过了懒惰的狗",
         "explainKey": "l1_2_explain_r1"
       },
       {
@@ -38,6 +38,5 @@
   },
   "pass": { "type": "choiceRounds", "correctIndexes": [1, 1, 0, 0], "minCorrect": 3 },
   "hints": ["l1_2_hint1", "l1_2_hint2", "l1_2_hint3"],
-  "xp": 100,
   "badge": null
 }

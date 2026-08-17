@@ -5,7 +5,7 @@ import type { Locale } from '@/lib/locales';
 export interface MechanicComponentProps {
   lesson: Lesson;
   locale: Locale;
-  /** Idempotent: the lesson shell records completion/XP exactly once. */
+  /** Idempotent: the lesson shell records completion exactly once. */
   onPass: () => void;
 }
 
@@ -34,6 +34,8 @@ const registry: Partial<Record<MechanicName, LazyExoticComponent<MechanicCompone
   'rules-trim': lazy(() => import('@/components/mechanics/RulesTrim')),
   'tool-loop': lazy(() => import('@/components/mechanics/ToolLoop')),
   'compaction-sim': lazy(() => import('@/components/mechanics/CompactionSim')),
+  'session-sim': lazy(() => import('@/components/mechanics/CompactionSim')),
+  'subagent-sim': lazy(() => import('@/components/mechanics/SubagentSim')),
   'model-indecision': lazy(() => import('@/components/mechanics/ModelIndecision')),
   'byok-chat': lazy(() => import('@/components/mechanics/ByokChat')),
 };

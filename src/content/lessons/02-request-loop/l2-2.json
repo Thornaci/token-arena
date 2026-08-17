@@ -44,6 +44,5 @@
   },
   "pass": { "type": "choice", "correctIndex": 1 },
   "hints": ["l2_2_hint1", "l2_2_hint2", "l2_2_hint3"],
-  "xp": 125,
   "badge": null
 }

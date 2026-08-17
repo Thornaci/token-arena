@@ -65,6 +65,5 @@
   },
   "pass": { "type": "budgetFit", "budget": 8000 },
   "hints": ["l3_1_hint1", "l3_1_hint2", "l3_1_hint3"],
-  "xp": 125,
   "badge": null
 }

@@ -38,6 +38,5 @@
   },
   "pass": { "type": "budgetFit", "budget": 8000 },
   "hints": ["l3_2_hint1", "l3_2_hint2", "l3_2_hint3"],
-  "xp": 150,
   "badge": "window-warden"
 }

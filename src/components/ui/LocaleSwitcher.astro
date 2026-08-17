@@ -6,6 +6,16 @@ interface Props {
   locale: Locale;
 }
 
+// Each language labelled in its own script — clearer than bare codes once the
+// list grows past a couple of locales.
+const LOCALE_NAMES: Record<Locale, string> = {
+  en: 'English',
+  tr: 'Türkçe',
+  es: 'Español',
+  fr: 'Français',
+  zh: '中文',
+};
+
 const { locale } = Astro.props;
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -24,7 +34,7 @@ const targets = LOCALES.map((l) => ({
     targets.map(({ locale: l, href, current }) =>
       current ? (
         <span aria-current="true" class="rounded px-2 py-1 bg-zinc-800 text-zinc-100">
-          {l.toUpperCase()}
+          {LOCALE_NAMES[l]}
         </span>
       ) : (
         <a
@@ -32,7 +42,7 @@ const targets = LOCALES.map((l) => ({
           data-locale-link={l}
           class="rounded px-2 py-1 text-zinc-500 transition-colors hover:bg-zinc-900 hover:text-zinc-200"
         >
-          {l.toUpperCase()}
+          {LOCALE_NAMES[l]}
         </a>
       ),
     )

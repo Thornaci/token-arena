@@ -29,8 +29,8 @@ src/
   components/sim/registry.ts  mechanic name → component map
   engine/                 pure TS: tokenizer, context, billing, sampling, scoring, sim steps
   stores/                 nanostores: progress (persistent), inspector bridge, byok key custody
-  pages/[locale]/         Astro routes (map, lessons, summary)
-messages/{en,tr}.json     flat i18n catalogs (every UI string)
+  pages/[locale]/         Astro routes (map, lessons)
+messages/{en,tr,es,fr,zh}.json     flat i18n catalogs (every UI string)
 tests/                    unit tests + data-reality locks for lesson numbers
 scripts/                  i18n parity check, L6.2 recording script
 ```
@@ -83,8 +83,10 @@ scripts/                  i18n parity check, L6.2 recording script
 | `config-inject` | `choiceRounds` | L7.2 |
 | `rules-trim` | `budgetFit` | L7.3 |
 | `tool-loop` | `ordering` | L8.1 |
-| `compaction-sim` | `choiceRounds` | L9.1 |
-| `byok-chat` | `completeAll` (count 1, inspector required) | L10.1 |
+| `compaction-sim` | `choiceRounds` | L9.1 / L10.6 |
+| `session-sim` | `choiceRounds` (compaction-sim's renderer under a self-documenting name) | L10.1 |
+| `subagent-sim` | `choiceRounds` (main script + isolated `params.sub` script) | L10.3 |
+| `byok-chat` | `completeAll` (count 1, inspector required) | L11.1 |
 
 Pass check shapes live in `src/engine/scoring.ts`; the schema's per-mechanic alignment rules live at the bottom of `src/content/schema.ts`.
 

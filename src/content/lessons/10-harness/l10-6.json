@@ -1,0 +1,245 @@
+{
+  "id": "L10.6",
+  "module": "harness",
+  "order": 6,
+  "titleKey": "l10_6_title",
+  "objectiveKey": "l10_6_objective",
+  "misconceptionKey": "l10_6_misconception",
+  "ecosystem": "claude",
+  "inspector": true,
+  "mechanic": "compaction-sim",
+  "initialState": {
+    "modelId": "generic-200k",
+    "reservedOutput": 8000,
+    "blocks": [
+      {
+        "id": "sys",
+        "role": "system",
+        "kind": "message",
+        "labelKey": "l10_6_block_sys",
+        "fixedTokens": 4200
+      },
+      {
+        "id": "claude-md",
+        "role": "system",
+        "kind": "config-file",
+        "labelKey": "l10_6_block_claude_md",
+        "fixedTokens": 1800
+      },
+      {
+        "id": "mem",
+        "role": "system",
+        "kind": "config-file",
+        "labelKey": "l10_6_block_mem",
+        "fixedTokens": 680
+      }
+    ]
+  },
+  "steps": [
+    {
+      "type": "narrate",
+      "textKey": "l10_6_step_intro"
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "chat-rule",
+        "role": "user",
+        "kind": "message",
+        "labelKey": "l10_6_block_chat_rule",
+        "fixedTokens": 20
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "rule-api",
+        "role": "system",
+        "kind": "config-file",
+        "labelKey": "l10_6_block_rule_api",
+        "fixedTokens": 380
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "skill-full",
+        "role": "user",
+        "kind": "config-file",
+        "labelKey": "l10_6_block_skill_full",
+        "fixedTokens": 6200
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "work-1",
+        "role": "tool",
+        "kind": "tool-result",
+        "labelKey": "l10_6_block_work_1",
+        "fixedTokens": 60000
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "work-2",
+        "role": "tool",
+        "kind": "tool-result",
+        "labelKey": "l10_6_block_work_2",
+        "fixedTokens": 55000
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "work-3",
+        "role": "tool",
+        "kind": "tool-result",
+        "labelKey": "l10_6_block_work_3",
+        "fixedTokens": 48000
+      }
+    },
+    {
+      "type": "freeze",
+      "noteKey": "l10_6_freeze_compact",
+      "targetBlockId": "work-3"
+    },
+    {
+      "type": "narrate",
+      "textKey": "l10_6_step_compaction"
+    },
+    {
+      "type": "removeBlock",
+      "blockId": "work-1"
+    },
+    {
+      "type": "removeBlock",
+      "blockId": "work-2"
+    },
+    {
+      "type": "removeBlock",
+      "blockId": "work-3"
+    },
+    {
+      "type": "removeBlock",
+      "blockId": "chat-rule"
+    },
+    {
+      "type": "removeBlock",
+      "blockId": "rule-api"
+    },
+    {
+      "type": "removeBlock",
+      "blockId": "skill-full"
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "summary",
+        "role": "system",
+        "kind": "message",
+        "labelKey": "l10_6_block_summary",
+        "fixedTokens": 3000
+      }
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "skill-reload",
+        "role": "user",
+        "kind": "config-file",
+        "labelKey": "l10_6_block_skill_reload",
+        "fixedTokens": 5000
+      }
+    },
+    {
+      "type": "narrate",
+      "textKey": "l10_6_step_after"
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "ask2",
+        "role": "user",
+        "kind": "message",
+        "labelKey": "l10_6_block_ask2",
+        "fixedTokens": 25
+      }
+    },
+    {
+      "type": "sendRequest",
+      "noteKey": "l10_6_send_after"
+    },
+    {
+      "type": "addBlock",
+      "block": {
+        "id": "ans",
+        "role": "assistant",
+        "kind": "message",
+        "labelKey": "l10_6_block_ans",
+        "fixedTokens": 60
+      }
+    },
+    {
+      "type": "narrate",
+      "textKey": "l10_6_step_cost"
+    }
+  ],
+  "params": {
+    "rounds": [
+      {
+        "promptKey": "l10_6_r1_prompt",
+        "optionKeys": [
+          "l10_6_r1_opt0",
+          "l10_6_r1_opt1",
+          "l10_6_r1_opt2"
+        ],
+        "explainKey": "l10_6_r1_explain"
+      },
+      {
+        "promptKey": "l10_6_r2_prompt",
+        "optionKeys": [
+          "l10_6_r2_opt0",
+          "l10_6_r2_opt1",
+          "l10_6_r2_opt2"
+        ],
+        "explainKey": "l10_6_r2_explain"
+      },
+      {
+        "promptKey": "l10_6_r3_prompt",
+        "optionKeys": [
+          "l10_6_r3_opt0",
+          "l10_6_r3_opt1",
+          "l10_6_r3_opt2"
+        ],
+        "explainKey": "l10_6_r3_explain"
+      },
+      {
+        "promptKey": "l10_6_r4_prompt",
+        "optionKeys": [
+          "l10_6_r4_opt0",
+          "l10_6_r4_opt1",
+          "l10_6_r4_opt2"
+        ],
+        "explainKey": "l10_6_r4_explain"
+      }
+    ]
+  },
+  "pass": {
+    "type": "choiceRounds",
+    "correctIndexes": [
+      2,
+      1,
+      1,
+      1
+    ],
+    "minCorrect": 3
+  },
+  "hints": [
+    "l10_6_hint1",
+    "l10_6_hint2",
+    "l10_6_hint3"
+  ],
+  "badge": null
+}
