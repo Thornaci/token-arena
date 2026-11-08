@@ -119,6 +119,38 @@ describe('parseByokResponse', () => {
     expect(parsed).toEqual({ text: 'A token is…', usage: { inputTokens: 40, outputTokens: 11 } });
   });
 
+  it('reads thinking tokens from both providers (a subset of output, billed as output)', () => {
+    const anthropic = parseByokResponse('anthropic', {
+      content: [
+        { type: 'thinking', thinking: '', signature: 'sig' },
+        { type: 'text', text: 'Paris.' },
+      ],
+      usage: { input_tokens: 30, output_tokens: 410, output_tokens_details: { thinking_tokens: 402 } },
+    });
+    expect(anthropic).toEqual({
+      text: 'Paris.',
+      usage: { inputTokens: 30, outputTokens: 410, thinkingTokens: 402 },
+    });
+
+    const openai = parseByokResponse('openai', {
+      choices: [{ message: { content: 'Paris.' } }],
+      usage: {
+        prompt_tokens: 30,
+        completion_tokens: 300,
+        completion_tokens_details: { reasoning_tokens: 290, audio_tokens: 0 },
+      },
+    });
+    expect(openai.usage).toEqual({ inputTokens: 30, outputTokens: 300, thinkingTokens: 290 });
+  });
+
+  it('leaves thinking out when the details object is null or absent', () => {
+    const parsed = parseByokResponse('anthropic', {
+      content: [{ type: 'text', text: 'hi' }],
+      usage: { input_tokens: 5, output_tokens: 2, output_tokens_details: null },
+    });
+    expect(parsed.usage).toEqual({ inputTokens: 5, outputTokens: 2 });
+  });
+
   it('tolerates missing usage', () => {
     expect(
       parseByokResponse('openai', { choices: [{ message: { content: 'hi' } }] }).usage,

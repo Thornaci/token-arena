@@ -151,7 +151,7 @@ export interface PrerecordedPair {
 }
 
 /**
- * Shape of public/prerecorded/l6-2.json, produced by scripts/record-l6-2.mjs
+ * Shape of public/prerecorded/l6-2.json, produced by `node scripts/record.mjs L6.2`
  * with the exact forward pass the worker uses. modelRepo/dtype are recorded so
  * tests can detect drift between the lesson params and the recording.
  */

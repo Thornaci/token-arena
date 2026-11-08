@@ -4,7 +4,7 @@ import Base from '@/layouts/Base.astro';
 import LocaleSwitcher from '@/components/ui/LocaleSwitcher.astro';
 import ContextInspector from '@/components/inspector/ContextInspector.tsx';
 import LessonShell from '@/components/lesson/LessonShell.tsx';
-import { nextLesson, sortLessons, type LessonMeta } from '@/lib/curriculum';
+import { lessonLabels, nextLesson, sortLessons, type LessonMeta } from '@/lib/curriculum';
 import { LOCALES } from '@/lib/locales';
 import { lessonText } from '@/lib/lessonText';
 
@@ -18,12 +18,14 @@ export async function getStaticPaths() {
     titleKey: entry.data.titleKey,
   }));
   const sorted = sortLessons(metas);
+  const labels = lessonLabels(sorted);
 
   return LOCALES.flatMap((locale) =>
     entries.map((entry) => ({
       params: { locale, slug: entry.id },
       props: {
         lesson: entry.data,
+        label: labels.get(entry.data.id) ?? '',
         next: nextLesson(sorted, entry.data.id),
       },
     })),
@@ -31,11 +33,12 @@ export async function getStaticPaths() {
 }
 
 const { locale } = Astro.params;
-const { lesson, next } = Astro.props;
+const { lesson, label, next } = Astro.props;
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const mapHref = `${base}/${locale}/`;
 const nextHref = next ? `${base}/${locale}/lessons/${next.slug}/` : mapHref;
+const glossaryHref = `${base}/${locale}/glossary/`;
 const title = lessonText(lesson.titleKey, locale);
 ---
 
@@ -46,6 +49,9 @@ const title = lessonText(lesson.titleKey, locale);
         ← Token_Arena
       </a>
       <div class="flex items-center gap-3">
+        <a href={glossaryHref} class="font-mono text-xs text-(--color-faint) underline decoration-dotted underline-offset-4 hover:text-(--color-ink)">
+          {lessonText('glossary_title', locale)}
+        </a>
         <LocaleSwitcher locale={locale} />
       </div>
     </header>
@@ -58,7 +64,7 @@ const title = lessonText(lesson.titleKey, locale);
     >
       <main>
         <p class="font-mono text-xs uppercase tracking-[0.25em] text-(--color-faint)">
-          {lesson.id}
+          {label}
         </p>
         <h1 class="mt-1 font-display text-3xl font-bold text-(--color-ink)">{title}</h1>
         <p class="mt-2 max-w-2xl text-(--color-dim)">{lessonText(lesson.objectiveKey, locale)}</p>

@@ -1,0 +1,259 @@
+{
+  "recordedAt": "2026-11-06T17:28:12.838Z",
+  "dtype": "q8",
+  "scenes": {
+    "copy": {
+      "kind": "next",
+      "model": "onnx-community/Qwen2.5-0.5B-Instruct",
+      "items": [
+        {
+          "prompt": "Ayla put her keys in the blue drawer. Then she made tea, read the news, answered three emails, watered the plants on the balcony, called her brother to talk about the weekend, and finally sat down with a book for an hour. Later she looked for her keys in the blue",
+          "chat": false,
+          "top": [
+            {
+              "token": " drawer",
+              "probability": 0.9082671292600135
+            },
+            {
+              "token": " box",
+              "probability": 0.019236689529700476
+            },
+            {
+              "token": " and",
+              "probability": 0.008909808039073252
+            },
+            {
+              "token": ",",
+              "probability": 0.0077435227092368395
+            },
+            {
+              "token": " drawers",
+              "probability": 0.00507936754300686
+            }
+          ],
+          "watch": {
+            " drawer": 0.9082671292600135,
+            " basket": 0.003790686063368525
+          }
+        },
+        {
+          "prompt": "Ayla put her keys in the blue basket. Then she made tea, read the news, answered three emails, watered the plants on the balcony, called her brother to talk about the weekend, and finally sat down with a book for an hour. Later she looked for her keys in the blue",
+          "chat": false,
+          "top": [
+            {
+              "token": " basket",
+              "probability": 0.99874502874588
+            },
+            {
+              "token": " and",
+              "probability": 0.00025502968915013386
+            },
+            {
+              "token": " baskets",
+              "probability": 0.00019290475673208507
+            },
+            {
+              "token": ",",
+              "probability": 0.00014037840895272382
+            },
+            {
+              "token": " bucket",
+              "probability": 0.00006481063603601641
+            }
+          ],
+          "watch": {
+            " drawer": 0.0000041444738965860935,
+            " basket": 0.99874502874588
+          }
+        }
+      ]
+    },
+    "heat": {
+      "kind": "occlusion",
+      "model": "onnx-community/Qwen2.5-0.5B-Instruct",
+      "prompt": "Ayla put her keys in the blue drawer. Then she made tea, read the news and watered the plants. Later she looked for her keys in the blue",
+      "answer": " drawer",
+      "base": 0.9558890013163001,
+      "words": [
+        {
+          "word": "Ayla",
+          "probability": 0.947345129011307
+        },
+        {
+          "word": "put",
+          "probability": 0.9694778109088291
+        },
+        {
+          "word": "her",
+          "probability": 0.9707612174966336
+        },
+        {
+          "word": "keys",
+          "probability": 0.6582863902485265
+        },
+        {
+          "word": "in",
+          "probability": 0.9320195121703719
+        },
+        {
+          "word": "the",
+          "probability": 0.937548450249567
+        },
+        {
+          "word": "blue",
+          "probability": 0.11689667223445128
+        },
+        {
+          "word": "drawer.",
+          "probability": 0.010817395947847456
+        },
+        {
+          "word": "Then",
+          "probability": 0.9285496608815919
+        },
+        {
+          "word": "she",
+          "probability": 0.8506820246580714
+        },
+        {
+          "word": "made",
+          "probability": 0.9328908864705249
+        },
+        {
+          "word": "tea,",
+          "probability": 0.8102627214726805
+        },
+        {
+          "word": "read",
+          "probability": 0.9498749121487509
+        },
+        {
+          "word": "the",
+          "probability": 0.9725182416750319
+        },
+        {
+          "word": "news",
+          "probability": 0.9200207451210345
+        },
+        {
+          "word": "and",
+          "probability": 0.9762369534140343
+        },
+        {
+          "word": "watered",
+          "probability": 0.7556086902566339
+        },
+        {
+          "word": "the",
+          "probability": 0.8961524432199652
+        },
+        {
+          "word": "plants.",
+          "probability": 0.7872993525589298
+        },
+        {
+          "word": "Later",
+          "probability": 0.6912007832111747
+        },
+        {
+          "word": "she",
+          "probability": 0.9213192102576383
+        },
+        {
+          "word": "looked",
+          "probability": 0.9489714870534216
+        },
+        {
+          "word": "for",
+          "probability": 0.9560031876638534
+        },
+        {
+          "word": "her",
+          "probability": 0.892691402681548
+        },
+        {
+          "word": "keys",
+          "probability": 0.8443227890672347
+        },
+        {
+          "word": "in",
+          "probability": 0.764405939986276
+        },
+        {
+          "word": "the",
+          "probability": 0.4736777329999369
+        },
+        {
+          "word": "blue",
+          "probability": 0.12179931285975479
+        }
+      ]
+    },
+    "mouse": {
+      "kind": "next",
+      "model": "onnx-community/Qwen2.5-0.5B-Instruct",
+      "items": [
+        {
+          "prompt": "My laptop's touchpad broke, so I plugged in a mouse and clicked",
+          "chat": false,
+          "top": [
+            {
+              "token": " on",
+              "probability": 0.36780038923493835
+            },
+            {
+              "token": " the",
+              "probability": 0.09914424263890691
+            },
+            {
+              "token": ".",
+              "probability": 0.08521667703311865
+            },
+            {
+              "token": " it",
+              "probability": 0.07127212451757059
+            },
+            {
+              "token": " to",
+              "probability": 0.04967971903885272
+            }
+          ],
+          "watch": {
+            " on": 0.36780038923493835,
+            " ran": 1.4378227839185103e-7
+          }
+        },
+        {
+          "prompt": "The cat crouched in the kitchen and chased the mouse until it",
+          "chat": false,
+          "top": [
+            {
+              "token": " was",
+              "probability": 0.29486339135006917
+            },
+            {
+              "token": " ran",
+              "probability": 0.05569487320517511
+            },
+            {
+              "token": " got",
+              "probability": 0.03303672443672597
+            },
+            {
+              "token": " became",
+              "probability": 0.03172097137577523
+            },
+            {
+              "token": " finally",
+              "probability": 0.02824471382081846
+            }
+          ],
+          "watch": {
+            " on": 0.00003367727815926854,
+            " ran": 0.05569487320517511
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "id": "L12.3",
+  "module": "inside-model",
+  "order": 3,
+  "titleKey": "l12_3_title",
+  "objectiveKey": "l12_3_objective",
+  "misconceptionKey": "l12_3_misconception",
+  "inspector": false,
+  "mechanic": "model-replay",
+  "params": {
+    "introKey": "l12_3_intro",
+    "recordingPath": "prerecorded/l12-3.json",
+    "scenes": [
+      {
+        "kind": "next",
+        "id": "copy",
+        "model": "onnx-community/Qwen2.5-0.5B-Instruct",
+        "topK": 5,
+        "items": [
+          {
+            "labelKey": "l12_3_copy_a",
+            "prompt": "Ayla put her keys in the blue drawer. Then she made tea, read the news, answered three emails, watered the plants on the balcony, called her brother to talk about the weekend, and finally sat down with a book for an hour. Later she looked for her keys in the blue",
+            "chat": false,
+            "watch": [
+              " drawer",
+              " basket"
+            ]
+          },
+          {
+            "labelKey": "l12_3_copy_b",
+            "prompt": "Ayla put her keys in the blue basket. Then she made tea, read the news, answered three emails, watered the plants on the balcony, called her brother to talk about the weekend, and finally sat down with a book for an hour. Later she looked for her keys in the blue",
+            "chat": false,
+            "watch": [
+              " drawer",
+              " basket"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "occlusion",
+        "id": "heat",
+        "model": "onnx-community/Qwen2.5-0.5B-Instruct",
+        "prompt": "Ayla put her keys in the blue drawer. Then she made tea, read the news and watered the plants. Later she looked for her keys in the blue",
+        "answer": " drawer"
+      },
+      {
+        "kind": "next",
+        "id": "mouse",
+        "model": "onnx-community/Qwen2.5-0.5B-Instruct",
+        "topK": 5,
+        "items": [
+          {
+            "labelKey": "l12_3_mouse_a",
+            "prompt": "My laptop's touchpad broke, so I plugged in a mouse and clicked",
+            "chat": false,
+            "watch": [
+              " on",
+              " ran"
+            ]
+          },
+          {
+            "labelKey": "l12_3_mouse_b",
+            "prompt": "The cat crouched in the kitchen and chased the mouse until it",
+            "chat": false,
+            "watch": [
+              " on",
+              " ran"
+            ]
+          }
+        ]
+      }
+    ],
+    "rounds": [
+      {
+        "promptKey": "l12_3_r1_prompt",
+        "optionKeys": [
+          "l12_3_r1_opt0",
+          "l12_3_r1_opt1",
+          "l12_3_r1_opt2"
+        ],
+        "scene": "copy",
+        "reveal": "after",
+        "explainKey": "l12_3_r1_explain"
+      },
+      {
+        "promptKey": "l12_3_r2_prompt",
+        "options": [
+          "Ayla",
+          "drawer",
+          "tea"
+        ],
+        "scene": "heat",
+        "reveal": "after",
+        "explainKey": "l12_3_r2_explain"
+      },
+      {
+        "promptKey": "l12_3_r3_prompt",
+        "optionKeys": [
+          "l12_3_r3_opt0",
+          "l12_3_r3_opt1",
+          "l12_3_r3_opt2"
+        ],
+        "scene": "mouse",
+        "reveal": "after",
+        "explainKey": "l12_3_r3_explain"
+      }
+    ]
+  },
+  "pass": {
+    "type": "choiceRounds",
+    "correctIndexes": [
+      1,
+      1,
+      1
+    ],
+    "minCorrect": 2
+  },
+  "hints": [
+    "l12_3_hint1",
+    "l12_3_hint2",
+    "l12_3_hint3"
+  ],
+  "badge": null
+}

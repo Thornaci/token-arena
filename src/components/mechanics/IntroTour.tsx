@@ -1,17 +1,9 @@
 import { useEffect, useState } from 'react';
 import type { MechanicComponentProps } from '@/components/sim/registry';
 import { showInspector } from '@/stores/inspector';
-import { setTool, type ToolChoice } from '@/stores/progress';
 import { getModelProfile } from '@/engine/modelProfiles';
 import { lessonText } from '@/lib/lessonText';
 import { GhostButton, PrimaryButton } from './shared';
-
-const TOOLS: { id: ToolChoice; label: string }[] = [
-  { id: 'claude-code', label: 'Claude Code' },
-  { id: 'codex', label: 'Codex' },
-  { id: 'cursor', label: 'Cursor' },
-  { id: 'curious', label: '?' },
-];
 
 /** A tiny demo payload so the tour has something real to point at. */
 const DEMO_BLOCKS = [
@@ -24,10 +16,8 @@ export default function IntroTour({ lesson, locale, onPass }: MechanicComponentP
   if (lesson.mechanic !== 'intro-tour') throw new Error('IntroTour got wrong lesson');
   const { slides } = lesson.params;
 
-  // step 0 = welcome slide, step 1 = tool picker, steps 2.. = remaining slides
   const [step, setStep] = useState(0);
-  const [pickedTool, setPickedTool] = useState<ToolChoice | null>(null);
-  const totalSteps = slides.length + 1;
+  const totalSteps = slides.length;
   const t = (key: string, params?: Record<string, string | number>) =>
     lessonText(key, locale, params);
 
@@ -42,8 +32,6 @@ export default function IntroTour({ lesson, locale, onPass }: MechanicComponentP
     );
   }, []);
 
-  const slideIndex = step === 0 ? 0 : step - 1;
-  const isToolStep = step === 1;
   const isLast = step === totalSteps - 1;
 
   return (
@@ -52,48 +40,16 @@ export default function IntroTour({ lesson, locale, onPass }: MechanicComponentP
         {Array.from({ length: totalSteps }, (_, i) => (i === step ? '■' : '·')).join(' ')}
       </p>
 
-      {isToolStep ? (
-        <div className="flex flex-col gap-4">
-          <p className="max-w-prose text-(--color-ink)">{t('m0_tool_prompt')}</p>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-            {TOOLS.map((tool) => (
-              <button
-                key={tool.id}
-                type="button"
-                onClick={() => {
-                  setPickedTool(tool.id);
-                  setTool(tool.id);
-                }}
-                aria-pressed={pickedTool === tool.id}
-                className={`rounded border px-3 py-4 font-mono text-sm transition-colors ${
-                  pickedTool === tool.id
-                    ? 'border-(--color-phosphor) bg-(--color-raised) text-(--color-phosphor)'
-                    : 'border-(--color-line) text-(--color-dim) hover:border-(--color-line-bright)'
-                }`}
-              >
-                {tool.id === 'curious' ? t('m0_tool_curious') : tool.label}
-              </button>
-            ))}
-          </div>
-          <p className="text-xs text-(--color-faint)">{t('m0_tool_note')}</p>
-        </div>
-      ) : (
-        <p className="max-w-prose whitespace-pre-line text-(--color-ink)">
-          {t(slides[slideIndex]!.textKey)}
-        </p>
-      )}
+      <p className="max-w-prose whitespace-pre-line text-(--color-ink)">
+        {t(slides[step]!.textKey)}
+      </p>
 
       <div className="flex items-center gap-3">
         {step > 0 && <GhostButton onClick={() => setStep((s) => s - 1)}>←</GhostButton>}
         {isLast ? (
           <PrimaryButton onClick={onPass}>{t('m0_finish_cta')}</PrimaryButton>
         ) : (
-          <PrimaryButton
-            onClick={() => setStep((s) => s + 1)}
-            disabled={isToolStep && pickedTool === null}
-          >
-            {t('m0_next_cta')} →
-          </PrimaryButton>
+          <PrimaryButton onClick={() => setStep((s) => s + 1)}>{t('m0_next_cta')} →</PrimaryButton>
         )}
       </div>
     </div>

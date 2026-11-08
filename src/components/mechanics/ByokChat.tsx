@@ -21,10 +21,10 @@ import { GhostButton, PrimaryButton } from './shared';
 
 const PROVIDERS: readonly ByokProvider[] = ['openai', 'anthropic', 'custom'];
 
-/** Inspector profile per provider; claude-class carries the "estimate" note. */
+/** Inspector profile per provider; the real-model rows carry the "estimate" note. */
 const PROFILE_IDS: Record<ByokProvider, string> = {
-  openai: 'gpt-class-128k',
-  anthropic: 'claude-class-200k',
+  openai: 'gpt-6',
+  anthropic: 'claude-5-5',
   custom: 'generic-128k',
 };
 
@@ -315,6 +315,12 @@ export default function ByokChat({ lesson, locale, onPass }: MechanicComponentPr
             input: lastUsage.inputTokens ?? 0,
             output: lastUsage.outputTokens ?? 0,
           })}
+          {lastUsage.thinkingTokens !== undefined && lastUsage.thinkingTokens > 0 && (
+            <span className="text-(--color-faint)">
+              {' '}
+              {t('byok_usage_thinking', { thinking: lastUsage.thinkingTokens })}
+            </span>
+          )}
           {prices && (
             <span className="text-(--color-amber)">
               {' '}

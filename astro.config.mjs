@@ -4,15 +4,31 @@ import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
 
+const BASE = '/token-arena';
+const LOCALES = ['en', 'tr', 'es', 'fr', 'zh'];
+
+// Pages that once shipped and have since moved or been removed. GitHub Pages
+// has no server redirects, so Astro emits a meta-refresh page at each old path.
+// Sources are base-relative; destinations are not, so they carry BASE.
+const MOVED_PAGES = {
+  'lessons/10-sandbox/l10-1': 'lessons/11-sandbox/l11-1/', // harness took slot M10
+  summary: '', // completion summary removed with XP
+};
+
 // Deployed as a GitHub Pages *project* site, so everything lives under /token-arena.
 // For a user site or custom domain, change `site` and drop `base`.
 export default defineConfig({
   site: 'https://thornaci.github.io',
-  base: '/token-arena',
+  base: BASE,
   output: 'static',
+  redirects: Object.fromEntries(
+    LOCALES.flatMap((locale) =>
+      Object.entries(MOVED_PAGES).map(([from, to]) => [`/${locale}/${from}`, `${BASE}/${locale}/${to}`]),
+    ),
+  ),
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'tr', 'es', 'fr', 'zh'],
+    locales: LOCALES,
     routing: {
       prefixDefaultLocale: true,
       redirectToDefaultLocale: false,

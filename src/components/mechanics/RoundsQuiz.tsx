@@ -7,7 +7,10 @@ import { ChoiceQuestion, GhostButton, PrimaryButton } from './shared';
 
 export interface QuizRound {
   promptKey: string;
-  optionKeys: readonly string[];
+  /** i18n keys… */
+  optionKeys?: readonly string[];
+  /** …or literal labels (tokens, words, numbers) shown as-is in every locale. */
+  options?: readonly string[];
   explainKey?: string;
 }
 
@@ -19,8 +22,11 @@ interface Props {
   onPass: () => void;
   /** Fired the moment a round is answered — e.g. to reveal a visualization. */
   onAnswered?: (round: number, selectedIndex: number) => void;
-  /** Rendered above the current round's question (scenario, message stack…). */
-  renderRound?: (round: number) => ReactNode;
+  /**
+   * Rendered above the current round's question (scenario, message stack…).
+   * `answered` lets a scene keep its evidence hidden until the prediction is in.
+   */
+  renderRound?: (round: number, answered: boolean) => ReactNode;
 }
 
 /**
@@ -106,10 +112,10 @@ export default function RoundsQuiz({
       <p className="font-mono text-xs uppercase tracking-widest text-(--color-faint)">
         {t('rounds_progress', { n: round + 1, total: rounds.length })}
       </p>
-      {renderRound?.(round)}
+      {renderRound?.(round, answered)}
       <ChoiceQuestion
         prompt={t(current.promptKey)}
-        options={current.optionKeys.map((key) => t(key))}
+        options={current.options ?? (current.optionKeys ?? []).map((key) => t(key))}
         selected={selected}
         onSelect={answer}
         verdict={answered ? { correctIndex } : null}

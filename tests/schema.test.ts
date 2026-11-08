@@ -126,6 +126,83 @@ describe('lessonSchema', () => {
     });
     expect(badBlock.success).toBe(false);
   });
+
+  const statelessChat = {
+    ...validLesson,
+    id: 'L2.1',
+    module: 'request-loop',
+    mechanic: 'stateless-chat',
+    inspector: true,
+    initialState: { modelId: 'generic-8k', blocks: [] },
+    params: {
+      turns: [
+        { userKey: 'app_title', userTokens: 10, assistantKey: 'app_title', assistantTokens: 20 },
+        { userKey: 'app_title', userTokens: 12, assistantKey: 'app_title', assistantTokens: 18 },
+      ],
+      question: { promptKey: 'app_title', optionKeys: ['app_title', 'app_tagline'] },
+    },
+    pass: { type: 'choice', correctIndex: 1 },
+  };
+
+  it('requires a choice pass with an in-range answer for single-question walkthroughs', () => {
+    const ok = lessonSchema.safeParse(statelessChat);
+    expect(ok.success, messagesOf(ok)).toBe(true);
+
+    const wrongType = lessonSchema.safeParse({ ...statelessChat, pass: { type: 'completeAll', count: 1 } });
+    expect(wrongType.success).toBe(false);
+    expect(messagesOf(wrongType)).toContain('must use a choice pass');
+
+    const outOfRange = lessonSchema.safeParse({ ...statelessChat, pass: { type: 'choice', correctIndex: 2 } });
+    expect(outOfRange.success).toBe(false);
+    expect(messagesOf(outOfRange)).toContain('out of range');
+  });
+
+  it('requires intro-tour lessons to be unscored', () => {
+    const tour = {
+      ...validLesson,
+      id: 'M0',
+      module: 'onboarding',
+      order: 0,
+      mechanic: 'intro-tour',
+      params: { slides: [{ textKey: 'app_title', highlight: 'none' }] },
+    };
+    expect(lessonSchema.safeParse({ ...tour, pass: { type: 'none' } }).success).toBe(true);
+    const scored = lessonSchema.safeParse({ ...tour, pass: { type: 'completeAll', count: 1 } });
+    expect(scored.success).toBe(false);
+    expect(messagesOf(scored)).toContain('none pass');
+  });
+
+  it('rejects a choiceRounds pass that demands more right answers than rounds', () => {
+    const result = lessonSchema.safeParse({
+      ...validLesson,
+      id: 'L7.1',
+      module: 'ecosystem',
+      mechanic: 'quiz',
+      params: { rounds: [{ promptKey: 'app_title', optionKeys: ['app_title', 'app_tagline'] }] },
+      pass: { type: 'choiceRounds', correctIndexes: [0], minCorrect: 2 },
+    });
+    expect(result.success).toBe(false);
+    expect(messagesOf(result)).toContain('unpassable');
+  });
+
+  it('rejects a badge without a catalog name', () => {
+    expect(lessonSchema.safeParse({ ...validLesson, badge: 'tokenizer-whisperer' }).success).toBe(true);
+    const result = lessonSchema.safeParse({ ...validLesson, badge: 'tokenizer-whisperr' });
+    expect(result.success).toBe(false);
+    expect(messagesOf(result)).toContain('badge_tokenizer_whisperr');
+  });
+
+  it('limits token-compare answers to the two strings', () => {
+    const result = lessonSchema.safeParse({
+      ...validLesson,
+      id: 'L1.2',
+      mechanic: 'token-compare',
+      params: { encoding: 'o200k_base', rounds: [{ promptKey: 'app_title', a: 'hello', b: 'merhaba' }] },
+      pass: { type: 'choiceRounds', correctIndexes: [2], minCorrect: 1 },
+    });
+    expect(result.success).toBe(false);
+    expect(messagesOf(result)).toContain('0 or 1');
+  });
 });
 
 describe('Tur 2 mechanic alignment rules', () => {

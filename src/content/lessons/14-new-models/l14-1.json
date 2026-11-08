@@ -1,0 +1,93 @@
+{
+  "id": "L14.1",
+  "module": "new-models",
+  "order": 1,
+  "titleKey": "l14_1_title",
+  "objectiveKey": "l14_1_objective",
+  "misconceptionKey": "l14_1_misconception",
+  "inspector": false,
+  "mechanic": "model-replay",
+  "params": {
+    "introKey": "l14_1_intro",
+    "recordingPath": "prerecorded/l14-1.json",
+    "scenes": [
+      {
+        "kind": "thinking",
+        "id": "prime",
+        "model": "onnx-community/Qwen3-0.6B-ONNX",
+        "question": "Is 91 a prime number? Answer yes or no at the end.",
+        "answerKind": "yesno",
+        "expected": "no",
+        "seeds": [
+          1,
+          2,
+          3
+        ],
+        "maxThinkingTokens": 1500
+      },
+      {
+        "kind": "thinking",
+        "id": "letters",
+        "model": "onnx-community/Qwen3-0.6B-ONNX",
+        "question": "How many times does the letter \"r\" appear in the word \"strawberry\"? Answer with a number at the end.",
+        "answerKind": "number",
+        "expected": "3",
+        "seeds": [
+          1,
+          2,
+          3
+        ],
+        "maxThinkingTokens": 1500
+      }
+    ],
+    "rounds": [
+      {
+        "promptKey": "l14_1_r1_prompt",
+        "optionKeys": [
+          "l14_1_r1_opt0",
+          "l14_1_r1_opt1",
+          "l14_1_r1_opt2"
+        ],
+        "scene": "prime",
+        "reveal": "after",
+        "explainKey": "l14_1_r1_explain"
+      },
+      {
+        "promptKey": "l14_1_r2_prompt",
+        "optionKeys": [
+          "l14_1_r2_opt0",
+          "l14_1_r2_opt1",
+          "l14_1_r2_opt2"
+        ],
+        "scene": "letters",
+        "reveal": "after",
+        "explainKey": "l14_1_r2_explain"
+      },
+      {
+        "promptKey": "l14_1_r3_prompt",
+        "optionKeys": [
+          "l14_1_r3_opt0",
+          "l14_1_r3_opt1",
+          "l14_1_r3_opt2"
+        ],
+        "scene": "prime",
+        "explainKey": "l14_1_r3_explain"
+      }
+    ]
+  },
+  "pass": {
+    "type": "choiceRounds",
+    "correctIndexes": [
+      1,
+      2,
+      1
+    ],
+    "minCorrect": 2
+  },
+  "hints": [
+    "l14_1_hint1",
+    "l14_1_hint2",
+    "l14_1_hint3"
+  ],
+  "badge": null
+}

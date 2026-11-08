@@ -1,0 +1,133 @@
+{
+  "id": "L13.1",
+  "module": "training",
+  "order": 1,
+  "titleKey": "l13_1_title",
+  "objectiveKey": "l13_1_objective",
+  "misconceptionKey": "l13_1_misconception",
+  "inspector": false,
+  "mechanic": "model-replay",
+  "params": {
+    "introKey": "l13_1_intro",
+    "recordingPath": "prerecorded/l13-1.json",
+    "scenes": [
+      {
+        "kind": "continue",
+        "id": "sad",
+        "maxNewTokens": 50,
+        "items": [
+          {
+            "labelKey": "l13_1_base",
+            "model": "onnx-community/Qwen2.5-0.5B",
+            "prompt": "I feel a bit sad today.\n",
+            "chat": false
+          },
+          {
+            "labelKey": "l13_1_chat",
+            "model": "onnx-community/Qwen2.5-0.5B-Instruct",
+            "prompt": "I feel a bit sad today.",
+            "chat": true
+          }
+        ]
+      },
+      {
+        "kind": "continue",
+        "id": "dinner",
+        "maxNewTokens": 50,
+        "items": [
+          {
+            "labelKey": "l13_1_base",
+            "model": "onnx-community/Qwen2.5-0.5B",
+            "prompt": "What should I cook for dinner tonight?\n",
+            "chat": false
+          },
+          {
+            "labelKey": "l13_1_chat",
+            "model": "onnx-community/Qwen2.5-0.5B-Instruct",
+            "prompt": "What should I cook for dinner tonight?",
+            "chat": true
+          }
+        ]
+      },
+      {
+        "kind": "continue",
+        "id": "joke",
+        "maxNewTokens": 50,
+        "items": [
+          {
+            "labelKey": "l13_1_base",
+            "model": "onnx-community/Qwen2.5-0.5B",
+            "prompt": "Tell me a joke.\n",
+            "chat": false
+          },
+          {
+            "labelKey": "l13_1_chat",
+            "model": "onnx-community/Qwen2.5-0.5B-Instruct",
+            "prompt": "Tell me a joke.",
+            "chat": true
+          }
+        ]
+      }
+    ],
+    "rounds": [
+      {
+        "promptKey": "l13_1_r1_prompt",
+        "optionKeys": [
+          "l13_1_r1_opt0",
+          "l13_1_r1_opt1",
+          "l13_1_r1_opt2"
+        ],
+        "scene": "sad",
+        "reveal": "after",
+        "explainKey": "l13_1_r1_explain"
+      },
+      {
+        "promptKey": "l13_1_r2_prompt",
+        "optionKeys": [
+          "l13_1_r2_opt0",
+          "l13_1_r2_opt1",
+          "l13_1_r2_opt2"
+        ],
+        "scene": "dinner",
+        "reveal": "after",
+        "explainKey": "l13_1_r2_explain"
+      },
+      {
+        "promptKey": "l13_1_r3_prompt",
+        "optionKeys": [
+          "l13_1_r3_opt0",
+          "l13_1_r3_opt1",
+          "l13_1_r3_opt2"
+        ],
+        "scene": "joke",
+        "explainKey": "l13_1_r3_explain"
+      },
+      {
+        "promptKey": "l13_1_r4_prompt",
+        "optionKeys": [
+          "l13_1_r4_opt0",
+          "l13_1_r4_opt1",
+          "l13_1_r4_opt2"
+        ],
+        "scene": "joke",
+        "explainKey": "l13_1_r4_explain"
+      }
+    ]
+  },
+  "pass": {
+    "type": "choiceRounds",
+    "correctIndexes": [
+      1,
+      2,
+      1,
+      0
+    ],
+    "minCorrect": 3
+  },
+  "hints": [
+    "l13_1_hint1",
+    "l13_1_hint2",
+    "l13_1_hint3"
+  ],
+  "badge": null
+}

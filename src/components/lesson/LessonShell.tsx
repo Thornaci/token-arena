@@ -18,11 +18,15 @@ export default function LessonShell({ lesson, locale, nextHref, nextIsMap }: Pro
   const progressState = useStore(progress);
   const wasCompleted = isLevelCompleted(progressState, lesson.id);
   const [passed, setPassed] = useState(false);
+  // Captured before completeLevel() runs: the live store flips to "completed"
+  // in the same click, so reading it at render would always say "replay".
+  const [firstPass, setFirstPass] = useState(false);
   const [revealedHints, setRevealedHints] = useState(0);
   const t = (key: string, params?: Record<string, string | number>) =>
     lessonText(key, locale, params);
 
   const handlePass = useCallback(() => {
+    if (!isLevelCompleted(progress.get(), lesson.id)) setFirstPass(true);
     setPassed(true);
     completeLevel(lesson.id);
     if (lesson.badge) awardBadge(lesson.badge);
@@ -51,7 +55,7 @@ export default function LessonShell({ lesson, locale, nextHref, nextIsMap }: Pro
           <p className="font-display text-xl font-bold text-(--color-phosphor) text-glow">
             {t('lesson_passed_title')}
           </p>
-          {!wasCompleted && lesson.badge && (
+          {firstPass && lesson.badge && (
             <p className="mt-1 font-mono text-sm text-(--color-ink)">
               <span className="rounded border border-(--color-amber) px-2 py-0.5 text-xs text-(--color-amber)">
                 ★ {t(`badge_${lesson.badge.replace(/-/g, '_')}`)}

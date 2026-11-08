@@ -10,10 +10,10 @@
   "params": {
     "introKey": "l11_1_intro",
     "systemPromptKey": "l11_1_system_prompt",
-    "maxOutputTokens": 1024,
+    "maxOutputTokens": 4096,
     "defaultModels": {
-      "openai": "gpt-5-mini",
-      "anthropic": "claude-haiku-4-5",
+      "openai": "gpt-6-luna",
+      "anthropic": "claude-haiku-5-5",
       "custom": "llama3.2"
     }
   },

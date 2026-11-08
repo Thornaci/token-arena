@@ -1,0 +1,172 @@
+{
+  "recordedAt": "2026-11-06T17:39:13.785Z",
+  "dtype": "q8",
+  "scenes": {
+    "prime": {
+      "kind": "thinking",
+      "model": "onnx-community/Qwen3-0.6B-ONNX",
+      "question": "Is 91 a prime number? Answer yes or no at the end.",
+      "questionTokens": [
+        "Is",
+        " ",
+        "9",
+        "1",
+        " a",
+        " prime",
+        " number",
+        "?",
+        " Answer",
+        " yes",
+        " or",
+        " no",
+        " at",
+        " the",
+        " end",
+        "."
+      ],
+      "settings": {
+        "thinkingTemperature": 0.6,
+        "plainTemperature": 0.7,
+        "topK": 20
+      },
+      "runs": [
+        {
+          "thinking": false,
+          "seed": 1,
+          "thinkTokens": 0,
+          "answerTokens": 10,
+          "thought": "",
+          "answer": "Yes. 91 is a prime number."
+        },
+        {
+          "thinking": false,
+          "seed": 2,
+          "thinkTokens": 0,
+          "answerTokens": 15,
+          "thought": "",
+          "answer": "Yes. 91 is a prime number. \n\nAnswer: Yes."
+        },
+        {
+          "thinking": false,
+          "seed": 3,
+          "thinkTokens": 0,
+          "answerTokens": 16,
+          "thought": "",
+          "answer": "Yes, 91 is a prime number. **Answer: Yes**."
+        },
+        {
+          "thinking": true,
+          "seed": 1,
+          "thinkTokens": 221,
+          "answerTokens": 23,
+          "thought": "Okay, so the question is whether 91 is a prime number. I remember that a prime number is a number greater than 1 that has no positive divisors other than 1 and itself. Let me think. First, I should check if 91 is divisible by any numbers other than 1 and 91. \n\nStarting with 2: 91 is an odd number, so 2 isn't a divisor. Next, 3: adding the digits of 91 gives 9 + 1 = 10, which isn't divisible by 3, so 3 isn't a factor. Then 5: 91 ends with a 1, so 5 isn't a factor. \n\nWhat about 7? Let's see, 7 times 13 is 91. Wait, that's exactly right. So 7 * 13 equals 91. That means 91 is not a prime number because it's divisible by 7 and 13. Therefore, the answer should be no.",
+          "answer": "No. 91 is not a prime number because it is divisible by 7 and 13."
+        },
+        {
+          "thinking": true,
+          "seed": 2,
+          "thinkTokens": 352,
+          "answerTokens": 19,
+          "thought": "Okay, so the question is whether 91 is a prime number. Let me think. First, I remember that a prime number is a number greater than 1 that has no positive divisors other than 1 and itself. So, the first thing I should do is check if 91 has any divisors other than 1 and 91.\n\nLet me start by checking if it's even. 91 ends with a 1, so it's odd. That means it's not divisible by 2. Next, I should check for other small divisors. Let's try dividing 91 by 3. 3 times 30 is 90, so 91 minus 90 is 1, so 3 doesn't divide 91. Then 5? 5 times 18 is 90, so 91 minus 90 is 1, so 5 doesn't divide it either. \n\nNext, 7? Let me do 7 times 13, which is 91. Oh! So 7 multiplied by 13 gives 91. That means 91 is divisible by 7. Since 7 is a prime number, that means 91 is not a prime number because it has a factor of 7. \n\nWait, let me double-check. Is there any other way? Maybe I can list out factors of 91. The factors of 91 would be 1, 7, 13, and 91. Yes, so that confirms that 91 has more than two factors, making it not a prime. Therefore, the answer should be no.",
+          "answer": "No. 91 is not a prime number because it is divisible by 7."
+        },
+        {
+          "thinking": true,
+          "seed": 3,
+          "thinkTokens": 365,
+          "answerTokens": 12,
+          "thought": "Okay, so the user is asking if 91 is a prime number. Let me think. First, I need to recall what a prime number is. A prime number is a number greater than 1 that has no positive divisors other than 1 and itself. So, the key here is to check if 91 has any divisors besides 1 and 91.\n\nNow, 91. Let me start by checking if it's divisible by small primes. The first prime is 2. 91 divided by 2 is 45.5, which is not an integer, so 2 isn't a factor. Next, 3. Adding the digits: 9 + 1 = 10. 10 isn't divisible by 3, so 3 isn't a factor. Then 5. 91 ends with a 1, so 5 doesn't divide it. 7? Let me try dividing 91 by 7. 7*13 is 91. Yes! So 7 is a factor. Therefore, 91 is not a prime number because it's divisible by 7. \n\nWait, but wait a second. Let me double-check. 7 times 13 is indeed 91. So, 91 is 7*13, meaning it has more than two divisors: 1, 7, 13, and 91. Therefore, it's not a prime. So the answer should be no. \n\nI think that's solid. I don't see any mistakes in my reasoning. The key steps are checking the divisibility by small primes and confirming that 91 is not a prime. So the final answer is no.",
+          "answer": "No. 91 is not a prime number."
+        }
+      ]
+    },
+    "letters": {
+      "kind": "thinking",
+      "model": "onnx-community/Qwen3-0.6B-ONNX",
+      "question": "How many times does the letter \"r\" appear in the word \"strawberry\"? Answer with a number at the end.",
+      "questionTokens": [
+        "How",
+        " many",
+        " times",
+        " does",
+        " the",
+        " letter",
+        " \"",
+        "r",
+        "\"",
+        " appear",
+        " in",
+        " the",
+        " word",
+        " \"",
+        "str",
+        "aw",
+        "berry",
+        "\"?",
+        " Answer",
+        " with",
+        " a",
+        " number",
+        " at",
+        " the",
+        " end",
+        "."
+      ],
+      "settings": {
+        "thinkingTemperature": 0.6,
+        "plainTemperature": 0.7,
+        "topK": 20
+      },
+      "runs": [
+        {
+          "thinking": false,
+          "seed": 1,
+          "thinkTokens": 0,
+          "answerTokens": 23,
+          "thought": "",
+          "answer": "The letter \"r\" appears **1** time in the word \"strawberry\".\n\nAnswer: 1."
+        },
+        {
+          "thinking": false,
+          "seed": 2,
+          "thinkTokens": 0,
+          "answerTokens": 24,
+          "thought": "",
+          "answer": "The letter \"r\" appears **2** times in the word \"strawberry\". \n\nAnswer: 2."
+        },
+        {
+          "thinking": false,
+          "seed": 3,
+          "thinkTokens": 0,
+          "answerTokens": 24,
+          "thought": "",
+          "answer": "The letter \"r\" appears in the word \"strawberry\" **3 times**. \n\nAnswer: 3"
+        },
+        {
+          "thinking": true,
+          "seed": 1,
+          "thinkTokens": 204,
+          "answerTokens": 2,
+          "thought": "Okay, let's see. The user is asking how many times the letter \"r\" appears in the word \"strawberry\". Hmm, first I need to make sure I'm looking at the correct spelling. The word is \"strawberry\". Let me write that out: S-T-R-A-W-B-E-R-R-Y. Wait, so there are two \"r\"s in there. Let me check again. S-T-R-A-W-B-E-R-R-Y. Yes, the first \"r\" is in the middle, and the second one is after the \"b\". So that's two times. I don't think there's any other \"r\" in there. So the answer should be 2. I should make sure there's no typo. Maybe I can count again. S-T-R-A-W-B-E-R-R-Y. Let me spell it out: S-T-R-A-W-B-E-R-R-Y. Yes, two \"r\"s. So the answer is 2.",
+          "answer": "2"
+        },
+        {
+          "thinking": true,
+          "seed": 2,
+          "thinkTokens": 185,
+          "answerTokens": 2,
+          "thought": "Okay, let's see. The user is asking how many times the letter \"r\" appears in the word \"strawberry\". Hmm, first I should just write out the word to make sure I see it right. \"Strawberry\". Now, I need to count the letters 'r' in there. Let me spell it out: S-T-R-A-W-B-E-R-R-Y. Wait, so there are two 'r's here. Let me check again. The first 'r' is in the middle, and then another one at the end. Yep, that's two. So the answer should be 2. I don't think I made any mistakes here. The word is clearly spelled out, and the letters are in the correct order. I just need to make sure there's no other 'r's. No, there's only two. So the final answer is 2.",
+          "answer": "2"
+        },
+        {
+          "thinking": true,
+          "seed": 3,
+          "thinkTokens": 161,
+          "answerTokens": 2,
+          "thought": "Okay, let's see. The user wants to know how many times the letter \"r\" appears in the word \"strawberry\". Hmm, first I need to check the spelling of \"strawberry\". Let me write it down: S-T-R-A-W-B-E-R-R-Y. Wait, so there are two \"r\"s here. Let me count again. First letter is S, second T, third R, fourth A, fifth W, sixth B, seventh E, eighth R, ninth R, tenth Y. Yep, that's two \"r\"s. So the answer should be 2. I need to make sure I didn't miss any other \"r\"s. Let me check once more. No, there are exactly two. So the number is 2.",
+          "answer": "2"
+        }
+      ]
+    }
+  }
+}

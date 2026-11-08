@@ -15,6 +15,9 @@ import type { PassCheck } from '@/engine/scoring';
 export const MODULE_IDS = [
   'onboarding',
   'tokens',
+  'inside-model',
+  'training',
+  'new-models',
   'request-loop',
   'context-window',
   'hierarchy',
@@ -480,11 +483,191 @@ const modelIndecisionParams = z
   })
   .strict();
 
+/**
+ * A choiceRounds round whose options are either i18n keys or literal strings
+ * (tokens, words, numbers — identical in every locale). Exactly one of the two;
+ * the cross-check lives in the lesson superRefine.
+ */
+const literalRoundBase = z.object({
+  promptKey: z.string(),
+  optionKeys: z.array(z.string()).min(2).optional(),
+  options: z.array(z.string().min(1)).min(2).optional(),
+  explainKey: z.string().optional(),
+});
+
+const hfRepo = z.string().regex(/^[\w.-]+\/[\w.-]+$/, 'use a Hugging Face "owner/repo" id');
+const replayTopK = z.number().int().min(3).max(8).default(5);
+
+/**
+ * What scripts/record.mjs records, per scene. Prompts are literal and identical
+ * in every locale — the recorded numbers depend on the exact input string.
+ */
+const replaySceneSchema = z.discriminatedUnion('kind', [
+  z
+    .object({
+      kind: z.literal('trace'),
+      id: z.string().min(1),
+      model: hfRepo,
+      prompt: z.string().min(1),
+      chat: z.boolean(),
+      maxSteps: z.number().int().min(1).max(40),
+      topK: replayTopK,
+    })
+    .strict(),
+  z
+    .object({
+      kind: z.literal('next'),
+      id: z.string().min(1),
+      model: hfRepo,
+      topK: replayTopK,
+      items: z
+        .array(
+          z
+            .object({
+              labelKey: z.string(),
+              prompt: z.string().min(1),
+              chat: z.boolean().default(false),
+              /** Words whose probability is shown even when outside the top-k. */
+              watch: z.array(z.string().min(1)).default([]),
+            })
+            .strict(),
+        )
+        .min(1)
+        .max(2),
+    })
+    .strict(),
+  z
+    .object({
+      kind: z.literal('continue'),
+      id: z.string().min(1),
+      maxNewTokens: z.number().int().min(1).max(120),
+      items: z
+        .array(
+          z
+            .object({ labelKey: z.string(), model: hfRepo, prompt: z.string().min(1), chat: z.boolean() })
+            .strict(),
+        )
+        .min(1)
+        .max(2),
+    })
+    .strict(),
+  z
+    .object({
+      kind: z.literal('occlusion'),
+      id: z.string().min(1),
+      model: hfRepo,
+      prompt: z.string().min(1),
+      /** The token whose probability each deletion is measured against, e.g. " drawer". */
+      answer: z.string().min(1),
+    })
+    .strict(),
+  z
+    .object({
+      kind: z.literal('answers'),
+      id: z.string().min(1),
+      model: hfRepo,
+      maxNewTokens: z.number().int().min(1).max(120),
+      items: z
+        .array(
+          z
+            .object({
+              prompt: z.string().min(1),
+              /** Human-reviewed reading of the recorded reply. */
+              verdict: z.enum(['invented', 'declined']),
+            })
+            .strict(),
+        )
+        .min(1),
+    })
+    .strict(),
+  z
+    .object({
+      kind: z.literal('thinking'),
+      id: z.string().min(1),
+      model: hfRepo,
+      question: z.string().min(1),
+      /** How the final answer is read from the END of each reply (engine/replay finalAnswer). */
+      answerKind: z.enum(['number', 'yesno']),
+      expected: z.string().min(1),
+      seeds: z.array(z.number().int().nonnegative()).min(1).max(5),
+      maxThinkingTokens: z.number().int().positive(),
+    })
+    .strict(),
+]);
+
+const modelReplayParams = z
+  .object({
+    introKey: z.string(),
+    /** Recording under public/, e.g. "prerecorded/l12-1.json". */
+    recordingPath: z.string().min(1),
+    scenes: z.array(replaySceneSchema).min(1),
+    rounds: z
+      .array(
+        literalRoundBase
+          .extend({
+            scene: z.string().min(1),
+            /** trace scenes: which generation step the round looks at. */
+            step: z.number().int().nonnegative().optional(),
+            /** "after": the recorded numbers stay hidden until the round is answered. */
+            reveal: z.enum(['before', 'after']).default('before'),
+          })
+          .strict(),
+      )
+      .min(1),
+  })
+  .strict();
+
+const meaningMapParams = z
+  .object({
+    introKey: z.string(),
+    recordingPath: z.string().min(1),
+    model: hfRepo,
+    /** Task prefix the embedding model expects before each word. */
+    prefix: z.string(),
+    words: z
+      .array(z.object({ text: z.string().min(1), concept: z.string().min(1), lang: z.string().min(2) }).strict())
+      .min(6),
+    rounds: z
+      .array(
+        literalRoundBase
+          .extend({
+            /** Word highlighted on the map; literal options are ranked by similarity to it. */
+            target: z.string().min(1).optional(),
+          })
+          .strict(),
+      )
+      .min(1),
+  })
+  .strict();
+
+const imageTokensParams = z
+  .object({
+    introKey: z.string(),
+    presets: z
+      .array(
+        z
+          .object({
+            id: z.string().min(1),
+            labelKey: z.string(),
+            width: z.number().int().min(1).max(8000),
+            height: z.number().int().min(1).max(8000),
+          })
+          .strict(),
+      )
+      .min(2),
+    rounds: z
+      .array(literalRoundBase.extend({ preset: z.string().min(1).optional() }).strict())
+      .min(1),
+  })
+  .strict();
+
 const byokChatParams = z
   .object({
     introKey: z.string(),
     systemPromptKey: z.string().optional(),
-    maxOutputTokens: z.number().int().positive().default(1024),
+    // Thinking models spend part of this cap reasoning before they answer, so a
+    // small cap can end a reply after the thinking and before any text.
+    maxOutputTokens: z.number().int().positive().default(4096),
     /** Prefilled model-name inputs per provider tab. */
     defaultModels: z
       .object({
@@ -572,6 +755,9 @@ export const lessonSchema = z
     variant('subagent-sim', subagentSimParams),
     variant('model-indecision', modelIndecisionParams),
     variant('byok-chat', byokChatParams),
+    variant('model-replay', modelReplayParams),
+    variant('meaning-map', meaningMapParams),
+    variant('image-tokens', imageTokensParams),
   ])
   .superRefine((lesson, ctx) => {
     // Every referenced message key must exist in the base catalog, so a
@@ -594,6 +780,35 @@ export const lessonSchema = z
         message: `mechanic "${lesson.mechanic}" requires initialState`,
       });
     }
+    // Single-question walkthroughs read pass.correctIndex directly — a wrong
+    // pass type or an out-of-range answer would crash or be unpassable.
+    if (lesson.mechanic === 'stateless-chat' || lesson.mechanic === 'history-bill') {
+      if (lesson.pass.type !== 'choice') {
+        ctx.addIssue({ code: 'custom', message: `${lesson.mechanic} must use a choice pass` });
+      } else if (lesson.pass.correctIndex >= lesson.params.question.optionKeys.length) {
+        ctx.addIssue({
+          code: 'custom',
+          message: `pass.correctIndex ${lesson.pass.correctIndex} out of range for ${lesson.params.question.optionKeys.length} options`,
+        });
+      }
+    }
+    if (lesson.mechanic === 'intro-tour' && lesson.pass.type !== 'none') {
+      ctx.addIssue({ code: 'custom', message: 'intro-tour lessons must use a none pass' });
+    }
+    // A choiceRounds pass can never require more right answers than there are rounds.
+    if (lesson.pass.type === 'choiceRounds' && lesson.pass.minCorrect > lesson.pass.correctIndexes.length) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `pass.minCorrect ${lesson.pass.minCorrect} > ${lesson.pass.correctIndexes.length} rounds — unpassable`,
+      });
+    }
+    // Badges render as badge_<snake_case>; a typo would show the raw key.
+    if (lesson.badge) {
+      const badgeKey = `badge_${lesson.badge.replace(/-/g, '_')}`;
+      if (!EN_KEYS.has(badgeKey)) {
+        ctx.addIssue({ code: 'custom', message: `badge key "${badgeKey}" is missing from messages/en.json` });
+      }
+    }
     // Round-based passes must line up with the authored rounds.
     if (lesson.mechanic === 'token-compare') {
       if (lesson.pass.type !== 'choiceRounds') {
@@ -606,6 +821,8 @@ export const lessonSchema = z
           code: 'custom',
           message: `pass.correctIndexes length ${lesson.pass.correctIndexes.length} ≠ rounds length ${lesson.params.rounds.length}`,
         });
+      } else if (lesson.pass.correctIndexes.some((c) => c > 1)) {
+        ctx.addIssue({ code: 'custom', message: 'token-compare answers pick one of two strings (0 or 1)' });
       }
     }
     if (lesson.mechanic === 'tokenizer-playground') {
@@ -633,6 +850,10 @@ export const lessonSchema = z
         case 'session-sim':
         case 'subagent-sim':
           return l.params.rounds;
+        case 'model-replay':
+        case 'meaning-map':
+        case 'image-tokens':
+          return l.params.rounds.map((r) => ({ optionKeys: r.optionKeys ?? r.options ?? [] }));
         default:
           return null;
       }
@@ -876,6 +1097,61 @@ export const lessonSchema = z
       if (new Set(pairIds).size !== pairIds.length) {
         ctx.addIssue({ code: 'custom', message: 'model-indecision pair ids must be unique' });
       }
+    }
+    // Literal-option rounds: exactly one option source per round.
+    if (lesson.mechanic === 'model-replay' || lesson.mechanic === 'meaning-map' || lesson.mechanic === 'image-tokens') {
+      lesson.params.rounds.forEach((round, i) => {
+        if ((round.optionKeys === undefined) === (round.options === undefined)) {
+          ctx.addIssue({ code: 'custom', message: `round ${i}: give exactly one of optionKeys or options` });
+        }
+      });
+    }
+    if (lesson.mechanic === 'model-replay') {
+      const scenes = new Map(lesson.params.scenes.map((scene) => [scene.id, scene]));
+      if (scenes.size !== lesson.params.scenes.length) {
+        ctx.addIssue({ code: 'custom', message: 'model-replay scene ids must be unique' });
+      }
+      lesson.params.rounds.forEach((round, i) => {
+        const scene = scenes.get(round.scene);
+        if (!scene) {
+          ctx.addIssue({ code: 'custom', message: `round ${i}: unknown scene "${round.scene}"` });
+        } else if (round.step !== undefined) {
+          if (scene.kind !== 'trace') {
+            ctx.addIssue({ code: 'custom', message: `round ${i}: step only applies to trace scenes` });
+          } else if (round.step >= scene.maxSteps) {
+            ctx.addIssue({ code: 'custom', message: `round ${i}: step ${round.step} ≥ maxSteps ${scene.maxSteps}` });
+          }
+        }
+      });
+    }
+    if (lesson.mechanic === 'meaning-map') {
+      const words = new Set(lesson.params.words.map((w) => w.text));
+      if (words.size !== lesson.params.words.length) {
+        ctx.addIssue({ code: 'custom', message: 'meaning-map words must be unique' });
+      }
+      lesson.params.rounds.forEach((round, i) => {
+        if (round.target !== undefined && !words.has(round.target)) {
+          ctx.addIssue({ code: 'custom', message: `round ${i}: target "${round.target}" is not a map word` });
+        }
+        if (round.target !== undefined && round.options) {
+          for (const option of round.options) {
+            if (!words.has(option)) {
+              ctx.addIssue({ code: 'custom', message: `round ${i}: option "${option}" is not a map word` });
+            }
+          }
+        }
+      });
+    }
+    if (lesson.mechanic === 'image-tokens') {
+      const presets = new Set(lesson.params.presets.map((p) => p.id));
+      if (presets.size !== lesson.params.presets.length) {
+        ctx.addIssue({ code: 'custom', message: 'image-tokens preset ids must be unique' });
+      }
+      lesson.params.rounds.forEach((round, i) => {
+        if (round.preset !== undefined && !presets.has(round.preset)) {
+          ctx.addIssue({ code: 'custom', message: `round ${i}: unknown preset "${round.preset}"` });
+        }
+      });
     }
     if (lesson.mechanic === 'byok-chat') {
       if (lesson.pass.type !== 'completeAll' || lesson.pass.count !== 1) {

@@ -1,0 +1,92 @@
+{
+  "id": "L14.2",
+  "module": "new-models",
+  "order": 2,
+  "titleKey": "l14_2_title",
+  "objectiveKey": "l14_2_objective",
+  "misconceptionKey": "l14_2_misconception",
+  "inspector": false,
+  "mechanic": "image-tokens",
+  "params": {
+    "introKey": "l14_2_intro",
+    "presets": [
+      {
+        "id": "thumb",
+        "labelKey": "l14_2_preset_thumb",
+        "width": 200,
+        "height": 200
+      },
+      {
+        "id": "screen",
+        "labelKey": "l14_2_preset_screen",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "id": "photo",
+        "labelKey": "l14_2_preset_photo",
+        "width": 4032,
+        "height": 3024
+      },
+      {
+        "id": "phone",
+        "labelKey": "l14_2_preset_phone",
+        "width": 1170,
+        "height": 2532
+      },
+      {
+        "id": "uhd",
+        "labelKey": "l14_2_preset_uhd",
+        "width": 3840,
+        "height": 2160
+      }
+    ],
+    "rounds": [
+      {
+        "promptKey": "l14_2_r1_prompt",
+        "options": [
+          "8",
+          "64",
+          "40 000"
+        ],
+        "preset": "thumb",
+        "explainKey": "l14_2_r1_explain"
+      },
+      {
+        "promptKey": "l14_2_r2_prompt",
+        "options": [
+          "12 192 768",
+          "15 552",
+          "4 740"
+        ],
+        "preset": "photo",
+        "explainKey": "l14_2_r2_explain"
+      },
+      {
+        "promptKey": "l14_2_r3_prompt",
+        "optionKeys": [
+          "l14_2_r3_opt0",
+          "l14_2_r3_opt1",
+          "l14_2_r3_opt2"
+        ],
+        "preset": "screen",
+        "explainKey": "l14_2_r3_explain"
+      }
+    ]
+  },
+  "pass": {
+    "type": "choiceRounds",
+    "correctIndexes": [
+      1,
+      2,
+      1
+    ],
+    "minCorrect": 2
+  },
+  "hints": [
+    "l14_2_hint1",
+    "l14_2_hint2",
+    "l14_2_hint3"
+  ],
+  "badge": null
+}

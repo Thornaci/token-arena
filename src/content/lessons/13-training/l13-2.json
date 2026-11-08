@@ -1,0 +1,137 @@
+{
+  "id": "L13.2",
+  "module": "training",
+  "order": 2,
+  "titleKey": "l13_2_title",
+  "objectiveKey": "l13_2_objective",
+  "misconceptionKey": "l13_2_misconception",
+  "inspector": false,
+  "mechanic": "model-replay",
+  "params": {
+    "introKey": "l13_2_intro",
+    "recordingPath": "prerecorded/l13-2.json",
+    "scenes": [
+      {
+        "kind": "answers",
+        "id": "fake",
+        "model": "onnx-community/Qwen2.5-0.5B-Instruct",
+        "maxNewTokens": 40,
+        "items": [
+          {
+            "prompt": "What is the capital of Veltria?",
+            "verdict": "declined"
+          },
+          {
+            "prompt": "What is the capital of Zarnovia?",
+            "verdict": "invented"
+          },
+          {
+            "prompt": "What is the capital of Kelmoria?",
+            "verdict": "invented"
+          },
+          {
+            "prompt": "What is the capital of Brindalia?",
+            "verdict": "invented"
+          },
+          {
+            "prompt": "What is the capital of Quessary?",
+            "verdict": "invented"
+          },
+          {
+            "prompt": "What is the capital of Talvenor?",
+            "verdict": "declined"
+          },
+          {
+            "prompt": "What is the capital of Mirelland?",
+            "verdict": "invented"
+          },
+          {
+            "prompt": "What is the capital of Durnavia?",
+            "verdict": "invented"
+          },
+          {
+            "prompt": "What is the capital of Norvanth?",
+            "verdict": "invented"
+          },
+          {
+            "prompt": "What is the capital of Pellucia?",
+            "verdict": "invented"
+          }
+        ]
+      },
+      {
+        "kind": "answers",
+        "id": "future",
+        "model": "onnx-community/Qwen2.5-0.5B-Instruct",
+        "maxNewTokens": 50,
+        "items": [
+          {
+            "prompt": "Who won the 2030 FIFA World Cup final?",
+            "verdict": "invented"
+          }
+        ]
+      }
+    ],
+    "rounds": [
+      {
+        "promptKey": "l13_2_r1_prompt",
+        "options": [
+          "0",
+          "2",
+          "5",
+          "10"
+        ],
+        "scene": "fake",
+        "reveal": "after",
+        "explainKey": "l13_2_r1_explain"
+      },
+      {
+        "promptKey": "l13_2_r2_prompt",
+        "optionKeys": [
+          "l13_2_r2_opt0",
+          "l13_2_r2_opt1",
+          "l13_2_r2_opt2"
+        ],
+        "scene": "future",
+        "reveal": "after",
+        "explainKey": "l13_2_r2_explain"
+      },
+      {
+        "promptKey": "l13_2_r3_prompt",
+        "optionKeys": [
+          "l13_2_r3_opt0",
+          "l13_2_r3_opt1",
+          "l13_2_r3_opt2"
+        ],
+        "scene": "fake",
+        "explainKey": "l13_2_r3_explain"
+      },
+      {
+        "promptKey": "l13_2_r4_prompt",
+        "optionKeys": [
+          "l13_2_r4_opt0",
+          "l13_2_r4_opt1",
+          "l13_2_r4_opt2"
+        ],
+        "scene": "future",
+        "explainKey": "l13_2_r4_explain"
+      }
+    ]
+  },
+  "pass": {
+    "type": "choiceRounds",
+    "correctIndexes": [
+      1,
+      1,
+      2,
+      0
+    ],
+    "minCorrect": 3
+  },
+  "hints": [
+    "l13_2_hint1",
+    "l13_2_hint2",
+    "l13_2_hint3"
+  ],
+  "badge": null
+}

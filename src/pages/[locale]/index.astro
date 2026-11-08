@@ -31,6 +31,11 @@ const lessons: LessonMeta[] = entries.map((entry) => ({
         {m.home_kicker()}
       </p>
       <div class="flex items-center gap-3">
+        <a
+          href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/${locale}/glossary/`}
+          class="font-mono text-xs text-(--color-faint) underline decoration-dotted underline-offset-4 hover:text-(--color-ink)"
+          >{m.glossary_title()}</a
+        >
         <LocaleSwitcher locale={locale} />
       </div>
     </header>

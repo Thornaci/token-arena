@@ -94,6 +94,21 @@ export function buildByokRequest(config: ByokConfig, messages: ChatMessage[]): B
 export interface ByokUsage {
   inputTokens?: number;
   outputTokens?: number;
+  /**
+   * The part of outputTokens the model spent thinking before it answered —
+   * billed as output, never shown. Anthropic: usage.output_tokens_details
+   * .thinking_tokens; OpenAI-compatible: usage.completion_tokens_details
+   * .reasoning_tokens. Absent when the provider does not report it.
+   */
+  thinkingTokens?: number;
+}
+
+/** Reads `obj[detailsKey][field]` when it is a number (details objects are nullable). */
+function nestedCount(obj: Record<string, unknown>, detailsKey: string, field: string): number | undefined {
+  const details = obj[detailsKey];
+  if (typeof details !== 'object' || details === null) return undefined;
+  const value = (details as Record<string, unknown>)[field];
+  return typeof value === 'number' ? value : undefined;
 }
 
 export interface ParsedByokResponse {
@@ -118,11 +133,13 @@ export function parseByokResponse(provider: ByokProvider, json: unknown): Parsed
       .map((block) => block.text)
       .join('');
     const usage = (body.usage ?? {}) as Record<string, unknown>;
+    const thinking = nestedCount(usage, 'output_tokens_details', 'thinking_tokens');
     return {
       text,
       usage: {
         ...(typeof usage.input_tokens === 'number' ? { inputTokens: usage.input_tokens } : {}),
         ...(typeof usage.output_tokens === 'number' ? { outputTokens: usage.output_tokens } : {}),
+        ...(thinking !== undefined ? { thinkingTokens: thinking } : {}),
       },
     };
   }
@@ -135,6 +152,7 @@ export function parseByokResponse(provider: ByokProvider, json: unknown): Parsed
       : undefined;
   if (typeof content !== 'string') throw new Error('response has no message content');
   const usage = (body.usage ?? {}) as Record<string, unknown>;
+  const reasoning = nestedCount(usage, 'completion_tokens_details', 'reasoning_tokens');
   return {
     text: content,
     usage: {
@@ -142,6 +160,7 @@ export function parseByokResponse(provider: ByokProvider, json: unknown): Parsed
       ...(typeof usage.completion_tokens === 'number'
         ? { outputTokens: usage.completion_tokens }
         : {}),
+      ...(reasoning !== undefined ? { thinkingTokens: reasoning } : {}),
     },
   };
 }

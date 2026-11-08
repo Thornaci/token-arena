@@ -1,0 +1,265 @@
+{
+  "id": "L12.2",
+  "module": "inside-model",
+  "order": 2,
+  "titleKey": "l12_2_title",
+  "objectiveKey": "l12_2_objective",
+  "misconceptionKey": "l12_2_misconception",
+  "inspector": false,
+  "mechanic": "meaning-map",
+  "params": {
+    "introKey": "l12_2_intro",
+    "recordingPath": "prerecorded/l12-2.json",
+    "model": "onnx-community/embeddinggemma-300m-ONNX",
+    "prefix": "task: sentence similarity | query: ",
+    "words": [
+      {
+        "text": "cat",
+        "concept": "cat",
+        "lang": "en"
+      },
+      {
+        "text": "kedi",
+        "concept": "cat",
+        "lang": "tr"
+      },
+      {
+        "text": "gato",
+        "concept": "cat",
+        "lang": "es"
+      },
+      {
+        "text": "chat",
+        "concept": "cat",
+        "lang": "fr"
+      },
+      {
+        "text": "猫",
+        "concept": "cat",
+        "lang": "zh"
+      },
+      {
+        "text": "dog",
+        "concept": "dog",
+        "lang": "en"
+      },
+      {
+        "text": "köpek",
+        "concept": "dog",
+        "lang": "tr"
+      },
+      {
+        "text": "perro",
+        "concept": "dog",
+        "lang": "es"
+      },
+      {
+        "text": "chien",
+        "concept": "dog",
+        "lang": "fr"
+      },
+      {
+        "text": "狗",
+        "concept": "dog",
+        "lang": "zh"
+      },
+      {
+        "text": "apple",
+        "concept": "apple",
+        "lang": "en"
+      },
+      {
+        "text": "elma",
+        "concept": "apple",
+        "lang": "tr"
+      },
+      {
+        "text": "manzana",
+        "concept": "apple",
+        "lang": "es"
+      },
+      {
+        "text": "pomme",
+        "concept": "apple",
+        "lang": "fr"
+      },
+      {
+        "text": "苹果",
+        "concept": "apple",
+        "lang": "zh"
+      },
+      {
+        "text": "car",
+        "concept": "car",
+        "lang": "en"
+      },
+      {
+        "text": "araba",
+        "concept": "car",
+        "lang": "tr"
+      },
+      {
+        "text": "coche",
+        "concept": "car",
+        "lang": "es"
+      },
+      {
+        "text": "voiture",
+        "concept": "car",
+        "lang": "fr"
+      },
+      {
+        "text": "汽车",
+        "concept": "car",
+        "lang": "zh"
+      },
+      {
+        "text": "water",
+        "concept": "water",
+        "lang": "en"
+      },
+      {
+        "text": "su",
+        "concept": "water",
+        "lang": "tr"
+      },
+      {
+        "text": "agua",
+        "concept": "water",
+        "lang": "es"
+      },
+      {
+        "text": "eau",
+        "concept": "water",
+        "lang": "fr"
+      },
+      {
+        "text": "水",
+        "concept": "water",
+        "lang": "zh"
+      },
+      {
+        "text": "book",
+        "concept": "book",
+        "lang": "en"
+      },
+      {
+        "text": "kitap",
+        "concept": "book",
+        "lang": "tr"
+      },
+      {
+        "text": "libro",
+        "concept": "book",
+        "lang": "es"
+      },
+      {
+        "text": "livre",
+        "concept": "book",
+        "lang": "fr"
+      },
+      {
+        "text": "书",
+        "concept": "book",
+        "lang": "zh"
+      },
+      {
+        "text": "king",
+        "concept": "king",
+        "lang": "en"
+      },
+      {
+        "text": "kral",
+        "concept": "king",
+        "lang": "tr"
+      },
+      {
+        "text": "rey",
+        "concept": "king",
+        "lang": "es"
+      },
+      {
+        "text": "roi",
+        "concept": "king",
+        "lang": "fr"
+      },
+      {
+        "text": "国王",
+        "concept": "king",
+        "lang": "zh"
+      },
+      {
+        "text": "happy",
+        "concept": "happy",
+        "lang": "en"
+      },
+      {
+        "text": "mutlu",
+        "concept": "happy",
+        "lang": "tr"
+      },
+      {
+        "text": "feliz",
+        "concept": "happy",
+        "lang": "es"
+      },
+      {
+        "text": "heureux",
+        "concept": "happy",
+        "lang": "fr"
+      },
+      {
+        "text": "快乐",
+        "concept": "happy",
+        "lang": "zh"
+      }
+    ],
+    "rounds": [
+      {
+        "promptKey": "l12_2_r1_prompt",
+        "options": [
+          "köpek",
+          "gato",
+          "araba"
+        ],
+        "target": "kedi",
+        "explainKey": "l12_2_r1_explain"
+      },
+      {
+        "promptKey": "l12_2_r2_prompt",
+        "options": [
+          "狗",
+          "book",
+          "king"
+        ],
+        "target": "国王",
+        "explainKey": "l12_2_r2_explain"
+      },
+      {
+        "promptKey": "l12_2_r3_prompt",
+        "optionKeys": [
+          "l12_2_r3_opt0",
+          "l12_2_r3_opt1",
+          "l12_2_r3_opt2"
+        ],
+        "target": "araba",
+        "explainKey": "l12_2_r3_explain"
+      }
+    ]
+  },
+  "pass": {
+    "type": "choiceRounds",
+    "correctIndexes": [
+      1,
+      2,
+      1
+    ],
+    "minCorrect": 2
+  },
+  "hints": [
+    "l12_2_hint1",
+    "l12_2_hint2",
+    "l12_2_hint3"
+  ],
+  "badge": null
+}

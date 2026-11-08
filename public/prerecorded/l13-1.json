@@ -1,0 +1,57 @@
+{
+  "recordedAt": "2026-11-06T17:28:26.072Z",
+  "dtype": "q8",
+  "scenes": {
+    "sad": {
+      "kind": "continue",
+      "items": [
+        {
+          "model": "onnx-community/Qwen2.5-0.5B",
+          "prompt": "I feel a bit sad today.\n",
+          "chat": false,
+          "text": "I feel a bit sad because I have been away from my family for a long time. I have been away from my family for a long time. I have been away from my family for a long time. I have been away from my family for"
+        },
+        {
+          "model": "onnx-community/Qwen2.5-0.5B-Instruct",
+          "prompt": "I feel a bit sad today.",
+          "chat": true,
+          "text": "I'm sorry to hear that you're feeling down today. It's natural to experience emotions like sadness or grief from time to time. Here are some things you might find helpful:\n\n1. Take some deep breaths: Deep breathing can help calm your"
+        }
+      ]
+    },
+    "dinner": {
+      "kind": "continue",
+      "items": [
+        {
+          "model": "onnx-community/Qwen2.5-0.5B",
+          "prompt": "What should I cook for dinner tonight?\n",
+          "chat": false,
+          "text": "What should I cook for dinner tonight?\n\nMulti-choice problem: Are these two questions inquiring about the same information?\nOptions are:\n (a). no.\n (b). yes.\n(b)."
+        },
+        {
+          "model": "onnx-community/Qwen2.5-0.5B-Instruct",
+          "prompt": "What should I cook for dinner tonight?",
+          "chat": true,
+          "text": "As an AI language model, I don't have personal preferences or tastes. However, I can suggest some popular and delicious dishes that you might enjoy cooking:\n\n1. Chicken stir-fry: A classic dish made with chicken, vegetables (such as broccoli"
+        }
+      ]
+    },
+    "joke": {
+      "kind": "continue",
+      "items": [
+        {
+          "model": "onnx-community/Qwen2.5-0.5B",
+          "prompt": "Tell me a joke.\n",
+          "chat": false,
+          "text": "Why did the chicken cross the road? To get to the other side!"
+        },
+        {
+          "model": "onnx-community/Qwen2.5-0.5B-Instruct",
+          "prompt": "Tell me a joke.",
+          "chat": true,
+          "text": "Sure! Here's a joke for you:\nWhy did the tomato turn red?\nBecause it saw the salad dressing!"
+        }
+      ]
+    }
+  }
+}

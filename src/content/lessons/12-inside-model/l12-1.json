@@ -1,0 +1,98 @@
+{
+  "id": "L12.1",
+  "module": "inside-model",
+  "order": 1,
+  "titleKey": "l12_1_title",
+  "objectiveKey": "l12_1_objective",
+  "misconceptionKey": "l12_1_misconception",
+  "inspector": false,
+  "mechanic": "model-replay",
+  "params": {
+    "introKey": "l12_1_intro",
+    "recordingPath": "prerecorded/l12-1.json",
+    "scenes": [
+      {
+        "kind": "trace",
+        "id": "story",
+        "model": "onnx-community/Qwen2.5-0.5B-Instruct",
+        "prompt": "Once upon a time, a little",
+        "chat": false,
+        "maxSteps": 14,
+        "topK": 5
+      },
+      {
+        "kind": "trace",
+        "id": "chat",
+        "model": "onnx-community/Qwen2.5-0.5B-Instruct",
+        "prompt": "Describe the sea in one short sentence.",
+        "chat": true,
+        "maxSteps": 40,
+        "topK": 5
+      }
+    ],
+    "rounds": [
+      {
+        "promptKey": "l12_1_r1_prompt",
+        "options": [
+          "girl",
+          "boy",
+          "mouse"
+        ],
+        "scene": "story",
+        "step": 0,
+        "reveal": "after",
+        "explainKey": "l12_1_r1_explain"
+      },
+      {
+        "promptKey": "l12_1_r2_prompt",
+        "optionKeys": [
+          "l12_1_r2_opt0",
+          "l12_1_r2_opt1",
+          "l12_1_r2_opt2"
+        ],
+        "scene": "story",
+        "step": 3,
+        "explainKey": "l12_1_r2_explain"
+      },
+      {
+        "promptKey": "l12_1_r3_prompt",
+        "optionKeys": [
+          "l12_1_r3_opt0",
+          "l12_1_r3_opt1",
+          "l12_1_r3_opt2"
+        ],
+        "scene": "story",
+        "step": 9,
+        "explainKey": "l12_1_r3_explain"
+      },
+      {
+        "promptKey": "l12_1_r4_prompt",
+        "optionKeys": [
+          "l12_1_r4_opt0",
+          "l12_1_r4_opt1",
+          "l12_1_r4_opt2"
+        ],
+        "scene": "chat",
+        "step": 23,
+        "explainKey": "l12_1_r4_explain",
+        "reveal": "after"
+      }
+    ]
+  },
+  "pass": {
+    "type": "choiceRounds",
+    "correctIndexes": [
+      1,
+      0,
+      1,
+      2
+    ],
+    "minCorrect": 3
+  },
+  "hints": [
+    "l12_1_hint1",
+    "l12_1_hint2",
+    "l12_1_hint3"
+  ],
+  "badge": null
+}

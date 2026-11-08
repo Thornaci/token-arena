@@ -14,9 +14,10 @@ export type MechanicComponent = ComponentType<MechanicComponentProps>;
 /**
  * mechanic name (lesson data) → renderer component. New lesson *types* are
  * registered here once in code; any number of data-only lessons reuse them.
- * Entries are lazy so each mechanic ships as its own chunk.
+ * Entries are lazy so each mechanic ships as its own chunk. The Record is
+ * total, so a mechanic added to the schema without a renderer fails type-check.
  */
-const registry: Partial<Record<MechanicName, LazyExoticComponent<MechanicComponent>>> = {
+const registry: Record<MechanicName, LazyExoticComponent<MechanicComponent>> = {
   'intro-tour': lazy(() => import('@/components/mechanics/IntroTour')),
   'tokenizer-playground': lazy(() => import('@/components/mechanics/TokenizerChallenge')),
   'token-compare': lazy(() => import('@/components/mechanics/TokenCompare')),
@@ -38,6 +39,9 @@ const registry: Partial<Record<MechanicName, LazyExoticComponent<MechanicCompone
   'subagent-sim': lazy(() => import('@/components/mechanics/SubagentSim')),
   'model-indecision': lazy(() => import('@/components/mechanics/ModelIndecision')),
   'byok-chat': lazy(() => import('@/components/mechanics/ByokChat')),
+  'model-replay': lazy(() => import('@/components/mechanics/ModelReplay')),
+  'meaning-map': lazy(() => import('@/components/mechanics/MeaningMap')),
+  'image-tokens': lazy(() => import('@/components/mechanics/ImageTokens')),
 };
 
 export function getMechanic(name: MechanicName): LazyExoticComponent<MechanicComponent> | null {

@@ -1,8 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
+import { MODULES } from '@/content/modules';
 import {
   firstOpenLesson,
   isUnlocked,
+  lessonLabels,
+  moduleNumber,
   nextLesson,
   sortLessons,
   type LessonMeta,
@@ -68,5 +71,37 @@ describe('firstOpenLesson / nextLesson around an inserted lesson', () => {
     expect(nextLesson(sorted, 'L6.1')?.id).toBe('L6.2');
     expect(nextLesson(sorted, 'L6.2')?.id).toBe('L7.1');
     expect(nextLesson(sorted, 'L7.2')).toBeNull();
+  });
+});
+
+describe('display labels', () => {
+  it('numbers modules by their position on the map', () => {
+    expect(moduleNumber('onboarding')).toBe(0);
+    expect(moduleNumber('tokens')).toBe(1);
+    expect(moduleNumber('sampling')).toBe(MODULES.findIndex((mod) => mod.id === 'sampling'));
+  });
+
+  it('labels lessons "<module number>.<position>" regardless of their internal ids', () => {
+    const labels = lessonLabels(sortLessons(CURRICULUM));
+    const sampling = moduleNumber('sampling');
+    const ecosystem = moduleNumber('ecosystem');
+    expect(labels.get('L6.1')).toBe(`${sampling}.1`);
+    expect(labels.get('L6.2')).toBe(`${sampling}.2`);
+    expect(labels.get('L7.1')).toBe(`${ecosystem}.1`);
+    expect(labels.get('L7.2')).toBe(`${ecosystem}.2`);
+  });
+
+  it('counts positions, not authored order values, so gaps never show', () => {
+    const gappy = [meta('L1.1', 'tokens', 1), meta('L1.9', 'tokens', 9)];
+    const labels = lessonLabels(sortLessons(gappy));
+    expect([labels.get('L1.1'), labels.get('L1.9')]).toEqual(['1.1', '1.2']);
+  });
+});
+
+describe('module sections', () => {
+  it('keeps the developer modules together at the end of the map', () => {
+    const firstDeveloper = MODULES.findIndex((mod) => mod.section === 'developers');
+    expect(firstDeveloper).toBeGreaterThan(0);
+    expect(MODULES.slice(firstDeveloper).every((mod) => mod.section === 'developers')).toBe(true);
   });
 });

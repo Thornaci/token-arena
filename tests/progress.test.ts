@@ -10,7 +10,6 @@ import {
   migrateProgress,
   progress,
   resetProgress,
-  setTool,
   solvedWithoutHints,
   useHint,
 } from '@/stores/progress';
@@ -56,13 +55,6 @@ describe('badges and hints', () => {
   });
 });
 
-describe('setTool', () => {
-  it('stores the onboarding tool choice', () => {
-    setTool('claude-code');
-    expect(progress.get().tool).toBe('claude-code');
-  });
-});
-
 describe('migrateProgress', () => {
   it('returns defaults for garbage input', () => {
     expect(migrateProgress(null)).toEqual(DEFAULT_PROGRESS);
@@ -79,7 +71,7 @@ describe('migrateProgress', () => {
       hintsUsed: { 'L1.1': 'three' },
       settings: null,
     });
-    expect(migrated.tool).toBeNull();
+    expect('tool' in migrated).toBe(false); // the onboarding tool picker is gone
     expect(migrated.completedLevels).toEqual([]); // non-string entry poisons the array
     expect(migrated.badges).toEqual(['a']);
     expect(migrated.hintsUsed).toEqual({});
@@ -97,7 +89,7 @@ describe('migrateProgress', () => {
       completedLevels: ['L9.1', 'L10.1'],
       hintsUsed: { 'L10.1': 2 },
     });
-    expect(migrated.version).toBe(2);
+    expect(migrated.version).toBe(3);
     expect(migrated.completedLevels).toEqual(['L9.1', 'L11.1']);
     expect(migrated.hintsUsed).toEqual({ 'L11.1': 2 });
   });
@@ -106,8 +98,15 @@ describe('migrateProgress', () => {
     expect(migrateProgress({ completedLevels: ['L10.1'] }).completedLevels).toEqual(['L11.1']);
   });
 
-  it('leaves the NEW L10.1 alone on already-migrated (v2) profiles', () => {
-    expect(migrateProgress({ version: 2, completedLevels: ['L10.1'] }).completedLevels).toEqual(['L10.1']);
+  it('renames L10.1 on v2 profiles too — the only v2 that shipped was the pre-harness gamification build', () => {
+    const migrated = migrateProgress({ version: 2, completedLevels: ['L10.1'], hintsUsed: { 'L10.1': 1 }, xp: 120 });
+    expect(migrated.completedLevels).toEqual(['L11.1']);
+    expect(migrated.hintsUsed).toEqual({ 'L11.1': 1 });
+    expect('xp' in migrated).toBe(false);
+  });
+
+  it('leaves the NEW L10.1 alone on already-migrated (v3) profiles', () => {
+    expect(migrateProgress({ version: 3, completedLevels: ['L10.1'] }).completedLevels).toEqual(['L10.1']);
   });
 
   it('dedupes when a v1 profile somehow holds both ids', () => {
@@ -117,7 +116,6 @@ describe('migrateProgress', () => {
 
 describe('export / import round-trip', () => {
   it('restores progress from an exported bundle', () => {
-    setTool('cursor');
     completeLevel('L1.1');
     useHint('L2.1', 1);
     const exported = exportProgress();
@@ -128,7 +126,6 @@ describe('export / import round-trip', () => {
     const result = importProgress(exported);
     expect(result).toEqual({ ok: true });
     const state = progress.get();
-    expect(state.tool).toBe('cursor');
     expect(state.completedLevels).toEqual(['L1.1']);
     expect(state.hintsUsed).toEqual({ 'L2.1': 1 });
   });

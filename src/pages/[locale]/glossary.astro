@@ -1,0 +1,44 @@
+---
+import Base from '@/layouts/Base.astro';
+import LocaleSwitcher from '@/components/ui/LocaleSwitcher.astro';
+import { GLOSSARY_TERMS } from '@/lib/glossary';
+import { LOCALES } from '@/lib/locales';
+import { lessonText } from '@/lib/lessonText';
+
+export function getStaticPaths() {
+  return LOCALES.map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const t = (key: string) => lessonText(key, locale);
+---
+
+<Base locale={locale} title={`${t('glossary_title')} · Token Arena`} description={t('glossary_intro')}>
+  <div class="mx-auto flex min-h-dvh max-w-3xl flex-col px-5 sm:px-8">
+    <header class="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 py-4">
+      <a href={`${base}/${locale}/`} class="font-mono text-sm text-(--color-faint) hover:text-(--color-ink)">
+        ← Token_Arena
+      </a>
+      <LocaleSwitcher locale={locale} />
+    </header>
+
+    <main class="pb-16">
+      <h1 class="mt-4 font-display text-3xl font-bold text-(--color-ink)">{t('glossary_title')}</h1>
+      <p class="mt-2 max-w-prose text-(--color-dim)">{t('glossary_intro')}</p>
+
+      <dl class="mt-8 flex flex-col gap-4">
+        {
+          GLOSSARY_TERMS.map((term) => (
+            <div id={term} class="ta-panel scroll-mt-6 p-4 target:border-(--color-ice)">
+              <dt class="font-display text-lg font-semibold text-(--color-ink)">
+                {t(`glossary_${term}_term`)}
+              </dt>
+              <dd class="mt-1 max-w-prose text-sm text-(--color-dim)">{t(`glossary_${term}_def`)}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </main>
+  </div>
+</Base>

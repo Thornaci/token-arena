@@ -14,7 +14,8 @@ import {
   type ContextState,
   type CountFn,
 } from '@/engine/contextModel';
-import { getModelProfile } from '@/engine/modelProfiles';
+import { MODEL_PROFILES, getModelProfile } from '@/engine/modelProfiles';
+import en from '../messages/en.json';
 
 /** Deterministic stand-in: 1 token per character. */
 const countChars: CountFn = (text) => text.length;
@@ -120,5 +121,18 @@ describe('immutable updates', () => {
     expect(original.model.id).toBe('generic-8k');
     expect(bigger.model.contextWindow).toBe(1_000_000);
     expect(reserved.reservedOutput).toBe(4096);
+  });
+});
+
+describe('model profiles', () => {
+  it('names every profile in the catalog', () => {
+    const keys = new Set(Object.keys(en));
+    for (const profile of MODEL_PROFILES) expect(keys.has(profile.labelKey), profile.labelKey).toBe(true);
+  });
+
+  it('flags every real-vendor count as an o200k estimate', () => {
+    for (const profile of MODEL_PROFILES.filter((p) => p.family !== 'generic')) {
+      expect(profile.countIsEstimate, profile.id).toBe(true);
+    }
   });
 });

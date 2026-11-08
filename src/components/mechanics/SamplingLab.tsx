@@ -115,6 +115,7 @@ export default function SamplingLab({ lesson, locale, onPass }: MechanicComponen
           })}
         </ol>
         <p className="font-mono text-xs text-(--color-faint)">{t('sampling_cut_note')}</p>
+        <p className="max-w-prose text-xs text-(--color-dim)">{t('sampling_hosted_note')}</p>
       </div>
 
       {/* predictions */}
